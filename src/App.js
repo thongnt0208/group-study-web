@@ -1,5 +1,10 @@
 import logo from './assets/logo_notext.png';
 import './App.scss';
+import "primereact/resources/primereact.min.css"; 
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primeicons/primeicons.css";
+import 'primeflex/primeflex.css';  
+import Home from './components/home/home'; 
 
 function App() {
   return (
@@ -18,6 +23,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Home></Home>
     </div>
   );
 }
