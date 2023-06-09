@@ -1,25 +1,35 @@
-import logo from './assets/logo_notext.png';
-import './App.scss';
+import logo from "./assets/logo_notext.png";
+import "./App.scss";
+import ProfilePage from "./screens/ProfileScreen";
+import InvitationPage from "./screens/InvitationScreen";
+import EditProfilePage from "./screens/EditProfileScreen";
 
-function App() {
+import { Route, BrowserRouter, Routes, Link } from "react-router-dom";
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+          <h1>Welcome to Group Study Project</h1>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <Link to="/invitation">Invitation</Link>
+            </li>
+          </ul>
+        </nav>
+        <Routes>
+          <Route exact path="/profile" element={<ProfilePage/>} />
+          <Route path="/invitation" element={<InvitationPage/>} />
+          <Route path="/edit-profile" element={<EditProfilePage/>} />
+        </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
