@@ -6,6 +6,7 @@ import "primeicons/primeicons.css";
 import 'primeflex/primeflex.css';  
 import Home from './components/home/home'; 
 import Chat from './components/chat/chat';
+import Login from './components/login/login'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       </header>
       <Home></Home>
       <Chat></Chat>
+      <Login></Login>
     </div>
   );
 }
