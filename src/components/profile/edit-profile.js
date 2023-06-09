@@ -3,7 +3,6 @@ import '../../styles/profile.scss';
 import PropTypes from 'prop-types';
 
 import { InputText } from 'primereact/inputtext';
-import { Card } from "primereact/card";
 import { Image } from "primereact/image";
 import { Button } from "primereact/button";
 
