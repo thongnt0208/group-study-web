@@ -1,8 +1,8 @@
 import logo from "./assets/logo_notext.png";
 import "./App.scss";
-import ProfilePage from "./screens/ProfileScreen";
-import InvitationPage from "./screens/InvitationScreen";
-import EditProfilePage from "./screens/EditProfileScreen";
+import ProfilePage from "./components/profile/profile";
+import InvitationPage from "./components/group-invite/group-invitation";
+import EditProfilePage from "./components/profile/edit-profile";
 
 import "primereact/resources/primereact.min.css"; 
 import "primereact/resources/themes/lara-light-indigo/theme.css";

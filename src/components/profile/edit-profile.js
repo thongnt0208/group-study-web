@@ -1,4 +1,6 @@
 import React from "react";
+import '../../styles/profile.scss';
+import PropTypes from 'prop-types';
 
 import { InputText } from 'primereact/inputtext';
 import { Card } from "primereact/card";
@@ -40,4 +42,8 @@ const EditProfilePage = () => {
     );
   };
   
+  EditProfilePage.propTypes = {};
+
+  EditProfilePage.defaultProps = {};
+
   export default EditProfilePage;

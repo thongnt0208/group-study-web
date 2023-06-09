@@ -37,59 +37,5 @@
   }
 }
 
-.profile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  .profile-card {
-    text-align: center;
-    .profile-details{
-      margin-top: 3em;
-    }
-    .profile-configuration {
-      margin-top: 3em;
-      .btnEdit{
-        border-style: solid;
-        border-color: #4f46e5;
-      }
-      .btnDelete {
-        margin-left: 4em;
-      }
-    }
-  }
-}
 
-.invitation-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  .invitationForm {
-    .input-title,
-    .input-receiver,
-    .menu-bar {
-      margin-top: 2em;
-    }
-  }
-}
 
-.edit-profile{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  .edit-profile-card{
-    text-align: center;
-    .edit-profile-details{
-      margin-top: 3em;
-      .input-new-name,
-      .input-new-email{
-        margin-top: 3em; 
-      }
-    }
-  }
-  .btn-save{
-    margin-top: 3em;
-  }
-}

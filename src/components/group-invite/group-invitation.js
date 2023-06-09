@@ -1,4 +1,5 @@
 import React from "react";
+import '../../styles/group-invite.scss'
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
@@ -137,14 +138,18 @@ return (
 
         <Menubar className="menu-bar" model={items} start={start}  />
 
-        <span className="input-content p-float-label">
-            <InputTextarea id="content" rows={15} cols={100} />
-            <label htmlFor="content">Content</label>
+        <span className="input-content">
+            <InputTextarea placeholder="Content" id="content" rows={15} cols={100} />
         </span>
+        <div>
+            <Button type="submit" label="Send" />
+        </div>
 
-        <Button type="submit" label="Send" />
       </form>
+
+
     </div>
+    
   );
 };
 
