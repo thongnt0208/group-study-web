@@ -4,6 +4,12 @@ import ProfilePage from "./screens/ProfileScreen";
 import InvitationPage from "./screens/InvitationScreen";
 import EditProfilePage from "./screens/EditProfileScreen";
 
+import "primereact/resources/primereact.min.css"; 
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primeicons/primeicons.css";
+import 'primeflex/primeflex.css';  
+import Home from './components/home/home'; 
+
 import { Route, BrowserRouter, Routes, Link } from "react-router-dom";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
