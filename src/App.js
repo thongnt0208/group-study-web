@@ -5,6 +5,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primeicons/primeicons.css";
 import 'primeflex/primeflex.css';  
 import Home from './components/home/home'; 
+import Chat from './components/chat/chat';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         </a>
       </header>
       <Home></Home>
+      <Chat></Chat>
     </div>
   );
 }
