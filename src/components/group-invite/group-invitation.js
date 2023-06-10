@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import '../../styles/group-invite.scss'
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Menubar } from 'primereact/menubar';
+import { Editor } from "primereact/editor";
         
 
 const InvitationPage = () =>{
@@ -118,7 +119,7 @@ const InvitationPage = () =>{
 ];
 
 const start = <img alt="logo" src="logo_notext.png" height="40" className="mr-2"></img>;
-
+const [text, setText] = useState('');
 
 return (
     <div className="invitation-page">
@@ -136,12 +137,13 @@ return (
             <label htmlFor="title">Title: </label>
         </span>
 
-        <Menubar className="menu-bar" model={items} start={start}  />
+        {/* <Menubar className="menu-bar" model={items} start={start}  /> */}
 
         <span className="input-content">
-            <InputTextarea placeholder="Content" id="content" rows={15} cols={100} />
+            {/* <InputTextarea placeholder="Content" id="content" rows={15} cols={100} /> */}
+            <Editor className="editor-content" value={text} onTextChange={(e) => setText(e.htmlValue)} style={{ height: '320px' }} />
         </span>
-        <div>
+        <div className="btnSend">
             <Button type="submit" label="Send" />
         </div>
 
@@ -154,6 +156,8 @@ return (
 };
 
 export default InvitationPage;
+
+        
 
 
 

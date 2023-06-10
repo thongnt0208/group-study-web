@@ -3,6 +3,7 @@ import "./App.scss";
 import ProfilePage from "./components/profile/profile";
 import InvitationPage from "./components/group-invite/group-invitation";
 import EditProfilePage from "./components/profile/edit-profile";
+import GroupDetail from "./components/group-detail/group-detail";
 
 import "primereact/resources/primereact.min.css"; 
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -19,7 +20,7 @@ import "primereact/resources/primereact.min.css";
 const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -32,7 +33,7 @@ const App = () => {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
       <BrowserRouter>
           <h1>Welcome to Group Study Project</h1>
         <nav>
@@ -43,16 +44,20 @@ const App = () => {
             <li>
               <Link to="/invitation">Invitation</Link>
             </li>
+            <li>
+              <Link to="/group-detail">Group Detail</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
           <Route exact path="/profile" element={<ProfilePage/>} />
           <Route path="/invitation" element={<InvitationPage/>} />
           <Route path="/edit-profile" element={<EditProfilePage/>} />
+          <Route path="/group-detail" element={<GroupDetail/>}/>
         </Routes>
     </BrowserRouter>
-      <Home></Home>
-      <Chat></Chat>
+      {/* <Home></Home>
+      <Chat></Chat> */}
     </div>
   );
 };

@@ -1,0 +1,7 @@
+var MemberProfile = {
+    "id": "1000",
+    "code": "f230fh0g3",
+    "name": "Bamboo Watch",
+    "email": "abc@gmail.com",
+    "image": "logo_notext.png"
+}

@@ -32,10 +32,15 @@ const EditProfilePage = () => {
                 <label htmlFor="new-email">New email: </label>
             </span>
             
+            <span className="input-new-email p-float-label">
+                  <InputText className="p-inputtext-lg" placeholder={profile.email} id="new-email"/>
+                  <label htmlFor="new-email">New email: </label>
+            </span>
+
           </form>
-          <div className="btn-save flex flex-wrap">
-            <Button className="btnDelete" label="Save" icon="pi pi-spin pi-sync" />
-          </div>
+          <div className="btn-save">
+            <Button className="btnSave" label="Save" icon="pi pi-spin pi-sync" />
+          </div>  
         </div>
       </div>
     );
@@ -46,3 +51,5 @@ const EditProfilePage = () => {
   EditProfilePage.defaultProps = {};
 
   export default EditProfilePage;
+
+  
