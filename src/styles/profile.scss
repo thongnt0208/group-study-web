@@ -34,7 +34,16 @@
         .input-new-name,
         .input-new-email{
           width: 500px;
-          margin-top: 3em; 
+          margin-top: 3em;
+        }
+        label{
+          float: left;
+        }
+        .input-new-avatar{
+          margin-top: 3em;
+          .uploadAva{
+            margin-top: 3em;
+          } 
         }
       }
     }
