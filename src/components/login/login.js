@@ -5,6 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { useFormik } from 'formik';
 import { Toast } from 'primereact/toast';
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -12,6 +13,8 @@ import { Toast } from 'primereact/toast';
 const Login = () => {
 
     const toast = useRef(null);
+
+    const navigate = useNavigate();
 
     const show = () => {
         toast.current.show({ severity: 'success', summary: 'Form Submitted', detail: formik.values.item.toString() });
@@ -30,13 +33,17 @@ const Login = () => {
             }
             if (data.password) {
                 errors.password = 'Password is required.';
-            }      
+            }
 
             return errors;
         },
         onSubmit: (data) => {
-            data.username && data.password && show();    
-            console.log("hello");  
+            if (!formik.validate){
+                console.log('Login sucessful');
+                navigate('/home')
+            }
+            data.username && data.password && show();
+            console.log("hello");
             formik.resetForm();
         }
     });
@@ -57,9 +64,9 @@ const Login = () => {
                 <InputText id="password" type="password" className="p-inputtext-lg" placeholder="Password" required="true" />
                 <Button label="Login" type="submit" />
 
-                <a href="#">Register new account</a>
+                <Link to={'/register'}>Register new account</Link>
             </form>
-            
+
 
         </div>
     )
