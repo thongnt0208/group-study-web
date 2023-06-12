@@ -1,0 +1,17 @@
+.invitation-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .invitationForm {
+      text-align: left;
+      .input-title,
+      .input-receiver,
+      .input-content,
+      .editor-content,
+      .btnSend {
+      // .menu-bar {
+        margin-top: 2em;
+      }
+    }
+  }
