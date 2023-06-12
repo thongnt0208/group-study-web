@@ -22,7 +22,16 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <h1>Welcome to Group Study Project</h1>
+        
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/hone" element={<Home />} />
+          <Route exact path="/profile" element={<ProfilePage />} />
+          <Route path="/invitation" element={<InvitationPage />} />
+          <Route path="/edit-profile" element={<EditProfilePage />} />
+          <Route path="/group-detail" element={<GroupDetail />} />
+        </Routes>
         <nav>
           <ul>
             <li>
@@ -36,15 +45,6 @@ function App() {
             </li>
           </ul>
         </nav>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/hone" element={<Home />} />
-          <Route exact path="/profile" element={<ProfilePage />} />
-          <Route path="/invitation" element={<InvitationPage />} />
-          <Route path="/edit-profile" element={<EditProfilePage />} />
-          <Route path="/group-detail" element={<GroupDetail />} />
-        </Routes>
       </BrowserRouter>
       {/* <Home></Home>
       <Chat></Chat> */}
