@@ -12,12 +12,7 @@ import 'primeflex/primeflex.css';
 import Home from './components/home/home'; 
 import Chat from './components/chat/chat';
 
-import { Route, BrowserRouter, Routes, Link } from "react-router-dom";
-import "primeicons/primeicons.css";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-
-const App = () => {
+function App() {
   return (
     <div className="App">
       {/* <header className="App-header">
