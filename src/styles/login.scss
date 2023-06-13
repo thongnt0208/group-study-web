@@ -1,0 +1,28 @@
+.loginComponentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+
+    .loginComponentTitle {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .loginComponentForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 13rem;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+}
