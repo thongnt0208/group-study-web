@@ -33,9 +33,8 @@ const EditProfilePage = () => {
               <label htmlFor="new-email">New email: </label>
             </span>
 
-            <label htmlFor="new-avatar">New avatar: </label>
             <span className="input-new-avatar">
-              <FileUpload className="uploadAva" name="demo[]" url={'/api/upload'} multiple accept="image/*" maxFileSize={1000000} emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
+              <FileUpload className="uploadAva" name="demo[]" url={'/api/upload'} multiple accept="image/*" maxFileSize={1000000} emptyTemplate={<p className="m-0">Drag and drop files to here to upload new avatar file.</p>} />
             </span>
 
           </form>
