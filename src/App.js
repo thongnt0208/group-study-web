@@ -1,55 +1,87 @@
-import logo from "./assets/logo_notext.png";
-import "./App.scss";
-import ProfilePage from "./components/profile/profile";
-import InvitationPage from "./components/group-invite/group-invitation";
-import EditProfilePage from "./components/profile/edit-profile";
-import GroupDetail from "./components/group-detail/group-detail";
+// <<<<<<< HEAD
+// import logo from './assets/logo_notext.png';
+// import './App.scss';
+// import 'primereact/resources/primereact.min.css';
+// import 'primereact/resources/themes/lara-light-indigo/theme.css';
+// import 'primeicons/primeicons.css';
+// import 'primeflex/primeflex.css';
+// // import Home from './components/home/home';
+// import { Route, BrowserRouter, Routes, Link, Router } from 'react-router-dom';
+// import NotFound from './pages/NotFound';
+// import Groups from './pages/Groups';
 
-import "primereact/resources/primereact.min.css";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primeicons/primeicons.css";
+// function App() {
+//    return (
+//       <BrowserRouter>
+//          <Routes>
+//             <Route path='/groups' element={<Groups />} />
+//             <Route path='*' element={<NotFound />} />{' '}
+//          </Routes>
+//       </BrowserRouter>
+//    );
+// }
+// =======
+import logo from './assets/logo_notext.png';
+import './App.scss';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primeflex/primeflex.css';
+import ProfilePage from './components/profile/profile';
+import InvitationPage from './components/group-invite/group-invitation';
+import EditProfilePage from './components/profile/edit-profile';
+import GroupDetail from './components/group-detail/group-detail';
+import NotFound from './pages/NotFound';
+import Groups from './pages/Groups';
+
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import Home from './components/home/home';
 import Chat from './components/chat/chat';
-import { Route, BrowserRouter, Routes, Link } from "react-router-dom";
-import "primeicons/primeicons.css";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
+import { Route, BrowserRouter, Routes, Link } from 'react-router-dom';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
 import Register from './components/register/register';
-import Login from './components/login/login'
+import Login from './components/login/login';
 
 function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/hone" element={<Home />} />
-          <Route exact path="/profile" element={<ProfilePage />} />
-          <Route path="/invitation" element={<InvitationPage />} />
-          <Route path="/edit-profile" element={<EditProfilePage />} />
-          <Route path="/group-detail" element={<GroupDetail />} />
-        </Routes>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/invitation">Invitation</Link>
-            </li>
-            <li>
-              <Link to="/group-detail">Group Detail</Link>
-            </li>
-          </ul>
-        </nav>
-      </BrowserRouter>
-      {/* <Home></Home>
+   return (
+      <div className='App'>
+         <BrowserRouter>
+            <nav>
+               <ul>
+                  <li>
+                     <Link to='/profile'>Profile</Link>
+                  </li>
+                  <li>
+                     <Link to='/invitation'>Invitation</Link>
+                  </li>
+                  <li>
+                     <Link to='/group-detail'>Group Detail</Link>
+                  </li>
+                  <li>
+                     <Link to='/groups'>Group List</Link>
+                  </li>
+               </ul>
+            </nav>
+            <Routes>
+               <Route path='/' element={<Login />} />
+               <Route path='/register' element={<Register />} />
+               <Route path='/hone' element={<Home />} />
+               <Route exact path='/profile' element={<ProfilePage />} />
+               <Route path='/invitation' element={<InvitationPage />} />
+               <Route path='/edit-profile' element={<EditProfilePage />} />
+               <Route path='/groups' element={<Groups />} />
+               <Route path='/group-detail' element={<GroupDetail />} />
+               <Route path='*' element={<NotFound />} />
+            </Routes>
+         </BrowserRouter>
+         {/* <Home></Home>
       <Chat></Chat> */}
-    </div>
-  );
-};
+      </div>
+   );
+}
+// >>>>>>> 8cd64392a7fc654f1b1ef8a45799ee9c644554ed
 
 export default App;
