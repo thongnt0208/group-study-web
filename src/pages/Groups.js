@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Group from '../components/Group';
+import Group from '../components/group-create/Group';
 import { v4 as uuidv4 } from 'uuid';
-import AddGroup from '../components/AddGroup';
-import EditGroup from '../components/EditGroup';
+import AddGroup from '../components/group-create/AddGroup';
+import EditGroup from '../components/group-create/EditGroup';
 
 export default function Groups() {
    const [groups, setGroups] = useState([
