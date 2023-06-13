@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Group from '../components/Group';
+import Group from '../components/group-create/Group';
 import { v4 as uuidv4 } from 'uuid';
-import AddGroup from '../components/AddGroup';
-import EditGroup from '../components/EditGroup';
+import AddGroup from '../components/group-create/AddGroup';
+import EditGroup from '../components/group-create/EditGroup';
 
 export default function Groups() {
    const [groups, setGroups] = useState([
@@ -10,31 +10,45 @@ export default function Groups() {
          id: 1,
          groupTitle: 'Group0',
          groupSubTitle: 'Sub Title',
+         groupDescription:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
       },
       {
          id: 2,
          groupTitle: 'Group2',
          groupSubTitle: 'Sub Title',
+         groupDescription:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
       },
       {
          id: 3,
          groupTitle: 'Group3',
          groupSubTitle: 'Sub Title',
+         groupDescription:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
       },
       {
          id: 4,
          groupTitle: 'Group4',
          groupSubTitle: 'Sub Title',
+         groupDescription:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
       },
    ]);
 
-   function updateGroup(id, newGroupTitle, newGroupSubTitle) {
+   function updateGroup(
+      id,
+      newGroupTitle,
+      newGroupSubTitle,
+      newGroupDescription
+   ) {
       const updatedGroups = groups.map((group) => {
          if (id == group.id) {
             return {
                ...group,
                groupTitle: newGroupTitle,
                groupSubTitle: newGroupSubTitle,
+               groupDescription: newGroupDescription,
             };
          }
          return group;
@@ -42,11 +56,12 @@ export default function Groups() {
       setGroups(updatedGroups);
    }
 
-   function newGroup(groupTitle, groupSubTitle) {
+   function newGroup(groupTitle, groupSubTitle, groupDescription) {
       const newGroup = {
          id: uuidv4(),
          groupTitle: groupTitle,
          groupSubTitle: groupSubTitle,
+         groupDescription: groupDescription,
       };
       setGroups([...groups, newGroup]);
    }
@@ -63,6 +78,7 @@ export default function Groups() {
                            id={group.id}
                            groupTitle={group.groupTitle}
                            groupSubTitle={group.groupSubTitle}
+                           groupDescription={group.groupDescription}
                            updateGroup={updateGroup}
                         />
                      );
@@ -72,6 +88,7 @@ export default function Groups() {
                            id={group.id}
                            groupTitle={group.groupTitle}
                            groupSubTitle={group.groupSubTitle}
+                           groupDescription={group.groupDescription}
                            editGroup={editGroup}
                         />
                      );
