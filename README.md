@@ -5,6 +5,12 @@ Team Backlog: https://docs.google.com/spreadsheets/d/1ub0c0RVTjN76l7lzeESD8xguut
 
 Please follow the format: [name] [commit message]
 
+To create a database:
+1. Go to ./server folder and run terminal
+2. Run "npm i" to install all dependencies and modules
+3. Run "node createDb"
+4. Database will be created and mock data will be inserted
+
 ## Technologies
 ### Front-end
 ReactJS
