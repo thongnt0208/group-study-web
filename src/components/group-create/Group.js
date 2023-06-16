@@ -34,14 +34,14 @@ export default function Group(props) {
                <Card
                   title={props.groupTitle}
                   subTitle={props.groupSubTitle}
+                  description={props.groupDescription}
                   footer={footer}
                   header={header}
                   className='md:w-25rem surface-300'
                >
                   <p className='m-0'>
                      <h3>Discription about this group:</h3>
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                     Inventore sed consequuntur error repudiandae numquam
+                     {props.groupDescription}
                   </p>
                </Card>
             </div>

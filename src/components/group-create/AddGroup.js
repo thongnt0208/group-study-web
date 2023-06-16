@@ -6,6 +6,7 @@ import { InputText } from 'primereact/inputtext';
 export default function AddGroup(props) {
    const [groupTitle, setGroupTitle] = useState('');
    const [groupSubTitle, setGroupSubTitle] = useState('');
+   const [groupDescription, setGroupDescription] = useState('');
    const [show, setShow] = useState(false);
 
    const handleClose = () => setShow(false);
@@ -26,11 +27,12 @@ export default function AddGroup(props) {
             onHide={handleClose}
             header='Add Group'
             modal
+            className='p-fluid'
             footer={
                <>
                   <Button
                      label='Close'
-                     className='p-button-secondary'
+                     className='p-button-text'
                      onClick={handleClose}
                   />
                   <Button
@@ -47,13 +49,14 @@ export default function AddGroup(props) {
                   e.preventDefault();
                   setGroupTitle('');
                   setGroupSubTitle('');
-                  props.newGroup(groupTitle, groupTitle);
+                  setGroupDescription('');
+                  props.newGroup(groupTitle, groupTitle, groupDescription);
                }}
                id='editmodal'
                className=''
             >
                <div className='p-field'>
-                  <label htmlFor='groupTitle'>Group Title</label>
+                  <label htmlFor='groupTitle'>Group Title:</label>
                   <InputText
                      id='groupTitle'
                      placeholder='Enter Your Group Title'
@@ -62,12 +65,21 @@ export default function AddGroup(props) {
                   />
                </div>
                <div className='p-field'>
-                  <label htmlFor='groupSubTitle'>Group Sub Title</label>
+                  <label htmlFor='groupSubTitle'>Group Sub Title:</label>
                   <InputText
                      id='groupSubTitle'
                      placeholder='Enter Your Group Sub Title'
                      value={groupSubTitle}
                      onChange={(e) => setGroupSubTitle(e.target.value)}
+                  />
+               </div>
+               <div className='p-field'>
+                  <label htmlFor='groupDescription'>Group Description:</label>
+                  <InputText
+                     id='groupDescription'
+                     placeholder='Enter Your Group Description'
+                     value={groupDescription}
+                     onChange={(e) => setGroupDescription(e.target.value)}
                   />
                </div>
             </form>
