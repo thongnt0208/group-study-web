@@ -2,7 +2,8 @@
     display: flex;
     direction: ltr;
     .group-detail{
-        border: solid #592ace;
+        border: 2px solid #592ace;
         border-radius: 10px;
+         flex-grow: 1;
     }
 }
