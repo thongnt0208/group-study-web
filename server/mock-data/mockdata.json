@@ -1,0 +1,495 @@
+{
+    "users": [
+        {
+            "username": "user1",
+            "password": "abc",
+            "name": "ThongNT",
+            "avatarLink": "avatar1.png",
+            "status": true,
+            "rule": "admin",
+            "groups": [
+                "group1",
+                "group2"
+            ]
+        },
+        {
+            "username": "user2",
+            "password": "abc",
+            "name": "AnhDH",
+            "avatarLink": "avatar2.png",
+            "status": true,
+            "rule": "admin",
+            "groups": [
+                "group1"
+            ]
+        },
+        {
+            "username": "user3",
+            "password": "abc",
+            "name": "HoangDT",
+            "avatarLink": "avatar3.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group1"
+            ]
+        },
+        {
+            "username": "user4",
+            "password": "abc",
+            "name": "LinhPT",
+            "avatarLink": "avatar4.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group2"
+            ]
+        },
+        {
+            "username": "user5",
+            "password": "abc",
+            "name": "HaiND",
+            "avatarLink": "avatar5.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group2"
+            ]
+        },
+        {
+            "username": "user6",
+            "password": "abc",
+            "name": "TrungNH",
+            "avatarLink": "avatar6.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group3"
+            ]
+        },
+        {
+            "username": "user7",
+            "password": "abc",
+            "name": "MaiTL",
+            "avatarLink": "avatar7.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group4"
+            ]
+        },
+        {
+            "username": "user8",
+            "password": "abc",
+            "name": "QuanNV",
+            "avatarLink": "avatar8.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group5"
+            ]
+        },
+        {
+            "username": "user9",
+            "password": "abc",
+            "name": "HoaPT",
+            "avatarLink": "avatar9.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group5"
+            ]
+        },
+        {
+            "username": "user10",
+            "password": "abc",
+            "name": "PhongNT",
+            "avatarLink": "avatar10.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group5"
+            ]
+        },
+        {
+            "username": "user11",
+            "password": "abc",
+            "name": "HuyenND",
+            "avatarLink": "avatar11.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group6"
+            ]
+        },
+        {
+            "username": "user12",
+            "password": "abc",
+            "name": "DatPT",
+            "avatarLink": "avatar12.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group6"
+            ]
+        },
+        {
+            "username": "user13",
+            "password": "abc",
+            "name": "NgaLT",
+            "avatarLink": "avatar13.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group7"
+            ]
+        },
+        {
+            "username": "user14",
+            "password": "abc",
+            "name": "LongNV",
+            "avatarLink": "avatar14.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group8"
+            ]
+        },
+        {
+            "username": "user15",
+            "password": "abc",
+            "name": "TuanNM",
+            "avatarLink": "avatar15.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group9"
+            ]
+        },
+        {
+            "username": "user16",
+            "password": "abc",
+            "name": "MinhHN",
+            "avatarLink": "avatar16.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group10"
+            ]
+        },
+        {
+            "username": "user17",
+            "password": "abc",
+            "name": "ThuNT",
+            "avatarLink": "avatar17.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group11"
+            ]
+        },
+        {
+            "username": "user18",
+            "password": "abc",
+            "name": "HungNV",
+            "avatarLink": "avatar18.png",
+            "status": true,
+            "rule": "user",
+            "groups": [
+                "group12"
+            ]
+        }
+    ],
+    "chat": [
+        {
+            "names": [
+                "ThongNT",
+                "AnhDH"
+            ],
+            "time": "2023-06-01T09:30:00.000Z"
+        },
+        {
+            "names": [
+                "HoangDT",
+                "LinhPT"
+            ],
+            "time": "2023-06-02T14:45:00.000Z"
+        },
+        {
+            "names": [
+                "HaiND",
+                "TrungNH"
+            ],
+            "time": "2023-06-03T18:20:00.000Z"
+        },
+        {
+            "names": [
+                "MaiTL",
+                "QuanNV"
+            ],
+            "time": "2023-06-04T11:10:00.000Z"
+        },
+        {
+            "names": [
+                "HoaPT",
+                "PhongNT"
+            ],
+            "time": "2023-06-05T16:55:00.000Z"
+        },
+        {
+            "names": [
+                "HuyenND",
+                "DatPT"
+            ],
+            "time": "2023-06-06T20:40:00.000Z"
+        },
+        {
+            "names": [
+                "NgaLT",
+                "LongNV"
+            ],
+            "time": "2023-06-07T12:25:00.000Z"
+        },
+        {
+            "names": [
+                "TuanNM",
+                "MinhHN"
+            ],
+            "time": "2023-06-08T15:50:00.000Z"
+        },
+        {
+            "names": [
+                "ThuNT",
+                "HungNV"
+            ],
+            "time": "2023-06-09T10:15:00.000Z"
+        },
+        {
+            "names": [
+                "Alice",
+                "Bob"
+            ],
+            "time": "2023-06-10T17:30:00.000Z"
+        },
+        {
+            "names": [
+                "Charlie",
+                "David"
+            ],
+            "time": "2023-06-11T19:45:00.000Z"
+        },
+        {
+            "names": [
+                "Eve",
+                "Frank"
+            ],
+            "time": "2023-06-12T13:20:00.000Z"
+        },
+        {
+            "names": [
+                "ThongNT",
+                "AnhDH"
+            ],
+            "time": "2023-06-13T08:55:00.000Z"
+        },
+        {
+            "names": [
+                "HoangDT",
+                "LinhPT"
+            ],
+            "time": "2023-06-14T16:10:00.000Z"
+        },
+        {
+            "names": [
+                "HaiND",
+                "TrungNH"
+            ],
+            "time": "2023-06-15T21:05:00.000Z"
+        },
+        {
+            "names": [
+                "MaiTL",
+                "QuanNV"
+            ],
+            "time": "2023-06-16T11:40:00.000Z"
+        },
+        {
+            "names": [
+                "HoaPT",
+                "PhongNT"
+            ],
+            "time": "2023-06-17T14:15:00.000Z"
+        },
+        {
+            "names": [
+                "HuyenND",
+                "DatPT"
+            ],
+            "time": "2023-06-18T18:30:00.000Z"
+        }
+    ],
+    "groups": [
+        {
+            "name": "Study Group 1",
+            "status": true,
+            "cover_link": "cover1.png",
+            "discussions": [
+                "discussion1",
+                "discussion2"
+            ],
+            "members": [
+                {
+                    "name": "ThongNT",
+                    "userId": "user1"
+                },
+                {
+                    "name": "AnhDH",
+                    "userId": "user2"
+                }
+            ],
+            "chat": [
+                "chat1"
+            ],
+            "reports": [
+                "report1",
+                "report2"
+            ]
+        }
+    ],
+    "groupCategory": [
+        {
+            "name": "Computer Science",
+            "groups": [
+                "group1",
+                "group2"
+            ]
+        },
+        {
+            "name": "Mathematics",
+            "groups": [
+                "group3"
+            ]
+        },
+        {
+            "name": "Physics",
+            "groups": [
+                "group4",
+                "group5",
+                "group6"
+            ]
+        }
+    ],
+    "discussion": [
+        {
+            "adminName": "Alice",
+            "content": "Discussion 1 content",
+            "imageLink": "image1.png",
+            "document": "document1.pdf",
+            "qAndAs": [
+                "q&a1",
+                "q&a2"
+            ]
+        },
+        {
+            "adminName": "Bob",
+            "content": "Discussion 2 content",
+            "imageLink": "image2.png",
+            "document": "document2.pdf",
+            "qAndAs": [
+                "q&a3"
+            ]
+        },
+        {
+            "adminName": "Charlie",
+            "content": "Discussion 3 content",
+            "imageLink": "image3.png",
+            "document": "document3.pdf",
+            "qAndAs": [
+                "q&a4",
+                "q&a5",
+                "q&a6"
+            ]
+        }
+    ],
+    "questionAnswer": [
+        {
+            "status": true,
+            "content": "How to solve a quadratic equation?",
+            "contentImage": "question1.png",
+            "name": "Alice",
+            "avatarLink": "avatar1.png",
+            "answers": [
+                {
+                    "_id": "answer1",
+                    "status": true,
+                    "name": "Bob",
+                    "userId": "user2",
+                    "content": "Answer 1",
+                    "contentImage": "answer1.png",
+                    "rate": 5,
+                    "comments": [
+                        {
+                            "_id": "comment1",
+                            "status": true,
+                            "name": "Charlie",
+                            "userId": "user3",
+                            "content": "Comment 1"
+                        },
+                        {
+                            "_id": "comment2",
+                            "status": true,
+                            "name": "David",
+                            "userId": "user4",
+                            "content": "Comment 2"
+                        }
+                    ]
+                },
+                {
+                    "_id": "answer2",
+                    "status": true,
+                    "name": "Eve",
+                    "userId": "user5",
+                    "content": "Answer 2",
+                    "contentImage": "answer2.png",
+                    "rate": 4,
+                    "comments": [
+                        {
+                            "_id": "comment3",
+                            "status": true,
+                            "name": "Frank",
+                            "userId": "user6",
+                            "content": "Comment 3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "status": true,
+            "content": "What is the capital of France?",
+            "contentImage": "question2.png",
+            "name": "Charlie",
+            "avatarLink": "avatar7.png",
+            "answers": [
+                {
+                    "_id": "answer3",
+                    "status": true,
+                    "name": "David",
+                    "userId": "user4",
+                    "content": "Answer 3",
+                    "contentImage": "answer3.png",
+                    "rate": 3,
+                    "comments": [
+                        {
+                            "_id": "comment4",
+                            "status": true,
+                            "name": "Eve",
+                            "userId": "user5",
+                            "content": "Comment 4"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
