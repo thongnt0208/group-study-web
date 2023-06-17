@@ -9,6 +9,7 @@ import { Button } from 'primereact/button';
 import { DataView } from 'primereact/dataview';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
+import DiscussionDetail from '../discussion-detail/discussion-detail';
 
 const GroupDetail = () => {
    const [activeTab, setActiveTab] = useState('Member');
@@ -54,6 +55,8 @@ const GroupDetail = () => {
          />
       );
    };
+
+   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
 
    const renderDiscussions = () => {
       return (
@@ -107,8 +110,11 @@ const GroupDetail = () => {
    };
 
    const renderDiscussionItem = (discussion) => {
+      const handleDiscussionClick = () => {
+         setSelectedDiscussion(discussion);
+      };
       return (
-         <div className='col-12'>
+         <div className='col-12' onClick={handleDiscussionClick}>
             <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>
                <div className='flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4'>
                   <div className='flex flex-column align-items-center sm:align-items-start gap-3'>
@@ -141,6 +147,9 @@ const GroupDetail = () => {
       );
    };
 
+   const handleGoBack = () => {
+      setSelectedDiscussion(null);
+   };
    return (
       <div className='container'>
          <div className='group-detail'>
@@ -149,7 +158,20 @@ const GroupDetail = () => {
                activeItem={activeTab}
                onTabChange={handleTabChange}
             />
-            {activeTab === 'Member' ? renderMembers() : renderDiscussions()}
+            {activeTab === 'Member' ? (
+               renderMembers()
+            ) : (
+               <React.Fragment>
+                  {selectedDiscussion ? (
+                     <DiscussionDetail
+                        discussion={selectedDiscussion}
+                        onGoBack={handleGoBack}
+                     />
+                  ) : (
+                     renderDiscussions()
+                  )}
+               </React.Fragment>
+            )}
          </div>
          <div className='chat-form'>
             <Chat></Chat>

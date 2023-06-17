@@ -1,8 +1,7 @@
 const mockData = require('./mock-data/mockdata.json');
 
 const { MongoClient } = require('mongodb');
-// const url = "mongodb://localhost:27017/GroupStudy";
-const url = 'mongodb://0.0.0.0:27017/GroupStudy'; // --> origin url in local (if the "mongodb://localhost:27017" got refuse --> use this instead)
+const url = 'mongodb://localhost:27017/GroupStudy';
 
 MongoClient.connect(url)
    .then((client) => {
