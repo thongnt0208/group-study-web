@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 // Mongoose
 const mongoose = require('mongoose');
-const dbUrl = 'mongodb://localhost:27017/ChatApp';
+const dbUrl = 'mongodb://localhost:27017/GroupStudy';
 const connect = mongoose.connect(dbUrl);
 const Chat = require('../models/chat');
 
