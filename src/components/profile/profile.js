@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import '../../styles/profile.scss';
 import PropTypes from 'prop-types';
 
@@ -6,11 +6,44 @@ import { Image } from "primereact/image";
 import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
 
+
+
 const ProfilePage = () => {
-  const profile = {
-    name: "John Doe",
-    email: "danghoanganh36@gmail.com",
-  };
+  const [profile, setProfile] = useState({name: "", email: ""});
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:3000/users");
+  //       const data = await response.json();
+  //       console.log(data);
+  //       setProfile({
+  //         name: data.name || "", // Set default value to empty string if data.name is undefined
+  //         email: data.email || "", // Set default value to empty string if data.email is undefined
+  //       });
+  //     } catch (error) {
+  //       console.log("Error fetching:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/users");
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setProfile(data[0]);
+        }
+      } catch (error) {
+        console.log("Error fetching:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="profile">
@@ -22,7 +55,7 @@ const ProfilePage = () => {
         />
         <div className="profile-details">
           <h1>{profile.name}</h1>
-          <h3>Email: {profile.email}</h3>
+          <h3>Email: {profile.username}@gmail.com</h3>
         </div>
         <div className="profile-configuration flex flex-wrap">
           <Link to="/edit-profile">
