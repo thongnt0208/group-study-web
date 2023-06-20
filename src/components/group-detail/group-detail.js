@@ -12,7 +12,7 @@ import { Tag } from 'primereact/tag';
 import DiscussionDetail from '../discussion-detail/discussion-detail';
 
 const GroupDetail = () => {
-   const [activeTab, setActiveTab] = useState('Member');
+   const [ activeTab, setActiveTab ] = useState( 'Member' );
 
    const items = [
       { label: 'Member', icon: 'pi pi-fw pi-users' },
@@ -39,10 +39,23 @@ const GroupDetail = () => {
          discussionTopic: 'This is a discussion 2',
          discussionContent: 'Discussion content 2',
       },
+
+      {
+         discussionTopic: 'This is a discussion 3',
+         discussionContent: 'Discussion content 3',
+      },
+      {
+         discussionTopic: 'This is a discussion 4',
+         discussionContent: 'Discussion content 4',
+      },
+      {
+         discussionTopic: 'This is a discussion 5',
+         discussionContent: 'Discussion content 5',
+      },
    ];
 
-   const handleTabChange = (event) => {
-      setActiveTab(event.value.label);
+   const handleTabChange = ( event ) => {
+      setActiveTab( event.value.label );
    };
 
    const renderMembers = () => {
@@ -56,7 +69,7 @@ const GroupDetail = () => {
       );
    };
 
-   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
+   const [ selectedDiscussion, setSelectedDiscussion ] = useState( null );
 
    const renderDiscussions = () => {
       return (
@@ -69,7 +82,7 @@ const GroupDetail = () => {
       );
    };
 
-   const renderMemberItem = (profile) => {
+   const renderMemberItem = ( profile ) => {
       return (
          <div className='col-12'>
             <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>
@@ -109,9 +122,9 @@ const GroupDetail = () => {
       );
    };
 
-   const renderDiscussionItem = (discussion) => {
+   const renderDiscussionItem = ( discussion ) => {
       const handleDiscussionClick = () => {
-         setSelectedDiscussion(discussion);
+         setSelectedDiscussion( discussion );
       };
 
       return (
@@ -146,7 +159,7 @@ const GroupDetail = () => {
    };
 
    const handleGoBack = () => {
-      setSelectedDiscussion(null);
+      setSelectedDiscussion( null );
    };
    return (
       <div className='container'>
