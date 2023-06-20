@@ -1,9 +1,10 @@
+require('dotenv').config();
+const dbUrl = process.env.DB_CONNECTION_STRING;
 const express = require('express'),
     bodyParser = require('body-parser')
 
 //mongoose
 const mongoose = require('mongoose');
-const dbUrl = 'mongodb://localhost:27017/GroupStudy';
 const connect = mongoose.connect(dbUrl);
 const Groups = require('../models/groups');
 
