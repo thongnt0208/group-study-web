@@ -62,6 +62,7 @@ export default function AddGroup(props) {
                      placeholder='Enter Your Group Title'
                      value={groupTitle}
                      onChange={(e) => setGroupTitle(e.target.value)}
+                     required
                   />
                </div>
                <div className='p-field'>
@@ -71,6 +72,7 @@ export default function AddGroup(props) {
                      placeholder='Enter Your Group Sub Title'
                      value={groupSubTitle}
                      onChange={(e) => setGroupSubTitle(e.target.value)}
+                     required
                   />
                </div>
                <div className='p-field'>
@@ -80,6 +82,7 @@ export default function AddGroup(props) {
                      placeholder='Enter Your Group Description'
                      value={groupDescription}
                      onChange={(e) => setGroupDescription(e.target.value)}
+                     required
                   />
                </div>
             </form>
