@@ -2,14 +2,24 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   username: String,
   password: String,
+  email: String,
   name: String,
   avatarLink: String,
   status: Boolean,
   role: String,
-  groups: [mongoose.Schema.Types.ObjectId]
+  createdGroups: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Group"
+  }],
+  joinedGroups: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Group"
+  }]
+}, {
+  timestamps: true,
+  collection: "User"
 });
 
 const User = mongoose.model('User', userSchema);

@@ -2,10 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const groupSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   name: {
     type: String,
     required: true
+  },
+  admin: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    require: true
   },
   status: {
     type: Boolean,
@@ -44,7 +48,8 @@ const groupSchema = new Schema({
     }
   ]
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: "Group"
 });
 
 const Group = mongoose.model('Group', groupSchema);
