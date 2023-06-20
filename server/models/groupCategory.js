@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const groupCategorySchema = new Schema({
-  _id: Schema.Types.ObjectId,
   name: {
     type: String,
     required: true
@@ -14,7 +13,8 @@ const groupCategorySchema = new Schema({
     }
   ]
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: "GroupCategory"
 });
 
 const GroupCategory = mongoose.model('GroupCategory', groupCategorySchema);

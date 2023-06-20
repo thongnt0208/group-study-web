@@ -16,10 +16,10 @@ const usersRouter = require('./routers/users');
 const questionAnswerRouter = require('./routers/questionAnswer');
 
 app.use('/chat', chatRouter);
-app.use('/groups', groupsRouter);
+app.use('/group', groupsRouter);
 app.use('/discussion', discussionRouter);
 app.use('/groupCategory', groupCategoryRouter);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/questionAnswer', questionAnswerRouter);
 const server = http.createServer(app);
 

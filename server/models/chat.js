@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const chatSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   names: [
     {
       type: String
@@ -13,7 +12,8 @@ const chatSchema = new Schema({
     required: true
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: "Chat"
 });
 
 const Chat = mongoose.model('Chat', chatSchema);
