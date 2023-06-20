@@ -2,18 +2,22 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const commentSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   status: Boolean,
   name: String,
-  userId: mongoose.Schema.Types.ObjectId,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
   content: String
 });
 
 const answerSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   status: Boolean,
   name: String,
-  userId: mongoose.Schema.Types.ObjectId,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
   content: String,
   contentImage: String,
   rate: Number,
@@ -21,7 +25,6 @@ const answerSchema = new Schema({
 });
 
 const questionAnswerSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   status: Boolean,
   content: String,
   contentImage: String,
@@ -29,7 +32,8 @@ const questionAnswerSchema = new Schema({
   avatarLink: String,
   answers: [answerSchema]
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: "QuestionAnswer"
 });
 
 const QuestionAnswer = mongoose.model('questionanswers', questionAnswerSchema);

@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const discussionSchema = new Schema({
-  _id: Schema.Types.ObjectId,
-  adminName: {
-    type: String,
-    required: true
-  },
   content: {
     type: String,
     required: true
@@ -20,11 +15,17 @@ const discussionSchema = new Schema({
   qAndAs: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'QAndA'
+      ref: 'QuestionAnswer'
     }
-  ]
+  ],
+  admin: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    require: true
+  }
 }, {
-  timestamps: true
+  timestamps: true,
+  collection: "Discussion"
 });
 
 const Discussion = mongoose.model('Discussion', discussionSchema);

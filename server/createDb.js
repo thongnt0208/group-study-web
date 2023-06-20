@@ -1,7 +1,11 @@
-const mockData = require('./mock-data/mockdata.json');
+require('dotenv').config();
+
+// const mockData = require('./mock-data/mockdata.json');
 
 const { MongoClient } = require('mongodb');
-const url = 'mongodb://localhost:27017/GroupStudy';
+// should put password in environment file
+const url = process.env.DB_CONNECTION_STRING;
+console.log(url);
 
 MongoClient.connect(url)
    .then((client) => {
@@ -9,12 +13,12 @@ MongoClient.connect(url)
       console.log('Database was created!');
 
       const collections = [
-         'chat',
-         'groups',
-         'groupCategory',
-         'discussion',
-         'users',
-         'questionAnswer',
+         'Chat',
+         'Group',
+         'GroupCategory',
+         'Discussion',
+         'User',
+         'QuestionAnswer',
       ];
 
       const createCollectionPromises = collections.map((collectionName) => {
@@ -31,31 +35,14 @@ MongoClient.connect(url)
    .then((client) => {
       const db = client.db('GroupStudy'); // Specify the database name
       // Specify the collection name
-      const usersCollection = db.collection('users');
-      const chatCollection = db.collection('chat');
-      const groupsCollection = db.collection('groups');
-      const groupCategoryCollection = db.collection('groupCategory');
-      const discussionCollection = db.collection('discussion');
-      const questionAnswerCollection = db.collection('questionAnswer');
+      const usersCollection = db.collection('User');
+      const chatCollection = db.collection('Chat');
+      const groupsCollection = db.collection('Group');
+      const groupCategoryCollection = db.collection('GroupCategory');
+      const discussionCollection = db.collection('Discussion');
+      const questionAnswerCollection = db.collection('QuestionAnswer');
 
-      // Insert mock data
-      return Promise.all([
-         usersCollection.insertMany(mockData.users),
-         chatCollection.insertMany(mockData.chat),
-         groupsCollection.insertMany(mockData.groups),
-         groupCategoryCollection.insertMany(mockData.groupCategory),
-         discussionCollection.insertMany(mockData.discussion),
-         questionAnswerCollection.insertMany(mockData.questionAnswer),
-      ]).then((results) => {
-         const insertedCounts = results.map((result) => result.insertedCount);
-         console.log(
-            `${insertedCounts.reduce(
-               (sum, count) => sum + count,
-               0
-            )} mock data inserted successfully.`
-         );
-         return client.close();
-      });
+
    })
    .catch((err) => {
       console.error(err);
