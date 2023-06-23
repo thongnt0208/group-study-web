@@ -16,11 +16,9 @@ const ProfilePage = () => {
   //     try {
   //       const response = await fetch("http://localhost:3000/users");
   //       const data = await response.json();
-  //       console.log(data);
-  //       setProfile({
-  //         name: data.name || "", // Set default value to empty string if data.name is undefined
-  //         email: data.email || "", // Set default value to empty string if data.email is undefined
-  //       });
+  //       if (Array.isArray(data) && data.length > 0) {
+  //         setProfile(data[0]);
+  //       }
   //     } catch (error) {
   //       console.log("Error fetching:", error);
   //     }
@@ -29,21 +27,7 @@ const ProfilePage = () => {
   //   fetchData();
   // }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/users");
-        const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setProfile(data[0]);
-        }
-      } catch (error) {
-        console.log("Error fetching:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  
 
   return (
     <div className="profile">
