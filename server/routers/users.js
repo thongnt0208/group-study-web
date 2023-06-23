@@ -46,20 +46,20 @@ usersRouter
       .catch((err) => {
         res.status(500).json({ error: "Failed to check for duplicate email!" });
       });
-  })
-  //NOT VALIDATE YET
-  // .post((req, res, next) => {
-  //   Users.create(req.body)
-  //     .then((user) => {
-  //       console.log("Create: ", user);
-  //       res.status(200);
-  //       res.setHeader("Content-Type", "application/json");
-  //       res.json(user);
-  //     })
-  //     .catch((err) => {
-  //       res.status(500).json({ error: "Failed to create new document!" });
-  //     });
-  // });
+  });
+//NOT VALIDATE YET
+// .post((req, res, next) => {
+//   Users.create(req.body)
+//     .then((user) => {
+//       console.log("Create: ", user);
+//       res.status(200);
+//       res.setHeader("Content-Type", "application/json");
+//       res.json(user);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ error: "Failed to create new document!" });
+//     });
+// });
 
 //VIEW PROFILE API
 usersRouter
@@ -100,19 +100,78 @@ usersRouter
   .patch((req, res, next) => {
     const profileId = req.query.profileId;
     const updatedData = req.body;
-    console.log(id);
-    Users.findByIdAndUpdate(profileId, updatedData, { new: true })
-      .then((users) => {
-        console.log("Users Updated", updatedData);
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(users);
+    Users.findOne({ email: updatedData.email })
+      .then((currentUser) => {
+        if (currentUser.id !== getUserProfile.id) {
+          return Users.findOne({ email: updatedData.email });
+        } else {
+          updateUserProfile();
+          return null; // Skip duplicate check
+        }
+      })
+      .then((existingUser) => {
+        if (existingUser) {
+          res.status(409).json({ error: "Email already exists!" });
+        } else {
+          updateUserProfile();
+        }
       })
       .catch((err) => {
-        res.statusCode = 500;
-        res.json({ error: err.message });
+        res.status(500).json({ error: "Failed to check for duplicate email!" });
       });
+
+    function getUserProfile() {
+      usersRouter
+        .get((req, res, next) => {
+          const profileId = req.query.profileId;
+          Users.findById(profileId)
+            .then((user) => {
+              if (user) {
+                res.statusCode = 200;
+                res.json(user);
+              } else {
+                res.statusCode = 500;
+                res.json({ message: "User not found" });
+              }
+            })
+            .catch((err) => {
+              res.statusCode = 500;
+              res.json({ error: err.message });
+            });
+        });
+    }
+
+    function updateUserProfile() {
+      Users.findByIdAndUpdate(profileId, updatedData, { new: true })
+        .then((users) => {
+          console.log("User Updated", updatedData);
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(users);
+        })
+        .catch((err) => {
+          res.statusCode = 500;
+          res.json({ error: err.message });
+        });
+    }
   });
+
+// .patch((req, res, next) => {
+//   const profileId = req.query.profileId;
+//   const updatedData = req.body;
+//   console.log(id);
+//   Users.findByIdAndUpdate(profileId, updatedData, { new: true })
+//     .then((users) => {
+//       console.log("Users Updated", updatedData);
+//       res.statusCode = 200;
+//       res.setHeader("Content-Type", "application/json");
+//       res.json(users);
+//     })
+//     .catch((err) => {
+//       res.statusCode = 500;
+//       res.json({ error: err.message });
+//     });
+// });
 
 //REMOVE PROFILE API
 usersRouter
