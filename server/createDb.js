@@ -13,12 +13,12 @@ MongoClient.connect(url)
       console.log('Database was created!');
 
       const collections = [
-         'Chat',
-         'Group',
-         'GroupCategory',
-         'Discussion',
-         'User',
-         'QuestionAnswer',
+         'chats',
+         'groups',
+         'groups-categories',
+         'discussions',
+         'users',
+         'questions-answers',
       ];
 
       const createCollectionPromises = collections.map((collectionName) => {
@@ -35,12 +35,12 @@ MongoClient.connect(url)
    .then((client) => {
       const db = client.db('GroupStudy'); // Specify the database name
       // Specify the collection name
-      const usersCollection = db.collection('User');
-      const chatCollection = db.collection('Chat');
-      const groupsCollection = db.collection('Group');
-      const groupCategoryCollection = db.collection('GroupCategory');
-      const discussionCollection = db.collection('Discussion');
-      const questionAnswerCollection = db.collection('QuestionAnswer');
+      const userssCollection = db.collection('users');
+      const chatsCollection = db.collection('chats');
+      const groupssCollection = db.collection('groups');
+      const groupsCategoriesCollection = db.collection('groups-categories');
+      const discussionsCollection = db.collection('discussions');
+      const questionsAnswersCollection = db.collection('questions-answers');
 
 
    })

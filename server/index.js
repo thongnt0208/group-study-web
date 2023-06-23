@@ -15,12 +15,12 @@ const groupCategoryRouter = require('./routers/groupCategory');
 const usersRouter = require('./routers/users');
 const questionAnswerRouter = require('./routers/questionAnswer');
 
-app.use('/chat', chatRouter);
-app.use('/group', groupsRouter);
-app.use('/discussion', discussionRouter);
-app.use('/groupCategory', groupCategoryRouter);
-app.use('/user', usersRouter);
-app.use('/questionAnswer', questionAnswerRouter);
+app.use('/chats', chatRouter);
+app.use('/groups', groupsRouter);
+app.use('/discussions', discussionRouter);
+app.use('/groups-categories', groupCategoryRouter);
+app.use('/users', usersRouter);
+app.use('/questions-answers', questionAnswerRouter);
 const server = http.createServer(app);
 
 server.listen(port, hostname, () => {
