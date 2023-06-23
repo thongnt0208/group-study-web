@@ -42,6 +42,19 @@ usersRouter.route('/:id')
                 res.json({ error: err.message });
             });
     })
+    .post((req, res, next) => {
+        Users.create(req.body)
+          .then((user) => {
+            console.log("Create: ", user);
+            res.status(200);
+            res.setHeader("Content-Type", "application/json");
+            res.json(user);
+          })
+          .catch((err) => {
+            res.status(500).json({ error: "Failed to create new document!" });
+          });
+      })
+
 
 module.exports = usersRouter;
 
