@@ -75,8 +75,19 @@ usersRouter
         res.statusCode = 500;
         res.json({ error: err.message });
       });
-  });
-
+  })
+  .patch((req, res, next) => {
+    const id = req.params.id;
+    const updatedData = req.body;
+    Users.findByIdAndUpdate(id, updatedData, { new: true })
+      .then((users) => {
+        console.log("Users Updated", users);
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(users);
+      })
+      .catch((err) => next(err));
+  })
 module.exports = usersRouter;
 
 //DRAFT
