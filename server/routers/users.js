@@ -14,8 +14,10 @@ const usersRouter = express.Router();
 usersRouter.use(bodyParser.json());
 
 // Configure routes
+
+//REGISTER API
 usersRouter
-  .route("/")
+  .route("/register")
   .all((req, res, next) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/plain");
@@ -35,8 +37,9 @@ usersRouter
       });
   });
 
+//VIEW PROFILE API
 usersRouter
-  .route("/:id")
+  .route("/view-profile")
   .all((req, res, next) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/plain");
@@ -44,8 +47,8 @@ usersRouter
     next();
   })
   .get((req, res, next) => {
-    const id = req.params.id;
-    Users.findById(id)
+    const profileId = req.query.profileId;
+    Users.findById(profileId)
       .then((user) => {
         if (user) {
           res.statusCode = 200;
@@ -59,12 +62,22 @@ usersRouter
         res.statusCode = 500;
         res.json({ error: err.message });
       });
+  });
+
+//EDIT PROFILE API
+usersRouter
+  .route("/edit-profile")
+  .all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    console.log(dbUrl);
+    next();
   })
-  .put((req, res, next) => {
-    const id = req.params.id;
+  .patch((req, res, next) => {
+    const profileId = req.query.profileId;
     const updatedData = req.body;
     console.log(id);
-    Users.findByIdAndUpdate(id, updatedData, { new: true })
+    Users.findByIdAndUpdate(profileId, updatedData, { new: true })
       .then((users) => {
         console.log("Users Updated", updatedData);
         res.statusCode = 200;
@@ -75,11 +88,21 @@ usersRouter
         res.statusCode = 500;
         res.json({ error: err.message });
       });
+  });
+
+//REMOVE PROFILE API
+usersRouter
+  .route("/remove-profile")
+  .all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    console.log(dbUrl);
+    next();
   })
   .patch((req, res, next) => {
-    const id = req.params.id;
+    const profileId = req.query.profileId;
     const updatedData = req.body;
-    Users.findByIdAndUpdate(id, updatedData, { new: true })
+    Users.findByIdAndUpdate(profileId, updatedData, { new: true })
       .then((users) => {
         console.log("Users Updated", users);
         res.statusCode = 200;
@@ -87,7 +110,8 @@ usersRouter
         res.json(users);
       })
       .catch((err) => next(err));
-  })
+  });
+
 module.exports = usersRouter;
 
 //DRAFT
