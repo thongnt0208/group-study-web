@@ -80,18 +80,19 @@ discussionRouter.route( '/' )
             .catch( ( err ) => next( err ) );
     } );
 
-discussionRouter.route( '/discussionId' )
+discussionRouter.route( '/:discussionId' )
     .all( ( req, res, next ) => {
         res.statusCode = 200;
         res.setHeader( 'Content-Type', 'text/plain' );
         next();
     } )
     .get( ( req, res, next ) => {
-        Discussion.findById( res.params.discussionId ).then( ( discussion ) => {
-            res.statusCode = 200;
-            res.setHeader( 'Content-Type', 'application/json' );
-            res.json( discussion );
-        } ).catch( ( err ) => next( err ) );
+        Discussion.findById( req.params.discussionId )
+            .then( ( discussion ) => {
+                res.statusCode = 200;
+                res.setHeader( 'Content-Type', 'application/json' );
+                res.json( discussion );
+            } ).catch( ( err ) => next( err ) );
     } )
     .post( ( req, res, next ) => {
         Discussion.create( req.body )
@@ -104,7 +105,7 @@ discussionRouter.route( '/discussionId' )
             .catch( ( err ) => next( err ) );
     } )
     .put( ( req, res, next ) => {
-        Discussion.findOnedAndUpdate( { _id: req.params.discussionId }, { $set: req.body }, { new: true } )
+        Discussion.findOneAndUpdate( { _id: req.params.discussionId }, { $set: req.body }, { new: true } )
             .then( ( discussion ) => {
                 res.statusCode = 200;
                 res.setHeader( 'Content-Type', 'application/json' );
