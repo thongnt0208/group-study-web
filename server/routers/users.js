@@ -45,25 +45,49 @@ usersRouter
   })
   .get((req, res, next) => {
     const id = req.params.id;
-    console.log(`Searching for user with ID: ${id}`);
     Users.findById(id)
       .then((user) => {
         if (user) {
           res.statusCode = 200;
           res.json(user);
         } else {
-          console.log(`User with ID ${id} not found`);
           res.statusCode = 500;
           res.json({ message: "User not found" });
         }
       })
       .catch((err) => {
-        console.log(`Error finding user with ID ${id}: ${err}`);
         res.statusCode = 500;
         res.json({ error: err.message });
       });
-  });
-
+  })
+  .put((req, res, next) => {
+    const id = req.params.id;
+    const updatedData = req.body;
+    console.log(id);
+    Users.findByIdAndUpdate(id, updatedData, { new: true })
+      .then((users) => {
+        console.log("Users Updated", updatedData);
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(users);
+      })
+      .catch((err) => {
+        res.statusCode = 500;
+        res.json({ error: err.message });
+      });
+  })
+  .patch((req, res, next) => {
+    const id = req.params.id;
+    const updatedData = req.body;
+    Users.findByIdAndUpdate(id, updatedData, { new: true })
+      .then((users) => {
+        console.log("Users Updated", users);
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(users);
+      })
+      .catch((err) => next(err));
+  })
 module.exports = usersRouter;
 
 //DRAFT
