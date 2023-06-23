@@ -25,17 +25,41 @@ usersRouter
     next();
   })
   .post((req, res, next) => {
-    Users.create(req.body)
-      .then((user) => {
-        console.log("Create: ", user);
-        res.status(200);
-        res.setHeader("Content-Type", "application/json");
-        res.json(user);
+    const { email } = req.body;
+    Users.findOne({ email: email }) // Check if the email already exists in the database
+      .then((existingUser) => {
+        if (existingUser) {
+          res.status(409).json({ error: "Email already exists!" });
+        } else {
+          Users.create(req.body)
+            .then((user) => {
+              console.log("Create: ", user);
+              res.status(200);
+              res.setHeader("Content-Type", "application/json");
+              res.json(user);
+            })
+            .catch((err) => {
+              res.status(500).json({ error: "Failed to create new document!" });
+            });
+        }
       })
       .catch((err) => {
-        res.status(500).json({ error: "Failed to create new document!" });
+        res.status(500).json({ error: "Failed to check for duplicate email!" });
       });
-  });
+  })
+  //NOT VALIDATE YET
+  // .post((req, res, next) => {
+  //   Users.create(req.body)
+  //     .then((user) => {
+  //       console.log("Create: ", user);
+  //       res.status(200);
+  //       res.setHeader("Content-Type", "application/json");
+  //       res.json(user);
+  //     })
+  //     .catch((err) => {
+  //       res.status(500).json({ error: "Failed to create new document!" });
+  //     });
+  // });
 
 //VIEW PROFILE API
 usersRouter

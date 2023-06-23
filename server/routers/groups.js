@@ -13,11 +13,11 @@ const groupsRouter = express.Router();
 
 groupsRouter.use(bodyParser.json());
 
-//config routes
+//------------------- Config routes ---------------------
 
-// (View Groups List)
+// VIEW GROUPS LIST API
 groupsRouter
-  .route("/")
+  .route("/view-groups-list")
   .all((req, res, next) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/plain");
@@ -25,7 +25,6 @@ groupsRouter
   })
   .get((req, res, next) => {
     connect.then((data) => {
-      console.log("Connected to server");
       if (data) {
         Groups.find({}).then((group) => {
           res.statusCode = 200;
@@ -38,6 +37,15 @@ groupsRouter
         res.status(500).json("fail");
       }
     });
+  });
+
+//CREATE A GROUP API
+groupsRouter
+  .route("/view-groups-list")
+  .all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    next();
   })
   .post((req, res, next) => {
     console.log(req.body);
@@ -52,33 +60,35 @@ groupsRouter
         res.status(500).json({ err: "Failed to create new group!" });
       });
   })
-  .patch((req, res, next) => {
-    Groups.findOneAndUpdate(
-      { _id: req.body.id },
-      { $set: req.body },
-      { new: true }
-    )
-      .then((group) => {
-        console.log("Promotion Updated ", group);
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(group);
-      })
-      .catch((err) => next(err));
-  });
 
-// Group by ID
+//   .patch((req, res, next) => {
+//     Groups.findOneAndUpdate(
+//       { _id: req.body.id },
+//       { $set: req.body },
+//       { new: true }
+//     )
+//       .then((group) => {
+//         console.log("Promotion Updated ", group);
+//         res.statusCode = 200;
+//         res.setHeader("Content-Type", "application/json");
+//         res.json(group);
+//       })
+//       .catch((err) => next(err));
+//   });
+
+//------------------ Group by ID ----------------------
+
+//VIEW A GROUP DETAIL API
 groupsRouter
-  .route("/:id")
+  .route("/view-a-group-detail")
   .all((req, res, next) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/plain");
     next();
   })
   .get((req, res, next) => {
-    const groupId = req.params.id;
+    const groupId = req.query.groupId;
     connect.then((data) => {
-      console.log("Connected to server");
       if (data) {
         // Find a group by Id with status === true
         Groups.findById(groupId)
@@ -97,8 +107,17 @@ groupsRouter
       }
     });
   })
+
+//EDIT GROUP API
+groupsRouter
+  .route("/edit-group")
+  .all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    next();
+  })
   .patch((req, res, next) => {
-    const groupId = req.params.id;
+    const groupId = req.query.groupId;
     const updatedData = req.body;
     Groups.findByIdAndUpdate(groupId, { $set: updatedData }, { new: true })
       .then((group) => {
@@ -107,22 +126,51 @@ groupsRouter
         res.json(group);
         res.end();
       })
-      .catch((err) => next(err));
+      .catch((err) => {
+        res.statusCode = 500;
+        res.json({ error: err.message });
+      });
   })
-  .delete((req, res, next) => {
-    const groupId = req.params.id;
 
-    Groups.findByIdAndRemove(groupId)
-      .then((response) => {
-        console.log("Group deleted");
+//REMOVE GROUP API
+groupsRouter
+  .route("/remove-group")
+  .all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    next();
+  })
+  .patch((req, res, next) => {
+    const groupId = req.query.groupId;
+    const updatedData = req.body;
+    Groups.findByIdAndUpdate(groupId, { $set: updatedData }, { new: true })
+      .then((group) => {
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json(response);
+        res.json(group);
         res.end();
-        console.log("Deleted a group successfully");
       })
-      .catch((err) => next(err));
-  });
+      .catch((err) => {
+        res.statusCode = 500;
+        res.json({ error: err.message });
+      });
+  })
+
+
+//   .delete((req, res, next) => {
+//     const groupId = req.params.id;
+
+//     Groups.findByIdAndRemove(groupId)
+//       .then((response) => {
+//         console.log("Group deleted");
+//         res.statusCode = 200;
+//         res.setHeader("Content-Type", "application/json");
+//         res.json(response);
+//         res.end();
+//         console.log("Deleted a group successfully");
+//       })
+//       .catch((err) => next(err));
+//   });
 
 // Remove a member by id (Remove Member from Group)
 groupsRouter
