@@ -15,6 +15,7 @@ const groupsRouter = express.Router();
 groupsRouter.use(bodyParser.json());
 
 //config routes
+// (View Groups List)
 groupsRouter.route('/')
     .all((req, res, next) => {
         res.statusCode = 200;
@@ -31,7 +32,7 @@ groupsRouter.route('/')
                     res.setHeader('Content-Type', 'application/json');
                     res.json(group);
                     res.end();
-                    console.log("Finded successful");
+                    console.log("Finded Groups List successful");
                 })
             } else {
                 console.log("No data");
@@ -59,16 +60,6 @@ groupsRouter.route('/')
                 res.json(group);
             })
             .catch((err) => next(err));
-    })
-    .delete((req, res, next) => {
-        Groups.deleteMany({})
-            .then((response) => {
-                console.log('All Promotions Deleted');
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(response);
-            })
-            .catch((err) => next(err));
     });
 
 
@@ -85,6 +76,7 @@ groupsRouter.route('/:id')
         connect.then((data) => {
             console.log('Connected to server');
             if (data) {
+                // Find a group by Id with status === true
                 Groups.findById(groupId).then((group) => {
                     console.log("Finding");
                     res.statusCode = 200;
@@ -128,6 +120,55 @@ groupsRouter.route('/:id')
             })
             .catch((err) => next(err));
     });
+
+// Remove a member by id (Remove Member from Group)
+groupsRouter.route('/:id/:memberId')
+    .all((req, res, next) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/plain');
+        next();
+    })
+    .delete((req, res, next) => {
+        const groupId = req.params.id;
+        const memberId = req.params.memberId;
+
+        // Find the group by the member's userId
+        Groups.findById(groupId)
+            .then((group) => {
+                // Check if the group exists
+                if (!group) {
+                    return res.status(404).send('Group not found');
+                }
+
+                // Find the index of the member to remove
+                const memberIndex = group.members.findIndex(
+                    (member) => member.userId.toString() === memberId
+                );
+
+                // Check if the member exists in the group
+                if (memberIndex === -1) {
+                    return res.status(404).send('Member not found in the group');
+                }
+
+                // Remove the member from the group
+                group.members.splice(memberIndex, 1);
+
+                // Save the updated group
+                return group.save();
+            })
+            .then(() => {
+                res.send(`Removed member with ID ${memberId} from group with ID ${groupId}`);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Internal Server Error');
+            });
+    });
+
+
+// Group by category
+
+
 
 
 
