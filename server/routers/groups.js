@@ -7,6 +7,7 @@ const express = require("express"),
 const mongoose = require("mongoose");
 const connect = mongoose.connect(dbUrl);
 const Groups = require("../models/groups");
+const User = require("../models/users")
 
 //create router
 const groupsRouter = express.Router();
@@ -59,7 +60,7 @@ groupsRouter
       .catch((err) => {
         res.status(500).json({ err: "Failed to create new group!" });
       });
-  })
+  });
 
 //   .patch((req, res, next) => {
 //     Groups.findOneAndUpdate(
@@ -106,7 +107,7 @@ groupsRouter
         res.status(500).json("fail");
       }
     });
-  })
+  });
 
 //EDIT GROUP API
 groupsRouter
@@ -130,7 +131,7 @@ groupsRouter
         res.statusCode = 500;
         res.json({ error: err.message });
       });
-  })
+  });
 
 //REMOVE GROUP API
 groupsRouter
@@ -154,8 +155,7 @@ groupsRouter
         res.statusCode = 500;
         res.json({ error: err.message });
       });
-  })
-
+  });
 
 //   .delete((req, res, next) => {
 //     const groupId = req.params.id;
@@ -220,5 +220,46 @@ groupsRouter
   });
 
 // Group by category
+
+//INVITE A MEMBER TO A GROUP API
+groupsRouter
+  .route("/invite-member")
+  .all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    next();
+  })
+  .post( async (req, res) => {
+    try {
+      const groupId = req.query.groupId;
+      const { userId, name } = req.body;
+
+      // Find the group by ID
+      const group = await Groups.findById(groupId);
+
+      if (!group) {
+        return res.status(404).json({ error: "Group not found" });
+      }
+
+      // Find the user by ID
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Add the member to the group
+      group.members.push({ userId, name });
+      await group.save();
+
+      // Add the joined group to the user's joinedGroups array
+      user.joinedGroups.push(groupId);
+      await user.save();
+
+      res.status(200).json({ message: "Member invited successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to invite member" });
+    }
+  });
 
 module.exports = groupsRouter;

@@ -61,8 +61,8 @@ usersRouter
 //     });
 // });
 
-//VIEW PROFILE API
 
+//VIEW PROFILE API
 usersRouter
   .route("/view-profile")
   .all((req, res, next) => {
@@ -132,6 +132,7 @@ usersRouter
     }
   });
 
+//NOT VALIDATE YET
 // .patch((req, res, next) => {
 //   const profileId = req.query.profileId;
 //   const updatedData = req.body;
@@ -172,64 +173,3 @@ usersRouter
   });
 
 module.exports = usersRouter;
-
-//DRAFT
-// .get((req, res, next) => {
-//     connect.then((data) => {
-//         console.log('Connected to server');
-//         if (data) {
-//             Users.find({}).then((users) => {
-//                 console.log("Finding");
-//                 res.statusCode = 200;
-//                 res.setHeader('Content-Type', 'application/json');
-//                 res.json(users);
-//                 res.end();
-//                 console.log("Found successfully");
-//             });
-//         } else {
-//             console.log("No data");
-//             res.status(500).json("fail");
-//         }
-//     });
-// })
-// .post((req, res, next) => {
-//     console.log(req.body);
-//     Users.create(req.body)
-//         .then((users) => {
-//             console.log('Users Created', users);
-//             res.statusCode = 200;
-//             res.setHeader('Content-Type', 'application/json');
-//             res.json(users);
-//         }, (err) => next(err))
-//         .catch((err) => next(err));
-// })
-// .put((req, res, next) => {
-//     Users.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true })
-//         .then((users) => {
-//             console.log('Users Updated', users);
-//             res.statusCode = 200;
-//             res.setHeader('Content-Type', 'application/json');
-//             res.json(users);
-//         })
-//         .catch((err) => next(err));
-// })
-// .patch((req, res, next) => {
-//     Users.findOneAndUpdate({ _id: req.body.id }, { $set: req.body }, { new: true })
-//         .then((users) => {
-//             console.log('Users Updated', users);
-//             res.statusCode = 200;
-//             res.setHeader('Content-Type', 'application/json');
-//             res.json(users);
-//         })
-//         .catch((err) => next(err));
-// })
-// .delete((req, res, next) => {
-//     Users.deleteMany({})
-//         .then((response) => {
-//             console.log('All Users Deleted');
-//             res.statusCode = 200;
-//             res.setHeader('Content-Type', 'application/json');
-//             res.json(response);
-//         })
-//         .catch((err) => next(err));
-// });
