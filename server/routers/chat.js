@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
 const Chat = require('../models/chat');
+const Groups = require('../models/groups');
 
 // Create router
 const chatRouter = express.Router();
@@ -20,23 +21,34 @@ chatRouter.route('/')
         res.setHeader('Content-Type', 'text/plain');
         next();
     })
+    // GET A GROUP CHAT HISTORY
+    // input: group id
+    // output: chat list
     .get((req, res, next) => {
-        connect.then((data) => {
-            console.log('Connected to server');
-            if (data) {
-                Chat.find({}).then((chat) => {
-                    console.log("Finding");
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(chat);
-                    res.end();
-                    console.log("Found successfully");
-                });
+        const groupId = req.query.groupId;
+        let chatList = [];
+        Groups.findById(groupId).then((group) => {
+            if (group) {
+                //group exist 
+                if (group.chat) {
+                    //there are chats
+                    Promise.all(() => {
+                        group.chat.forEach(chatId => {
+                            chatList.push(Chat.findById(chatId))
+                        });
+                    }).then(() => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(chatList);
+                    }).catch((err) => {
+                        res.statusCode = 500;
+                        res.json({ error: err.message });
+                    })
+                }
             } else {
-                console.log("No data");
-                res.status(500).json("fail");
+                res.status(404).json({ error: 'Group not found' });
             }
-        });
+        })
     })
     .post((req, res, next) => {
         console.log(req.body);
@@ -79,5 +91,12 @@ chatRouter.route('/')
             })
             .catch((err) => next(err));
     });
+
+
+// -------------CHAT----------------
+
+chatRouter.route('/chats').get((req, res, next) => {
+
+})
 
 module.exports = chatRouter;
