@@ -11,23 +11,25 @@ import { Link } from "react-router-dom";
 const ProfilePage = () => {
   const [profile, setProfile] = useState({name: "", email: ""});
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:3000/users");
-  //       const data = await response.json();
-  //       if (Array.isArray(data) && data.length > 0) {
-  //         setProfile(data[0]);
-  //       }
-  //     } catch (error) {
-  //       console.log("Error fetching:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    fetchProfileData();
+  }, [])
 
-  //   fetchData();
-  // }, []);
-
-  
+  const fetchProfileData = async () => {
+    try {
+      const profileId = "6496bae0c48fe87ef3bcbc3d";
+      const response = await fetch(`http://localhost:3000/users/view-profile?profileId=${profileId}`); // Change the API endpoint URL accordingly
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data);
+        console.log(data);
+      } else {
+        console.error("Failed to fetch profile data");
+      }
+    } catch (error) {
+      console.error("Error while fetching profile data:", error);
+    }
+  };
 
   return (
     <div className="profile">
@@ -39,7 +41,7 @@ const ProfilePage = () => {
         />
         <div className="profile-details">
           <h1>{profile.name}</h1>
-          <h3>Email: {profile.username}@gmail.com</h3>
+          <h3>Email: {profile.email}</h3>
         </div>
         <div className="profile-configuration flex flex-wrap">
           <Link to="/edit-profile">
