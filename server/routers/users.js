@@ -61,7 +61,6 @@ usersRouter
 //     });
 // });
 
-
 //VIEW PROFILE API
 usersRouter
   .route("/view-profile")
@@ -90,8 +89,7 @@ usersRouter
         res.status(500).json("fail");
       }
     });
-  })
-
+  });
 
 //EDIT PROFILE API
 usersRouter
@@ -104,7 +102,12 @@ usersRouter
   })
   .patch((req, res, next) => {
     const profileId = req.query.profileId;
-    const updatedData = req.body;
+    // const updatedData = req.body;
+    const updatedData = {
+      name: req.body.name,
+      email: req.body.email,
+      avatar: req.files ? req.files.avatar : null,
+    };
     Users.findOne({ email: updatedData.email })
       .then((currentUser) => {
         if (currentUser.id !== updatedData._id) {
@@ -115,7 +118,7 @@ usersRouter
         }
       })
       .catch((err) => {
-        res.status(500).json({ error: "Failed to check for duplicate email!" });
+        res.json({ error: err });
       });
 
     function updateUserProfile() {

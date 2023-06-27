@@ -10,6 +10,7 @@ import { FileUpload } from "primereact/fileupload";
 const EditProfilePage = () => {
 
   const [profile, setProfile] = useState({name: "", email: ""});
+  const profileId = "6496bae0c48fe87ef3bcbc3d";
 
   useEffect(() => {
     fetchProfileData();
@@ -17,7 +18,6 @@ const EditProfilePage = () => {
 
   const fetchProfileData = async () => {
     try {
-      const profileId = "6496bae0c48fe87ef3bcbc3d";
       const response = await fetch(`http://localhost:3000/users/view-profile?profileId=${profileId}`); // Change the API endpoint URL accordingly
       if (response.ok) {
         const data = await response.json();
@@ -58,7 +58,7 @@ const EditProfilePage = () => {
     formData.append("email", newEmail);
     formData.append("avatar", avatarFile);
 
-    fetch("http://localhost:3000/users/edit-profile", {
+    fetch(`http://localhost:3000/users/edit-profile?profileId=${profileId}`, {
       method: "PATCH",
       body: formData,
     })
@@ -74,7 +74,67 @@ const EditProfilePage = () => {
   };
 
   return (
-    // <div className="edit-profile">
+    <div className="edit-profile">
+      <div className="edit-profile-card">
+        <Image
+          src="logo192.png"
+          alt="Profile"
+          className="profile-picture"
+        />
+        <form className="edit-profile-details" onSubmit={handleSubmit}>
+          <span className="input-new-name p-float-label">
+            <InputText
+              className="p-inputtext-lg"
+              value={newName}
+              onChange={handleNameChange}
+              id="new-name"
+              placeholder={profile.name}
+            />
+            <label htmlFor="new-name">New name:</label>
+          </span>
+
+          <span className="input-new-email p-float-label">
+            <InputText
+              className="p-inputtext-lg"
+              value={newEmail}
+              onChange={handleEmailChange}
+              id="new-email"
+              placeholder={profile.email}
+            />
+            <label htmlFor="new-email">New email:</label>
+          </span>
+
+          <span className="input-new-avatar">
+            <FileUpload
+              className="uploadAva"
+              name="avatar"
+              url={'/api/upload-avatar'}
+              mode="basic"
+              accept="image/*"
+              maxFileSize={1000000}
+              chooseLabel="Select Avatar"
+              uploadLabel="Upload"
+              cancelLabel="Cancel"
+              emptyTemplate={<p className="m-0">Drag and drop files here to upload a new avatar.</p>}
+              onUpload={handleFileUpload}
+            />
+          </span>
+          <Button className="btnSave" label="Save" icon="pi pi-spin pi-sync" type="submit" />
+        </form>
+      </div>
+    </div>
+  );
+};
+
+EditProfilePage.propTypes = {};
+
+EditProfilePage.defaultProps = {};
+
+export default EditProfilePage;
+
+
+//DRAFT
+// <div className="edit-profile">
     //   <div className="edit-profile-card">
     //     <Image src="logo192.png" alt="Profile" className="profile-picture" />
     //     <form className="edit-profile-details">
@@ -117,59 +177,3 @@ const EditProfilePage = () => {
     //     </div>
     //   </div>
     // </div>
-
-    <div className="edit-profile">
-      <div className="edit-profile-card">
-        <Image
-          src="logo192.png"
-          alt="Profile"
-          className="profile-picture"
-        />
-        <form className="edit-profile-details" onSubmit={handleSubmit}>
-          <span className="input-new-name p-float-label">
-            <InputText
-              className="p-inputtext-lg"
-              value={newName}
-              onChange={handleNameChange}
-              id="new-name"
-            />
-            <label htmlFor="new-name">New name:</label>
-          </span>
-
-          <span className="input-new-email p-float-label">
-            <InputText
-              className="p-inputtext-lg"
-              value={newEmail}
-              onChange={handleEmailChange}
-              id="new-email"
-            />
-            <label htmlFor="new-email">New email:</label>
-          </span>
-
-          <span className="input-new-avatar">
-            <FileUpload
-              className="uploadAva"
-              name="avatar"
-              url={'/api/upload-avatar'}
-              mode="basic"
-              accept="image/*"
-              maxFileSize={1000000}
-              chooseLabel="Select Avatar"
-              uploadLabel="Upload"
-              cancelLabel="Cancel"
-              emptyTemplate={<p className="m-0">Drag and drop files here to upload a new avatar.</p>}
-              onUpload={handleFileUpload}
-            />
-          </span>
-          <Button className="btnSave" label="Save" icon="pi pi-spin pi-sync" type="submit" />
-        </form>
-      </div>
-    </div>
-  );
-};
-
-EditProfilePage.propTypes = {};
-
-EditProfilePage.defaultProps = {};
-
-export default EditProfilePage;
