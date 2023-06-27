@@ -71,7 +71,7 @@ groupsRouter
    .patch((req, res, next) => {
       const groupId = req.query.groupId;
       const updatedData = req.body;
-      Groups.findByIdAndUpdate(groupId, { $set: updatedData }, { new: true })
+      Groups.findByIdAndUpdate(groupId, updatedData , { new: true })
          .then((group) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
