@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
 const Groups = require('../models/groups');
 const User = require('../models/users');
+const Chat = require('../models/chat');
 
 //create router
 const groupsRouter = express.Router();
@@ -16,38 +17,74 @@ groupsRouter.use(bodyParser.json());
 
 //------------------- Config routes ---------------------
 
-// VIEW GROUPS LIST API
+
+//VIEW A GROUP DETAIL API
 groupsRouter
-   .route('/view-groups-list')
+   .route('/')
    .all((req, res, next) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
       next();
    })
    .get((req, res, next) => {
-      connect.then((data) => {
-         if (data) {
-            Groups.find({}).then((group) => {
-               res.statusCode = 200;
-               res.setHeader('Content-Type', 'application/json');
-               res.json(group);
-               res.end();
-               console.log('Finded Groups List successful');
-            });
-         } else {
-            res.status(500).json('fail');
-         }
-      });
-   });
+      const groupId = req.query.groupId;
 
-//CREATE A GROUP API
-groupsRouter
-   .route('/view-groups-list')
-   .all((req, res, next) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      next();
+      //View all groups
+      if (!groupId) {
+         connect.then((data) => {
+            if (data) {
+               Groups.find({}).then((group) => {
+                  res.statusCode = 200;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.json(group);
+                  res.end();
+                  console.log('Finded Groups List successful');
+               });
+            } else {
+               res.status(500).json('fail');
+            }
+         });
+      }
+      //View A Group detail
+      if (groupId) {
+         connect.then((data) => {
+            if (data) {
+               // Find a group by Id with status === true
+               Groups.findById(groupId)
+                  .then((group) => {
+                     console.log('Finding');
+                     res.statusCode = 200;
+                     res.setHeader('Content-Type', 'application/json');
+                     res.json(group);
+                     res.end();
+                     console.log('Found a group successfully');
+                  })
+                  .catch((err) => next(err));
+            } else {
+               console.log('No data');
+               res.status(500).json('fail');
+            }
+         });
+      }
+
    })
+   // EDIT A GROUP
+   .patch((req, res, next) => {
+      const groupId = req.query.groupId;
+      const updatedData = req.body;
+      Groups.findByIdAndUpdate(groupId, { $set: updatedData }, { new: true })
+         .then((group) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(group);
+            res.end();
+         })
+         .catch((err) => {
+            res.statusCode = 500;
+            res.json({ error: err.message });
+         });
+   })
+   //CREATE A GROUP
    .post((req, res, next) => {
       console.log(req.body);
       Groups.create(req.body)
@@ -60,117 +97,28 @@ groupsRouter
          .catch((err) => {
             res.status(500).json({ err: 'Failed to create new group!' });
          });
+   })
+   // REMOVE A GROUP
+   .delete((req, res, next) => {
+      const groupId = req.query.groupId;
+      const updatedData = req.body;
+      // change status everywhen delete
+      Groups.findByIdAndUpdate(groupId, { $set: updatedData }, { new: true })
+         .then((group) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(group);
+            res.end();
+         })
+         .catch((err) => {
+            res.statusCode = 500;
+            res.json({ error: err.message });
+         });
    });
-
-//   .patch((req, res, next) => {
-//     Groups.findOneAndUpdate(
-//       { _id: req.body.id },
-//       { $set: req.body },
-//       { new: true }
-//     )
-//       .then((group) => {
-//         console.log("Promotion Updated ", group);
-//         res.statusCode = 200;
-//         res.setHeader("Content-Type", "application/json");
-//         res.json(group);
-//       })
-//       .catch((err) => next(err));
-//   });
 
 //------------------ Group by ID ----------------------
 
-//VIEW A GROUP DETAIL API
-groupsRouter
-   .route('/view-a-group-detail')
-   .all((req, res, next) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      next();
-   })
-   .get((req, res, next) => {
-      const groupId = req.query.groupId;
-      connect.then((data) => {
-         if (data) {
-            // Find a group by Id with status === true
-            Groups.findById(groupId)
-               .then((group) => {
-                  console.log('Finding');
-                  res.statusCode = 200;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.json(group);
-                  res.end();
-                  console.log('Found a group successfully');
-               })
-               .catch((err) => next(err));
-         } else {
-            console.log('No data');
-            res.status(500).json('fail');
-         }
-      });
-   });
 
-//EDIT GROUP API
-groupsRouter
-   .route('/edit-group')
-   .all((req, res, next) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      next();
-   })
-   .patch((req, res, next) => {
-      const groupId = req.query.groupId;
-      const updatedData = req.body;
-      Groups.findByIdAndUpdate(groupId, { $set: updatedData }, { new: true })
-         .then((group) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(group);
-            res.end();
-         })
-         .catch((err) => {
-            res.statusCode = 500;
-            res.json({ error: err.message });
-         });
-   });
-
-//REMOVE GROUP API
-groupsRouter
-   .route('/remove-group')
-   .all((req, res, next) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      next();
-   })
-   .patch((req, res, next) => {
-      const groupId = req.query.groupId;
-      const updatedData = req.body;
-      Groups.findByIdAndUpdate(groupId, { $set: updatedData }, { new: true })
-         .then((group) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(group);
-            res.end();
-         })
-         .catch((err) => {
-            res.statusCode = 500;
-            res.json({ error: err.message });
-         });
-   });
-
-//   .delete((req, res, next) => {
-//     const groupId = req.params.id;
-
-//     Groups.findByIdAndRemove(groupId)
-//       .then((response) => {
-//         console.log("Group deleted");
-//         res.statusCode = 200;
-//         res.setHeader("Content-Type", "application/json");
-//         res.json(response);
-//         res.end();
-//         console.log("Deleted a group successfully");
-//       })
-//       .catch((err) => next(err));
-//   });
 
 // Remove a member by id (Remove Member from Group)
 groupsRouter
@@ -278,5 +226,39 @@ groupsRouter.route('/add-discussion').post((req, res, next) => {
       })
       .catch((err) => next(err));
 });
+
+
+
+
+// -------------CHAT----------------
+// GET A GROUP CHAT HISTORY
+// input: group id
+// output: chat list
+groupsRouter.route('/chats').get((req, res, next) => {
+   const groupId = req.query.groupId;
+   let chatList = [];
+   Groups.findById(groupId).then((group) => {
+      if (group) {
+         //group exist 
+         if (group.chat) {
+            //there are chats
+            Promise.all(() => {
+               group.chat.forEach(chatId => {
+                  chatList.push(Chat.findById(chatId))
+               });
+            }).then(() => {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(chatList);
+            }).catch((err) => {
+               res.statusCode = 500;
+               res.json({ error: err.message });
+            })
+         }
+      } else {
+         res.status(404).json({ error: 'Group not found' });
+      }
+   })
+})
 
 module.exports = groupsRouter;
