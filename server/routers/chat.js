@@ -93,10 +93,4 @@ chatRouter.route('/')
     });
 
 
-// -------------CHAT----------------
-
-chatRouter.route('/chats').get((req, res, next) => {
-
-})
-
 module.exports = chatRouter;
