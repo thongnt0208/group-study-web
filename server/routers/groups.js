@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
 const Groups = require('../models/groups');
 const User = require('../models/users');
-const Chat = require('../models/chat');
 
 //create router
 const groupsRouter = express.Router();
@@ -226,39 +225,5 @@ groupsRouter.route('/add-discussion').post((req, res, next) => {
       })
       .catch((err) => next(err));
 });
-
-
-
-
-// -------------CHAT----------------
-// GET A GROUP CHAT HISTORY
-// input: group id
-// output: chat list
-groupsRouter.route('/chats').get((req, res, next) => {
-   const groupId = req.query.groupId;
-   let chatList = [];
-   Groups.findById(groupId).then((group) => {
-      if (group) {
-         //group exist 
-         if (group.chat) {
-            //there are chats
-            Promise.all(() => {
-               group.chat.forEach(chatId => {
-                  chatList.push(Chat.findById(chatId))
-               });
-            }).then(() => {
-               res.statusCode = 200;
-               res.setHeader('Content-Type', 'application/json');
-               res.json(chatList);
-            }).catch((err) => {
-               res.statusCode = 500;
-               res.json({ error: err.message });
-            })
-         }
-      } else {
-         res.status(404).json({ error: 'Group not found' });
-      }
-   })
-})
 
 module.exports = groupsRouter;
