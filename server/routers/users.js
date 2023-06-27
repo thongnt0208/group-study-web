@@ -2,6 +2,8 @@ require("dotenv").config();
 const dbUrl = process.env.DB_CONNECTION_STRING;
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require('multer');
+const upload = multer();
 
 // Mongoose
 const mongoose = require("mongoose");
@@ -100,9 +102,9 @@ usersRouter
     console.log(dbUrl);
     next();
   })
-  .patch((req, res, next) => {
+  .patch(upload.single('avatar'), (req, res, next) => {
     const profileId = req.query.profileId;
-    // const updatedData = req.body;
+    const data = req.body;
     const updatedData = {
       name: req.body.name,
       email: req.body.email,
@@ -110,7 +112,7 @@ usersRouter
     };
     Users.findOne({ email: updatedData.email })
       .then((currentUser) => {
-        if (currentUser.id !== updatedData._id) {
+        if (currentUser && currentUser.id !== updatedData._id) {
           res.json({ error: "Email already exists!" });
           res.end();
         } else {
@@ -118,7 +120,8 @@ usersRouter
         }
       })
       .catch((err) => {
-        res.json({ error: err });
+        console.log(data);
+        res.json({ error: err});
       });
 
     function updateUserProfile() {
