@@ -56,7 +56,7 @@ const EditProfilePage = () => {
     const formData = new FormData();
     formData.append("name", newName);
     formData.append("email", newEmail);
-    formData.append("avatar", avatarFile);
+    formData.append("avatarLink", avatarFile);
 
     fetch(`http://localhost:3000/users/edit-profile?profileId=${profileId}`, {
       method: "PATCH",
