@@ -106,13 +106,14 @@ usersRouter
     const profileId = req.query.profileId;
     const data = req.body;
     const updatedData = {
+      id: req.body.profileId,
       name: req.body.name,
       email: req.body.email,
       avatar: req.files ? req.files.avatar : null,
     };
     Users.findOne({ email: updatedData.email })
       .then((currentUser) => {
-        if (currentUser && currentUser.id !== updatedData._id) {
+        if (currentUser && currentUser.id !== updatedData.id) {
           res.json({ error: "Email already exists!" });
           res.end();
         } else {
