@@ -30,12 +30,16 @@ const questionAnswerSchema = new Schema({
   contentImage: String,
   name: String,
   avatarLink: String,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
   answers: [answerSchema]
 }, {
   timestamps: true,
   collection: "QuestionAnswer"
 });
 
-const QuestionAnswer = mongoose.model('questionanswers', questionAnswerSchema);
+const QuestionAnswer = mongoose.model('QuestionAnswer', questionAnswerSchema);
 
 module.exports = QuestionAnswer;
