@@ -16,6 +16,14 @@ const userSchema = new Schema({
   joinedGroups: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group"
+  }],
+  createdDiscussions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Discussion"
+  }],
+  createdQandAs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "QuestionAnswer"
   }]
 }, {
   timestamps: true,
