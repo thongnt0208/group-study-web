@@ -65,7 +65,7 @@ usersRouter
 
 //VIEW PROFILE API
 usersRouter
-  .route("/view-profile")
+  .route("/")
   .all((req, res, next) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/plain");
@@ -91,17 +91,8 @@ usersRouter
         res.status(500).json("fail");
       }
     });
-  });
-
-//EDIT PROFILE API
-usersRouter
-  .route("/edit-profile")
-  .all((req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    console.log(dbUrl);
-    next();
   })
+//EDIT PROFILE API
   .patch(upload.single('avatar'), (req, res, next) => {
     const profileId = req.query.profileId;
     const data = req.body;
@@ -137,46 +128,22 @@ usersRouter
           res.json({ error: err.message });
         });
     }
-  });
-
-//NOT VALIDATE YET
-// .patch((req, res, next) => {
-//   const profileId = req.query.profileId;
-//   const updatedData = req.body;
-//   console.log(id);
-//   Users.findByIdAndUpdate(profileId, updatedData, { new: true })
-//     .then((users) => {
-//       console.log("Users Updated", updatedData);
-//       res.statusCode = 200;
-//       res.setHeader("Content-Type", "application/json");
-//       res.json(users);
-//     })
-//     .catch((err) => {
-//       res.statusCode = 500;
-//       res.json({ error: err.message });
-//     });
-// });
-
-//REMOVE PROFILE API
-usersRouter
-  .route("/remove-profile")
-  .all((req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    console.log(dbUrl);
-    next();
   })
-  .patch((req, res, next) => {
+//REMOVE PROFILE API
+  .delete((req, res, next) => {
     const profileId = req.query.profileId;
-    const updatedData = req.body;
-    Users.findByIdAndUpdate(profileId, updatedData, { new: true })
+    const status = req.body.status
+    Users.findByIdAndUpdate(profileId, { status }, { new: true })
       .then((users) => {
+        console.log(status);
         console.log("Users Updated", users);
         res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
         res.json(users);
       })
-      .catch((err) => next(err));
+      .catch((err) => {
+        res.statusCode = 500;
+        res.json({ error: err.message });
+      });
   });
 
 module.exports = usersRouter;

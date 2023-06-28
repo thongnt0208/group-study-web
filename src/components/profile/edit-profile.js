@@ -6,6 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { Image } from "primereact/image";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
+import { Link } from "react-router-dom";
 
 const EditProfilePage = () => {
   const [profile, setProfile] = useState({ name: "", email: "" });
@@ -55,7 +56,7 @@ const EditProfilePage = () => {
     // Perform API request to update the profile using the new data and avatar file
     // Example code: You can modify this based on your backend implementation
     const formData = new FormData();
-    formData.append("profileId", profileId)
+    formData.append("profileId", profileId);
     if (newName) {
       formData.append("name", newName);
     } else {
@@ -87,7 +88,11 @@ const EditProfilePage = () => {
     <div className="edit-profile">
       <div className="edit-profile-card">
         <Image src="logo192.png" alt="Profile" className="profile-picture" />
-        <form className="edit-profile-details" onSubmit={handleSubmit} encType="multipart/form-data">
+        <form
+          className="edit-profile-details"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
           <span className="input-new-name p-float-label">
             <InputText
               className="p-inputtext-lg"
@@ -129,12 +134,15 @@ const EditProfilePage = () => {
               onUpload={handleFileUpload}
             />
           </span>
-          <Button
-            className="btnSave"
-            label="Save"
-            icon="pi pi-spin pi-sync"
-            type="submit"
-          />
+          <Link to="/profile">
+            <Button
+              className="btnSave"
+              label="Save"
+              icon="pi pi-spin pi-sync"
+              type="submit"
+              link
+            />
+          </Link>
         </form>
       </div>
     </div>
