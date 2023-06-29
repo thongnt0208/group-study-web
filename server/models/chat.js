@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const chatSchema = new Schema({
   names: [
@@ -15,6 +16,8 @@ const chatSchema = new Schema({
   timestamps: true,
   collection: "Chat"
 });
+
+chatSchema.plugin(passportLocalMongoose);
 
 const Chat = mongoose.model('Chat', chatSchema);
 
