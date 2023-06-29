@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
 const Discussion = require('../models/discussion');
-
+const Groups = require('../models/groups');
 // Create router
 const discussionRouter = express.Router();
 
@@ -89,14 +89,14 @@ discussionRouter
    });
 
 discussionRouter
-   .route('/discussionId')
+   .route('/:discussionId')
    .all((req, res, next) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
       next();
    })
    .get((req, res, next) => {
-      Discussion.findById(res.params.discussionId)
+      Discussion.findById(req.params.discussionId)
          .then((discussion) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
@@ -136,5 +136,60 @@ discussionRouter
          })
          .catch((err) => next(err));
    });
+
+// ADD DISCUSSION TO MULTIPLE GROUPS
+discussionRouter.route('/add-to-groups').post((req, res, next) => {
+   const { discussionId, groupIds } = req.body;
+
+   // Find the discussion by its ID
+   Discussion.findById(discussionId)
+      .then((discussion) => {
+         if (!discussion) {
+            return res.status(404).json({ error: 'Discussion not found' });
+         }
+
+         // Update each group with the discussion ObjectId
+         const updatePromises = groupIds.map((groupId) => {
+            return Groups.findById(groupId)
+               .then((group) => {
+                  if (!group) {
+                     console.log(`Group not found for ID: ${groupId}`);
+                     return;
+                  }
+
+                  group.discussions.push(discussion._id);
+                  return group.save();
+               })
+               .catch((err) => {
+                  console.error(
+                     `Failed to update Group with ID: ${groupId}`,
+                     err
+                  );
+               });
+         });
+
+         // Wait for all group updates to complete
+         Promise.all(updatePromises)
+            .then(() => {
+               console.log('Discussion added to multiple groups');
+               res.status(200).json({
+                  message: 'Discussion added to multiple groups',
+               });
+            })
+            .catch((err) => {
+               console.error(
+                  'Failed to add Discussion to multiple groups:',
+                  err
+               );
+               res.status(500).json({
+                  error: 'Failed to add Discussion to multiple groups',
+               });
+            });
+      })
+      .catch((err) => {
+         console.error('Failed to find Discussion:', err);
+         res.status(500).json({ error: 'Failed to find Discussion' });
+      });
+});
 
 module.exports = discussionRouter;
