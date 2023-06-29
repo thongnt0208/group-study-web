@@ -9,8 +9,8 @@ const secretKey = '12345-67890-09876-54321';
     let payload = {
         _id: user._id,
         username: user.username,
-        password: user.password,
-        admin: user.admin
+        role: user.role,
+        status: user.status
     };
     return jwt.sign(payload, secretKey, {
         expiresIn: 3600
@@ -114,6 +114,7 @@ exports.loginUser = function (req, res, next) {
                 }
                 if (result) {
                     const token = generateToken(user);
+                    localStorage.setItem('token', token);
                     res.status(200).json({ message: 'Authentication successful!', token });
                 } else {
                     const err = new Error('Authentication failed. Wrong password.');
