@@ -18,6 +18,9 @@ const usersRouter = express.Router();
 
 usersRouter.use(bodyParser.json());
 
+
+let navigate = new useNavigate();
+
 // Configure routes
 
 //VIEW PROFILE API
@@ -145,7 +148,13 @@ usersRouter
 usersRouter
   .route('/login')
   .post(Verify.loginUser, (req, res, next) => {
-    let navigate = new useNavigate();
+    navigate('/groups')
+  })
+
+  usersRouter
+  .route('/logout')
+  .post((req, res, next) => {
+    localStorage.removeItem('token');
     navigate('/groups')
   })
 
