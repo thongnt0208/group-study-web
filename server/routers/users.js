@@ -4,11 +4,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const upload = multer();
+const Verify = require('../routers/verify');
 
 // Mongoose
 const mongoose = require("mongoose");
 const connect = mongoose.connect(dbUrl);
 const Users = require("../models/users");
+const { useNavigate } = require('react-router-dom');
+
 
 // Create router
 const usersRouter = express.Router();
@@ -16,52 +19,6 @@ const usersRouter = express.Router();
 usersRouter.use(bodyParser.json());
 
 // Configure routes
-
-//REGISTER API
-usersRouter
-  .route("/register")
-  .all((req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    console.log(dbUrl);
-    next();
-  })
-  .post((req, res, next) => {
-    const { email } = req.body;
-    Users.findOne({ email: email }) // Check if the email already exists in the database
-      .then((existingUser) => {
-        if (existingUser) {
-          res.status(409).json({ error: "Email already exists!" });
-        } else {
-          Users.create(req.body)
-            .then((user) => {
-              console.log("Create: ", user);
-              res.status(200);
-              res.setHeader("Content-Type", "application/json");
-              res.json(user);
-            })
-            .catch((err) => {
-              res.status(500).json({ error: "Failed to create new document!" });
-            });
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({ error: "Failed to check for duplicate email!" });
-      });
-  });
-//NOT VALIDATE YET
-// .post((req, res, next) => {
-//   Users.create(req.body)
-//     .then((user) => {
-//       console.log("Create: ", user);
-//       res.status(200);
-//       res.setHeader("Content-Type", "application/json");
-//       res.json(user);
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ error: "Failed to create new document!" });
-//     });
-// });
 
 //VIEW PROFILE API
 usersRouter
@@ -92,7 +49,7 @@ usersRouter
       }
     });
   })
-//EDIT PROFILE API
+  //EDIT PROFILE API
   .patch(upload.single('avatar'), (req, res, next) => {
     const profileId = req.query.profileId;
     const data = req.body;
@@ -113,7 +70,7 @@ usersRouter
       })
       .catch((err) => {
         console.log(data);
-        res.json({ error: err});
+        res.json({ error: err });
       });
 
     function updateUserProfile() {
@@ -129,7 +86,7 @@ usersRouter
         });
     }
   })
-//REMOVE PROFILE API
+  //REMOVE PROFILE API
   .delete((req, res, next) => {
     const profileId = req.query.profileId;
     const status = req.body.status
@@ -145,5 +102,65 @@ usersRouter
         res.json({ error: err.message });
       });
   });
+
+
+
+//REGISTER API
+usersRouter
+  .route("/register")
+  .all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    console.log(dbUrl);
+    next();
+  })
+  .post(Verify.createUser, (req, res, next) => {
+    const { email } = req.body;
+    console.log('Created an account for ', email);
+
+
+
+    // Users.findOne({ email: email }) // Check if the email already exists in the database
+    //   .then((existingUser) => {
+    //     if (existingUser) {
+    //       res.status(409).json({ error: "Email already exists!" });
+    //     } else {
+    //       Users.create(req.body)
+    //         .then((user) => {
+    //           console.log("Create: ", user);
+    //           res.status(200);
+    //           res.setHeader("Content-Type", "application/json");
+    //           res.json(user);
+    //         })
+    //         .catch((err) => {
+    //           res.status(500).json({ error: "Failed to create new document!" });
+    //         });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     res.status(500).json({ error: "Failed to check for duplicate email!" });
+    //   });
+  })
+
+usersRouter
+  .route('/login')
+  .post(Verify.loginUser, (req, res, next) => {
+    let navigate = new useNavigate();
+    navigate('/groups')
+  })
+
+//NOT VALIDATE YET
+// .post((req, res, next) => {
+//   Users.create(req.body)
+//     .then((user) => {
+//       console.log("Create: ", user);
+//       res.status(200);
+//       res.setHeader("Content-Type", "application/json");
+//       res.json(user);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ error: "Failed to create new document!" });
+//     });
+// });
 
 module.exports = usersRouter;
