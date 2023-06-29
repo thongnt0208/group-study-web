@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
+
 
 const commentSchema = new Schema({
   status: Boolean,
@@ -39,6 +41,8 @@ const questionAnswerSchema = new Schema({
   timestamps: true,
   collection: "QuestionAnswer"
 });
+
+questionAnswerSchema.plugin(passportLocalMongoose);
 
 const QuestionAnswer = mongoose.model('QuestionAnswer', questionAnswerSchema);
 

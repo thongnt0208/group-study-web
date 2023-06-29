@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
+
 
 const groupCategorySchema = new Schema({
   name: {
@@ -16,6 +18,8 @@ const groupCategorySchema = new Schema({
   timestamps: true,
   collection: "GroupCategory"
 });
+
+groupCategorySchema.plugin(passportLocalMongoose);
 
 const GroupCategory = mongoose.model('GroupCategory', groupCategorySchema);
 
