@@ -83,7 +83,7 @@ groupsRouter
             res.json({ error: err.message });
          });
    })
-   //CREATE A GROUP
+   //CREATE GROUP
    .post((req, res, next) => {
       console.log(req.body);
       Groups.create(req.body)
