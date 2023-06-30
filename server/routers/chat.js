@@ -50,16 +50,29 @@ chatRouter.route('/')
             }
         })
     })
+    // Input: Chat model + groupId
     .post((req, res, next) => {
         console.log(req.body);
-        Chat.create(req.body)
+        let newChat = {
+            names: req.body.names,
+            time: req.body.time
+        };
+        let groupId = req.query.groupId;
+        Chat.create(newChat)
             .then((chat) => {
                 console.log('Chat Created', chat);
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(chat);
-            }, (err) => next(err))
-            .catch((err) => next(err));
+                return Groups.findByIdAndUpdate(groupId, { $push: { chat: chat._id } })
+                    .populate('chat')
+                    .exec();
+            })
+            .then((group) => {
+                console.log('Group with populated chat:', group);
+                res.status(200).json(group);
+            })
+            .catch((error) => {
+                console.error('Error creating chat:', error);
+                res.status(500).json({ error: 'Failed to create chat' });
+            });
     })
     .put((req, res, next) => {
         Chat.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true })
