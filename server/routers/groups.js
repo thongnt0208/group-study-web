@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
 const Groups = require('../models/groups');
 const User = require('../models/users');
+const Discussion = require('../models/discussion');
 
 //create router
 const groupsRouter = express.Router();
@@ -15,7 +16,6 @@ const groupsRouter = express.Router();
 groupsRouter.use(bodyParser.json());
 
 //------------------- Config routes ---------------------
-
 
 //VIEW A GROUP DETAIL API
 groupsRouter
@@ -65,13 +65,12 @@ groupsRouter
             }
          });
       }
-
    })
    // EDIT A GROUP
    .patch((req, res, next) => {
       const groupId = req.query.groupId;
       const updatedData = req.body;
-      Groups.findByIdAndUpdate(groupId, updatedData , { new: true })
+      Groups.findByIdAndUpdate(groupId, updatedData, { new: true })
          .then((group) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
@@ -116,8 +115,6 @@ groupsRouter
    });
 
 //------------------ Group by ID ----------------------
-
-
 
 // Remove a member by id (Remove Member from Group)
 groupsRouter
@@ -209,21 +206,48 @@ groupsRouter
       }
    });
 
-// ADD DICUSSION TO MULTIPLE GROUPS
-groupsRouter.route('/add-discussion').post((req, res, next) => {
-   const { discussionId, groupIds } = req.body;
+// ADD DISCUSSION TO GROUP
+groupsRouter.route('/add-discussion/:groupId').post((req, res, next) => {
+   const groupId = req.params.groupId;
+   const discussionData = req.body;
 
-   // Update the groups with the discussion ID
-   Groups.updateMany(
-      { _id: { $in: groupIds } },
-      { $push: { discussions: discussionId } }
-   )
-      .then(() => {
-         res.statusCode = 200;
-         res.setHeader('Content-Type', 'text/plain');
-         res.send('Discussion added to groups successfully');
+   Discussion.create(discussionData)
+      .then((discussion) => {
+         // Check if the discussion was created successfully
+         if (!discussion) {
+            return res
+               .status(500)
+               .json({ error: 'Failed to create discussion' });
+         }
+
+         Groups.findById(groupId)
+            .then((group) => {
+               // Check if the group exists
+               if (!group) {
+                  return res.status(404).json({ error: 'Group not found' });
+               }
+
+               // Add the discussion's objectId to the group's discussions array
+               group.discussions.push(discussion._id);
+               return group.save();
+            })
+            .then(() => {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json({
+                  success: true,
+                  message: 'Discussion added to group successfully',
+               });
+            })
+            .catch((err) => {
+               res.status(500).json({
+                  error: 'Failed to add discussion to group',
+               });
+            });
       })
-      .catch((err) => next(err));
+      .catch((err) => {
+         res.status(500).json({ error: 'Failed to create discussion' });
+      });
 });
 
 module.exports = groupsRouter;
