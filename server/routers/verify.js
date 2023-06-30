@@ -114,7 +114,6 @@ exports.loginUser = function (req, res, next) {
                 }
                 if (result) {
                     const token = generateToken(user);
-                    localStorage.setItem('token', token);
                     res.status(200).json({ message: 'Authentication successful!', token });
                 } else {
                     const err = new Error('Authentication failed. Wrong password.');

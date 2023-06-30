@@ -17,7 +17,6 @@ const usersRouter = express.Router();
 
 usersRouter.use(bodyParser.json());
 
-// let navigate = new useNavigate();
 
 // Configure routes
 
@@ -139,18 +138,12 @@ usersRouter
       //   });
    });
 
-// usersRouter
-//   .route('/login')
-//   .post(Verify.loginUser, (req, res, next) => {
-//     navigate('/groups')
-//   })
+usersRouter
+   .route('/login')
+   .post(Verify.loginUser, (req, res, next) => {
+      res.redirect('/groups')
+   })
 
-//   usersRouter
-//   .route('/logout')
-//   .post((req, res, next) => {
-//     localStorage.removeItem('token');
-//     navigate('/groups')
-//   })
 
 //NOT VALIDATE YET
 // .post((req, res, next) => {
