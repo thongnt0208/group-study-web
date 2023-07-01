@@ -32,7 +32,7 @@ groupsRouter
       if (!groupId) {
          connect.then((data) => {
             if (data) {
-               Groups.find({}).then((group) => {
+               Groups.find({status: true}).then((group) => {
                   res.statusCode = 200;
                   res.setHeader('Content-Type', 'application/json');
                   res.json(group);
