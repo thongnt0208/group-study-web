@@ -138,7 +138,7 @@ groupsRouter
 
             // Find the index of the member to remove
             const memberIndex = group.members.findIndex(
-               (member) => member.userId.toString() === memberId
+               (member) => member.toString() === memberId
             );
 
             // Check if the member exists in the group
