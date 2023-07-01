@@ -24,29 +24,18 @@ const groupSchema = new Schema({
       ref: 'Discussion'
     }
   ],
-  members: [
-    {
-      name: {
-        type: String
-      },
-      userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-      }
-    }
-  ],
-  chat: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Chat'
-    }
-  ],
-  reports: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Report'
-    }
-  ]
+  members: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  chat: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Chat'
+  }],
+  reports: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Report'
+  }]
 }, {
   timestamps: true,
   collection: "Group"

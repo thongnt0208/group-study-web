@@ -161,6 +161,20 @@ const addQuestionAnswerToDiscussion = (questionAnswerId, discussionId) => {
     );
 };
 
+// Add User to Group Admin
+const addUserToGroupAdmin = (userId, groupId) => {
+    return Group.findByIdAndUpdate(
+        groupId, { admin: userId }
+    )
+}
+
+// Add User to Group Members
+const addUserToGroupMembers = (userId, groupId) => {
+    return Group.findByIdAndUpdate(
+        groupId, { $push: { members: userId } }
+    )
+}
+
 // Function to get a group with populated data
 const getGroupWithPopulate = async function (groupId) {
     try {
@@ -169,8 +183,8 @@ const getGroupWithPopulate = async function (groupId) {
                 path: 'admin'
             })
             .populate({
-                path: 'members.userId',
-                select: 'name _id'
+                path: 'members',
+                select: ' _id'
             })
             .populate({
                 path: 'discussions',
@@ -287,7 +301,7 @@ const run = async function () {
             avatarLink: "https://example.com/avatar.png",
         });
 
-        let user = await createUser({
+        let userAdmin = await createUser({
             "username": "ThongNT91",
             "password": "password123",
             "email": "thongntse160850@fpt.edu.vn",
@@ -297,21 +311,43 @@ const run = async function () {
             "role": "admin"
         });
 
+        let userMem1 = await createUser({
+            "username": "AnhTD",
+            "password": "password123",
+            "email": "thongntse160850@fpt.edu.vn",
+            "name": "Nguyen Anh Ha",
+            "avatarLink": "https://example.com/avatar/ha12.png",
+            "status": true,
+            "role": "member"
+        });
+
+        let userMem2 = await createUser({
+            "username": "BaoHD",
+            "password": "password123",
+            "email": "baohaga@fpt.edu.vn",
+            "name": "Nguyen Anh Bao",
+            "avatarLink": "https://example.com/avatar/bao01.png",
+            "status": true,
+            "role": "member"
+        });
+
 
         //  ADD COLLECTIONS RELATIONSHIPS
-        let groupToUserCreated = await addGroupToUserCreated(group._id, user._id);
-        let groupToJoinedGroups = await addGroupToJoinedGroups(group._id, user._id);
+        let groupToUserCreated = await addGroupToUserCreated(group._id, userAdmin.id);
+        let groupToJoinedGroups = await addGroupToJoinedGroups(group._id, userAdmin.id);
         let chatToGroup = await addChatToGroup(group._id, chat._id);
         let discussionToGroup = await addDiscussionToGroup(discussion._id, group._id);
-        let discussionToUser = await addDiscussionToUser(discussion._id, user._id);
-        let userToDiscussionAdmin = await addUserToDiscussionAdmin(user._id, discussion._id);
+        let discussionToUser = await addDiscussionToUser(discussion._id, userAdmin.id);
+        let userToDiscussionAdmin = await addUserToDiscussionAdmin(userAdmin.id, discussion._id);
         let questionAnswerToDiscussion = await addQuestionAnswerToDiscussion(questionAnswer._id, discussion._id);
-
+        let userToGroupAdmin = await addUserToGroupAdmin(userAdmin.id, group._id);
+        let userToGroupMember1 = await addUserToGroupMembers(userMem1._id, group._id);
+        let userToGroupMember2 = await addUserToGroupMembers(userMem2._id, group._id);
 
         // GET COLLECTIONS WITH POPULATED DATA
         group = await getGroupWithPopulate(group._id);
 
-        user = await getUserWithPopulate(user._id);
+        userAdmin = await getUserWithPopulate(userAdmin.id);
 
         discussion = await getDiscussionWithPopulate(discussion._id);
 
