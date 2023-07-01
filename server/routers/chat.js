@@ -32,18 +32,18 @@ chatRouter.route('/')
                 //group exist 
                 if (group.chat) {
                     //there are chats
-                    Promise.all(() => {
-                        group.chat.forEach(chatId => {
-                            chatList.push(Chat.findById(chatId))
-                        });
-                    }).then(() => {
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.json(chatList);
-                    }).catch((err) => {
-                        res.statusCode = 500;
-                        res.json({ error: err.message });
-                    })
+                    Promise.all(group.chat.map(chatId => Chat.findById(chatId)))
+                        .then((results) => {
+                            chatList = results;
+                            res.statusCode = 200;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.json(chatList);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.statusCode = 500;
+                            res.json({ error: err.message });
+                        })
                 }
             } else {
                 res.status(404).json({ error: 'Group not found' });
