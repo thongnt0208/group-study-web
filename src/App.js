@@ -21,8 +21,21 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import Register from './components/register/register';
 import Login from './components/login/login';
+import { useState } from 'react';
+import { Button } from 'primereact/button';
 
 function App() {
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
+   // Callback function to update isLoggedIn state
+   const handleLogin = () => {
+      setIsLoggedIn(true);
+   };
+   const handleLogout = () => {
+      setIsLoggedIn(false);
+      localStorage.removeItem('token');
+      window.location.href = '/';
+   };
+
    return (
       <div className='App'>
          <BrowserRouter>
@@ -40,10 +53,16 @@ function App() {
                   <li>
                      <Link to='/groups'>Group List</Link>
                   </li>
+
+                  {isLoggedIn ? (
+                     <li>
+                        <Button onClick={handleLogout} >Logout</Button>
+                     </li>
+                  ) : ""}
                </ul>
             </nav>
             <Routes>
-               <Route path='/' element={<Login />} />
+               <Route path='/' element={<Login onLogin={handleLogin} />} />
                <Route path='/register' element={<Register />} />
                <Route path='/home' element={<Home />} />
                <Route exact path='/profile' element={<ProfilePage />} />
