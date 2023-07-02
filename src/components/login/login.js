@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import '../../styles/login.scss';
 import { Image } from 'primereact/image';
 import { InputText } from 'primereact/inputtext';
@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const toast = useRef(null);
     const navigate = useNavigate();
@@ -36,6 +36,9 @@ const Login = () => {
 
                     // Store the token in local storage
                     localStorage.setItem('token', token);
+
+                    // Call the onLogin callback function to update the isLoggedIn state in the App component
+                    onLogin();
 
                     show('success', `Hello ${data.username}!`, 'You are directing to Home');
                     setTimeout(() => {
