@@ -6,18 +6,15 @@ import { Button } from 'primereact/button';
 import { useFormik } from 'formik';
 import { Toast } from 'primereact/toast';
 import { Link, useNavigate } from "react-router-dom";
-
-
+import axios from "axios";
 
 
 const Login = () => {
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const toast = useRef(null);
-
     const navigate = useNavigate();
-
-    const show = () => {
-        toast.current.show({ severity: 'success', summary: 'Form Submitted', detail: formik.values.item.toString() });
+    const show = (severity, summary, detail) => {
+        toast.current.show({ severity: severity, summary: summary, detail: detail });
     };
 
     const formik = useFormik({
@@ -25,34 +22,38 @@ const Login = () => {
             username: "",
             password: ""
         },
-        validate: (data) => {
-            let errors = {};
-
-            if (data.username) {
-                errors.username = 'Username is required.';
-            }
-            if (data.password) {
-                errors.password = 'Password is required.';
-            }
-
-            return errors;
-        },
-        onSubmit: (data) => {
-            if (!formik.validate){
-                console.log('Login sucessful');
-                navigate('/home')
-            }
-            data.username && data.password && show();
+        onSubmit: data => {
             console.log("hello");
-            formik.resetForm();
+            console.log(data);
+
+            axios
+                .post(`${apiUrl}/users/login`, {
+                    username: data.username,
+                    password: data.password,
+                })
+                .then((response) => {
+                    const { token } = response.data; // Assuming the response contains a token field
+
+                    // Store the token in local storage
+                    localStorage.setItem('token', token);
+
+                    show('success', `Hello ${data.username}!`, 'You are directing to Home');
+                    setTimeout(() => {
+                        if (Object.keys(formik.errors).length === 0) {
+                            console.log('Login successful');
+                            navigate('/home');
+                        }
+                    }, 3000);
+                    formik.resetForm();
+                })
+                .catch((error) => {
+                    // Handle any login API error here
+                    console.error('Login failed:', error);
+                    // Optionally, you can show an error toast message
+                    show('error', 'Login Failed', 'Please try again');
+                });
         }
     });
-
-    const isFormFieldInvalid = (name) => !!(formik.touched[name] && formik.errors[name]);
-
-    const getFormErrorMessage = (name) => {
-        return isFormFieldInvalid(name) ? <small className="p-error">{formik.errors[name]}</small> : <small className="p-error">&nbsp;</small>;
-    };
 
     return (
         <div className='loginComponentContainer'>
@@ -60,17 +61,30 @@ const Login = () => {
             <h2 className="loginComponentTitle">Welcome to HTA Group Study website</h2>
             <Image src="logo_notext.png" alt="Image" width="250" />
             <form onSubmit={formik.handleSubmit} className="loginComponentForm">
-                <InputText id="username" type="text" className="p-inputtext-lg" placeholder="Email or Username" required="true" />
-                <InputText id="password" type="password" className="p-inputtext-lg" placeholder="Password" required="true" />
+                <InputText
+                    id="username"
+                    type="text"
+                    className="p-inputtext-lg"
+                    placeholder="Email or Username"
+                    required="true"
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
+                />
+                <InputText
+                    id="password"
+                    type="password"
+                    className="p-inputtext-lg"
+                    placeholder="Password"
+                    required="true"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                />
                 <Button label="Login" type="submit" />
 
                 <Link to={'/register'}>Register new account</Link>
             </form>
-
-
         </div>
     )
-
 };
 
 

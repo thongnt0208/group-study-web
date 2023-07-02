@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import '../../styles/home.scss';
-import { Button } from 'primereact/button'; 
+import Groups from '../../pages/Groups';
 
 
 const Home = () => (
   <div>
-    <Button label="Check" icon="pi pi-check" />
+    <Groups></Groups>
   </div>
 );
 
-Home.propTypes = {};
 
 Home.defaultProps = {};
 
