@@ -4,6 +4,8 @@ const express = require('express'),
    bodyParser = require('body-parser');
 
 const Verify = require('./verify');
+const cors = require('cors');
+
 
 //mongoose
 const mongoose = require('mongoose');
@@ -14,6 +16,9 @@ const Discussion = require('../models/discussion');
 
 //create router
 const groupsRouter = express.Router();
+
+groupsRouter.use(cors());
+
 
 groupsRouter.use(bodyParser.json());
 
@@ -87,6 +92,8 @@ groupsRouter
    //CREATE GROUP
    .post((req, res, next) => {
       console.log(req.body);
+      const { groupTitle, groupSubTitle, groupDescription } = req.body;
+
       Groups.create(req.body)
          .then((group) => {
             console.log('Group Created ', group);
