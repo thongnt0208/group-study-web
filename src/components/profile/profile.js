@@ -32,7 +32,7 @@ const ProfilePage = () => {
   };
 
   const handleDeleteProfile = () => {
-    const profileId = "6496bae0c48fe87ef3bcbc3d"; // Replace with the actual profileId
+    const profileId = "6496bae0c48fe87ef3bcbc3d"; 
   
     fetch(`http://localhost:3000/users?profileId=${profileId}`, {
       method: "DELETE",
