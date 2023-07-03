@@ -147,7 +147,7 @@ questionAnswerRouter
    })
    .put((req, res, next) => {
       QuestionAnswer.findByIdAndUpdate(
-         res.params.questionId,
+         req.params.questionId,
          { $set: req.body },
          { new: true }
       )
