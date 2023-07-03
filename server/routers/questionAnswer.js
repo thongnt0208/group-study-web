@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
 const QuestionAnswer = require('../models/questionAnswer');
+const Discussion = require('../models/discussion');
 
 // Create router
 const questionAnswerRouter = express.Router();
@@ -39,20 +40,21 @@ questionAnswerRouter
          }
       });
    })
-   .post((req, res, next) => {
-      console.log(req.body);
-      QuestionAnswer.create(req.body)
-         .then(
-            (questionAnswer) => {
-               console.log('QuestionAnswer Created', questionAnswer);
-               res.statusCode = 200;
-               res.setHeader('Content-Type', 'application/json');
-               res.json(questionAnswer);
-            },
-            (err) => next(err)
-         )
-         .catch((err) => next(err));
-   })
+   // .post((req, res, next) => {
+   //    console.log(req.body);
+   //    QuestionAnswer.create(req.body)
+   //       .then(
+   //          (questionAnswer) => {
+   //             console.log('QuestionAnswer Created', questionAnswer);
+   //             res.statusCode = 200;
+   //             res.setHeader('Content-Type', 'application/json');
+   //             res.json(questionAnswer);
+   //          },
+   //          (err) => next(err)
+   //       )
+   //       .catch((err) => next(err));
+   // })
+
    .put((req, res, next) => {
       QuestionAnswer.findOneAndUpdate({ _id: req.body.id }, req.body, {
          new: true,
@@ -236,6 +238,31 @@ questionAnswerRouter
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
             res.json(questionAnswer);
+         })
+         .catch((err) => next(err));
+   });
+
+//ADD NEW QUESTION
+questionAnswerRouter
+   .route('/:discussionId/questions')
+   .post((req, res, next) => {
+      console.log(req.body);
+      QuestionAnswer.create(req.body)
+         .then((questionAnswer) => {
+            console.log('QuestionAnswer Created', questionAnswer);
+            // Update the Discussion schema with the newly created question's ID
+            Discussion.findOneAndUpdate(
+               { _id: req.params.discussionId },
+               { $push: { qAndAs: questionAnswer._id } },
+               { new: true }
+            )
+               .then((discussion) => {
+                  console.log('Discussion Updated', discussion);
+                  res.statusCode = 200;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.json(questionAnswer);
+               })
+               .catch((err) => next(err));
          })
          .catch((err) => next(err));
    });
