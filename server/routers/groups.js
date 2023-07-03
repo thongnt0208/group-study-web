@@ -93,7 +93,7 @@ groupsRouter
             res.json(group);
          })
          .catch((err) => {
-            res.status(500).json({ err: 'Failed to create new group!' });
+            res.status(500).json({ err: err });
          });
    })
    // REMOVE A GROUP
@@ -176,7 +176,7 @@ groupsRouter
    .post(async (req, res) => {
       try {
          const groupId = req.query.groupId;
-         const { userId, name } = req.body;
+         const userId = req.body.userId;
 
          // Find the group by ID
          const group = await Groups.findById(groupId);
@@ -193,7 +193,7 @@ groupsRouter
          }
 
          // Add the member to the group
-         group.members.push({ userId, name });
+         group.members.push(userId);
          await group.save();
 
          // Add the joined group to the user's joinedGroups array
@@ -202,7 +202,7 @@ groupsRouter
 
          res.status(200).json({ message: 'Member invited successfully' });
       } catch (error) {
-         res.status(500).json({ error: 'Failed to invite member' });
+         res.status(500).json({ error: error });
       }
    });
 
