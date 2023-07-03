@@ -115,7 +115,7 @@ discussionRouter
          .catch((err) => next(err));
    })
    .put((req, res, next) => {
-      Discussion.findOnedAndUpdate(
+      Discussion.findOneAndUpdate(
          { _id: req.params.discussionId },
          { $set: req.body },
          { new: true }
