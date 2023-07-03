@@ -3,6 +3,8 @@ const dbUrl = process.env.DB_CONNECTION_STRING;
 const express = require('express'),
    bodyParser = require('body-parser');
 
+const Verify = require('./verify');
+
 //mongoose
 const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
@@ -32,7 +34,7 @@ groupsRouter
       if (!groupId) {
          connect.then((data) => {
             if (data) {
-               Groups.find({status: true}).then((group) => {
+               Groups.find({ status: true }).then((group) => {
                   res.statusCode = 200;
                   res.setHeader('Content-Type', 'application/json');
                   res.json(group);
@@ -42,7 +44,7 @@ groupsRouter
             } else {
                res.status(500).json('fail');
             }
-         });
+         }).catch((err) => console.log(err));
       }
       //View A Group detail
       if (groupId) {

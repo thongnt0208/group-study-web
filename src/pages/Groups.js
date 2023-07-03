@@ -1,40 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Group from '../components/group-create/Group';
 import { v4 as uuidv4 } from 'uuid';
 import AddGroup from '../components/group-create/AddGroup';
 import EditGroup from '../components/group-create/EditGroup';
+import axios from "axios";
 
 export default function Groups() {
-   const [groups, setGroups] = useState([
-      {
-         id: 1,
-         groupTitle: 'Group0',
-         groupSubTitle: 'Sub Title',
-         groupDescription:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
-      },
-      {
-         id: 2,
-         groupTitle: 'Group2',
-         groupSubTitle: 'Sub Title',
-         groupDescription:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
-      },
-      {
-         id: 3,
-         groupTitle: 'Group3',
-         groupSubTitle: 'Sub Title',
-         groupDescription:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
-      },
-      {
-         id: 4,
-         groupTitle: 'Group4',
-         groupSubTitle: 'Sub Title',
-         groupDescription:
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam',
-      },
-   ]);
+   const apiUrl = process.env.REACT_APP_API_URL;
+   const [groups, setGroups] = useState([]);
+
+
+   // Get groups list from API
+   let getGroupsList = () => {
+      axios.get(`${apiUrl}/groups`)
+         .then((groups) => {
+            console.log(groups);
+            setGroups(groups.data);
+         })
+         .catch((err) => {
+            console.log(err);
+         })
+   }
+
+   useEffect(() => {
+      getGroupsList(); // Call the function when the component mounts
+   }, []);
 
    function updateGroup(
       id,
@@ -94,7 +84,7 @@ export default function Groups() {
                      );
                   })}
                </div>
-               <AddGroup newGroup={newGroup} />
+               {/* <AddGroup newGroup={newGroup} /> */}
             </>
          ) : (
             <p>You cannnot see Groups</p>
