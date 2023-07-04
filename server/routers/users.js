@@ -40,7 +40,7 @@ usersRouter
             if (profile.status != false) {
               res.json(profile);
             } else {
-               console.log("Profile ", profile.name, "is not valid");
+              console.log("Profile ", profile.name, "is not valid");
             }
             res.end();
             console.log("Found a ", profile, " successfully");
@@ -56,39 +56,85 @@ usersRouter
   .patch(upload.single("avatar"), (req, res, next) => {
     const profileId = req.query.profileId;
     const data = req.body;
-    const updatedData = {
-      id: req.body.profileId,
-      name: req.body.name,
-      email: req.body.email,
-      avatar: req.files ? req.files.avatar : null,
-    };
-    Users.findOne({ email: updatedData.email })
+
+    Users.findOne({ _id: profileId })
       .then((currentUser) => {
-        if (currentUser && currentUser.id !== updatedData.id) {
-          res.json({ error: "Email already exists!" });
-          res.end();
-        } else {
-          updateUserProfile();
+        if (!currentUser) {
+          res.status(404).json({ error: "User not found!" });
+          return;
         }
+
+        const updatedData = {
+          id: req.body.profileId,
+          name: req.body.name || currentUser.name,
+          email: req.body.email || currentUser.email,
+          avatar: req.files ? req.files.avatar : currentUser.avatar,
+        };
+
+        Users.findOne({ email: updatedData.email, _id: { $ne: profileId } })
+          .then((existingUser) => {
+            if (existingUser) {
+              res.json({ error: "Email already exists!" });   
+              return;
+            }
+
+            Users.findByIdAndUpdate(profileId, updatedData, { new: true })
+              .then((updatedUser) => {
+                console.log("User Updated", updatedUser);
+                res
+                  .status(200)
+                  .json({ message: "Update successful!", user: updatedUser });
+              })
+              .catch((err) => {
+                res.status(500).json({ error: err.message });
+              });
+          })
+          .catch((err) => {
+            res.status(500).json({ error: err.message });
+          });
       })
       .catch((err) => {
-        console.log(data);
-        res.json({ error: err });
+        res.status(500).json({ error: err.message });
       });
-
-    function updateUserProfile() {
-      Users.findByIdAndUpdate(profileId, updatedData, { new: true })
-        .then((users) => {
-          console.log("User Updated", users);
-          res.status(200).json({ message: "Update successfully!", users });
-          res.end();
-        })
-        .catch((err) => {
-          res.statusCode = 500;
-          res.json({ error: err.message });
-        });
-    }
   })
+
+  // .patch(upload.single("avatar"), (req, res, next) => {
+  //   const profileId = req.query.profileId;
+  //   const data = req.body;
+  //   const updatedData = {
+  //     id: req.body.profileId,
+  //     name: req.body.name || ,
+  //     email: req.body.email,
+  //     avatar: req.files ? req.files.avatar : null,
+  //   };
+  //   Users.findOne({ email: updatedData.email })
+  //     .then((currentUser) => {
+  //       if (currentUser && currentUser.id !== updatedData.id) {
+  //         res.json({ error: "Email already exists!" });
+  //         res.end();
+  //       } else {
+  //         updateUserProfile();
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(data);
+  //       res.json({ error: err });
+  //     });
+
+  //   function updateUserProfile() {
+  //     Users.findByIdAndUpdate(profileId, updatedData, { new: true })
+  //       .then((users) => {
+  //         console.log("User Updated", users);
+  //         res.status(200).json({ message: "Update successfully!", users });
+  //         res.end();
+  //       })
+  //       .catch((err) => {
+  //         res.statusCode = 500;
+  //         res.json({ error: err.message });
+  //       });
+  //   }
+  // })
+
   //REMOVE PROFILE API
   .delete((req, res, next) => {
     const profileId = req.query.profileId;
