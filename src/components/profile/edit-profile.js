@@ -71,7 +71,7 @@ const EditProfilePage = () => {
     }
     formData.append("avatarLink", avatarFile);
 
-    fetch(`http://localhost:3000/users/edit-profile?profileId=${profileId}`, {
+    fetch(`${apiUrl}/users/edit-profile?profileId=${profileId}`, {
       method: "PATCH",
       body: formData,
     })

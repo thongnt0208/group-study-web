@@ -58,7 +58,6 @@ groupsRouter
                // Find a group by Id with status === true
                Groups.findById(groupId)
                   .then((group) => {
-                     console.log('Finding');
                      res.statusCode = 200;
                      res.setHeader('Content-Type', 'application/json');
                      res.json(group);
@@ -92,13 +91,10 @@ groupsRouter
    //CREATE GROUP
    .post((req, res, next) => {
       console.log(req.body);
-      const { groupTitle, groupSubTitle, groupDescription } = req.body;
-
       Groups.create(req.body)
          .then((group) => {
             console.log('Group Created ', group);
             res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
             res.json(group);
          })
          .catch((err) => {

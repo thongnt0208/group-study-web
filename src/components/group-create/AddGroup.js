@@ -6,6 +6,7 @@ import { InputText } from "primereact/inputtext";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function AddGroup(props) {
+  
   const [groupTitle, setGroupTitle] = useState("");
   const [groupSubTitle, setGroupSubTitle] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
@@ -22,6 +23,8 @@ export default function AddGroup(props) {
       groupSubTitle,
       groupDescription,
     };
+
+    console.log("HandleSubmit function called");
 
     fetch(`${apiUrl}/groups`, {
       method: "POST",

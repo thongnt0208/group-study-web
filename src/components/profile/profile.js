@@ -6,7 +6,7 @@ import { Image } from "primereact/image";
 import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
 
-
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({name: "", email: ""});
@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const fetchProfileData = async () => {
     try {
       const profileId = "6496bae0c48fe87ef3bcbc3d";
-      const response = await fetch(`http://localhost:3000/users?profileId=${profileId}`); // Change the API endpoint URL accordingly
+      const response = await fetch(`${apiUrl}/users?profileId=${profileId}`); // Change the API endpoint URL accordingly
       if (response.ok) {
         const data = await response.json();
         setProfile(data);
@@ -34,7 +34,7 @@ const ProfilePage = () => {
   const handleDeleteProfile = () => {
     const profileId = "6496bae0c48fe87ef3bcbc3d"; 
   
-    fetch(`http://localhost:3000/users?profileId=${profileId}`, {
+    fetch(`${apiUrl}/users?profileId=${profileId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
