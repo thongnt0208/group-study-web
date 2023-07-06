@@ -8,6 +8,8 @@ import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
 import { Link } from "react-router-dom";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const EditProfilePage = () => {
   const [profile, setProfile] = useState({ name: "", email: "" });
   const profileId = "6496bae0c48fe87ef3bcbc3d";
@@ -19,7 +21,7 @@ const EditProfilePage = () => {
   const fetchProfileData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/users/view-profile?profileId=${profileId}`
+        `${apiUrl}/users/view-profile?profileId=${profileId}`
       ); // Change the API endpoint URL accordingly
       if (response.ok) {
         const data = await response.json();
@@ -69,7 +71,7 @@ const EditProfilePage = () => {
     }
     formData.append("avatarLink", avatarFile);
 
-    fetch(`http://localhost:3000/users/edit-profile?profileId=${profileId}`, {
+    fetch(`${apiUrl}/users/edit-profile?profileId=${profileId}`, {
       method: "PATCH",
       body: formData,
     })

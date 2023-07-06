@@ -84,7 +84,7 @@ export default function Groups() {
                      );
                   })}
                </div>
-               {/* <AddGroup newGroup={newGroup} /> */}
+               <AddGroup newGroup={newGroup} />
             </>
          ) : (
             <p>You cannnot see Groups</p>

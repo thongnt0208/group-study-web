@@ -40,7 +40,7 @@ usersRouter
             if (profile.status != false) {
               res.json(profile);
             } else {
-               console.log("Profile ", profile.name, "is not valid");
+              console.log("Profile ", profile.name, "is not valid");
             }
             res.end();
             console.log("Found a ", profile, " successfully");
@@ -53,42 +53,42 @@ usersRouter
     });
   })
   //EDIT PROFILE API
-  .patch(upload.single("avatar"), (req, res, next) => {
-    const profileId = req.query.profileId;
-    const data = req.body;
-    const updatedData = {
-      id: req.body.profileId,
-      name: req.body.name,
-      email: req.body.email,
-      avatar: req.files ? req.files.avatar : null,
-    };
-    Users.findOne({ email: updatedData.email })
-      .then((currentUser) => {
-        if (currentUser && currentUser.id !== updatedData.id) {
-          res.json({ error: "Email already exists!" });
-          res.end();
-        } else {
-          updateUserProfile();
+  .patch( upload.none(), async (req, res) => {
+    try {
+      const profileId = req.query.profileId;
+      const user = await Users.findOne({ _id: profileId });
+  
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      const { username, email } = req.body;
+  
+      // Check if new data is provided, otherwise keep the old data
+      if (username) {
+        user.username = username;
+      }
+  
+      if (email) {
+        // Find if there are any users with the same email
+        const existingUser = await Users.findOne({ email });
+  
+        if (existingUser && existingUser._id.toString() !== profileId) {
+          return res.status(400).json({ error: "Email already exists" });
         }
-      })
-      .catch((err) => {
-        console.log(data);
-        res.json({ error: err });
-      });
-
-    function updateUserProfile() {
-      Users.findByIdAndUpdate(profileId, updatedData, { new: true })
-        .then((users) => {
-          console.log("User Updated", users);
-          res.status(200).json({ message: "Update successfully!", users });
-          res.end();
-        })
-        .catch((err) => {
-          res.statusCode = 500;
-          res.json({ error: err.message });
-        });
+  
+        user.email = email;
+      }
+  
+      await user.save();
+  
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
     }
   })
+
   //REMOVE PROFILE API
   .delete((req, res, next) => {
     const profileId = req.query.profileId;

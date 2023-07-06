@@ -3,7 +3,10 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export default function AddGroup(props) {
+  
   const [groupTitle, setGroupTitle] = useState("");
   const [groupSubTitle, setGroupSubTitle] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
@@ -12,27 +15,42 @@ export default function AddGroup(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const formData = new FormData();
-  formData.append("groupTitle", groupTitle);
-  formData.append("groupSubTitle", groupSubTitle);
-  formData.append("groupDescription", groupDescription);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  fetch('http://localhost:3000/groups', {
-   method: 'POST',
-   body: formData
- })
-   .then(response => {
-     if (response.ok) {
-       return response.json();
-     }
-     throw new Error('Failed to post data');
-   })
-   .then(data => {
-     console.log('Data posted successfully:', data);
-   })
-   .catch(error => {
-     console.error('Error:', error.message);
-   });
+    const formData = {
+      groupTitle,
+      groupSubTitle,
+      groupDescription,
+    };
+
+    console.log("HandleSubmit function called");
+
+    fetch(`${apiUrl}/groups`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Failed to post data");
+      })
+      .then((data) => {
+        console.log("Data posted successfully:", data);
+        handleClose();
+        setGroupTitle("");
+        setGroupSubTitle("");
+        setGroupDescription("");
+        props.newGroup(groupTitle, groupTitle, groupDescription);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   return (
     <>
@@ -57,22 +75,15 @@ export default function AddGroup(props) {
               className="p-button-text"
               onClick={handleClose}
             />
-            <Button label="Add" className="p-button-success" form="editmodal" />
+            <Button
+              label="Add"
+              className="p-button-success"
+              onClick={handleSubmit}
+            />
           </>
         }
       >
-        <form
-          onSubmit={(e) => {
-            handleClose();
-            e.preventDefault();
-            setGroupTitle("");
-            setGroupSubTitle("");
-            setGroupDescription("");
-            props.newGroup(groupTitle, groupTitle, groupDescription);
-          }}
-          id="editmodal"
-          className=""
-        >
+        <form id="editmodal" className="">
           <div className="p-field">
             <label htmlFor="groupTitle">Group Title:</label>
             <InputText
