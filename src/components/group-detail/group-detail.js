@@ -56,8 +56,8 @@ const GroupDetail = () => {
       },
    ];
 
-   const handleTabChange = ( event ) => {
-      setActiveTab( event.value.label );
+   const handleTabChange = (event) => {
+      setActiveTab(event.value.label);
    };
 
    const renderMembers = () => {
@@ -71,7 +71,7 @@ const GroupDetail = () => {
       );
    };
 
-   const [ selectedDiscussion, setSelectedDiscussion ] = useState( null );
+   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
 
    const renderDiscussions = () => {
       return (
@@ -125,9 +125,9 @@ const GroupDetail = () => {
       );
    };
 
-   const renderDiscussionItem = ( discussion ) => {
+   const renderDiscussionItem = (discussion) => {
       const handleDiscussionClick = () => {
-         setSelectedDiscussion( discussion );
+         setSelectedDiscussion(discussion);
       };
 
       return (
@@ -188,7 +188,7 @@ const GroupDetail = () => {
             )}
          </div>
          <div className='chat-form'>
-            <Chat></Chat>
+            <Chat groupId={groupId}></Chat>
          </div>
       </div>
    );

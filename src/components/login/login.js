@@ -24,7 +24,6 @@ const Login = ({ onLogin }) => {
         console.log('Current user ne: ', currentUser);
     }, [currentUser]);
 
-
     const formik = useFormik({
         initialValues: {
             username: "",
