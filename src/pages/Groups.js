@@ -28,7 +28,7 @@ export default function Groups() {
             }
          })
          .then((groups) => {
-            console.log(groups);
+            console.log(groups.data);
             setGroups(groups.data);
 
             // Decode JWT token
@@ -93,9 +93,9 @@ export default function Groups() {
                      );
                      return (
                         <Group
-                           key={group.id}
-                           id={group.id}
-                           groupTitle={group.groupTitle}
+                           key={group._id}
+                           id={group._id}
+                           groupTitle={group.name}
                            groupSubTitle={group.groupSubTitle}
                            groupDescription={group.groupDescription}
                            editGroup={editGroup}

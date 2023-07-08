@@ -1,8 +1,13 @@
 import React from 'react';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import { useNavigate } from 'react-router-dom';
 
 export default function Group(props) {
+   const navigate = useNavigate();
+   const navToDetail = () => {
+      navigate(`/group-detail/${props.id}`)
+   }
    const header = (
       <img
          alt='Card'
@@ -11,10 +16,10 @@ export default function Group(props) {
    );
    const footer = (
       <div className='flex flex-wrap justify-content-end gap-2'>
-         <Button label='Save' icon='pi pi-check' />
+         <Button label='View Detail' id='btnGroupDetail' onClick={navToDetail}/>
          <Button
-            label='Cancel'
-            icon='pi pi-times'
+            id='btnGroupDelete'
+            label='Delete'
             className='p-button-outlined p-button-secondary'
          />
       </div>
