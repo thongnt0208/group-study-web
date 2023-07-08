@@ -1,16 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import '../../styles/footer.scss';
+import styles from '../../styles/footer.module.scss';
 
 
-const Footer = () => (
-  <div>
-    Footer Component
-  </div>
-);
-
-Footer.propTypes = {};
-
-Footer.defaultProps = {};
+const Footer = () => {
+  return (
+    <footer className={styles["footer"]}>
+      <div className={styles["footer-text"]}>
+        <span>© 2023 HTA Group. All rights reserved.</span>
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;
