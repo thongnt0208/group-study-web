@@ -4,18 +4,37 @@ import { v4 as uuidv4 } from 'uuid';
 import AddGroup from '../components/group-create/AddGroup';
 import EditGroup from '../components/group-create/EditGroup';
 import axios from 'axios';
+import { isExpired, decodeToken } from "react-jwt";
+
+
 
 export default function Groups() {
    const apiUrl = process.env.REACT_APP_API_URL;
    const [groups, setGroups] = useState([]);
+   const [currentUser, setCurrentUser] = useState(null);
+
+   //Log out the current user object everywhen the user changes
+   useEffect(() => {
+      console.log('Current user ne: ', currentUser);
+   }, [currentUser]);
 
    // Get groups list from API
    let getGroupsList = () => {
+      const token = 'Bearer ' + localStorage.getItem('token');
       axios
-         .get(`${apiUrl}/groups`)
+         .get(`${apiUrl}/groups`, {
+            headers: {
+               'Authorization': token
+            }
+         })
          .then((groups) => {
             console.log(groups);
             setGroups(groups.data);
+
+            // Decode JWT token
+            console.log(token.replace('Bearer ', ''));
+            const decodedToken = decodeToken(token.replace('Bearer ', ''));
+            setCurrentUser(decodedToken);
          })
          .catch((err) => {
             console.log(err);
