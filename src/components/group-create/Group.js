@@ -40,7 +40,7 @@ export default function Group(props) {
                   className='md:w-25rem surface-300'
                >
                   <p className='m-0'>
-                     <h3>Discription about this group:</h3>
+                     <h3>Description about this group:</h3>
                      {props.groupDescription}
                   </p>
                </Card>
