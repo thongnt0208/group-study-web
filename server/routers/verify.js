@@ -34,6 +34,7 @@ exports.verifyOrdinaryUser = function (req, res, next) {
                 err.status = 401;
                 return next(err);
             } else {
+                console.log('Decoded user: ');
                 console.log(decoded);
                 // If everything is good, save the decoded token to the request for use in other routes
                 req.decoded = decoded;

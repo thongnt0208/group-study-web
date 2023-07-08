@@ -122,27 +122,6 @@ usersRouter
   .post(Verify.createUser, (req, res, next) => {
     const { email } = req.body;
     console.log("Created an account for ", email);
-
-    // Users.findOne({ email: email }) // Check if the email already exists in the database
-    //   .then((existingUser) => {
-    //     if (existingUser) {
-    //       res.status(409).json({ error: "Email already exists!" });
-    //     } else {
-    //       Users.create(req.body)
-    //         .then((user) => {
-    //           console.log("Create: ", user);
-    //           res.status(200);
-    //           res.setHeader("Content-Type", "application/json");
-    //           res.json(user);
-    //         })
-    //         .catch((err) => {
-    //           res.status(500).json({ error: "Failed to create new document!" });
-    //         });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     res.status(500).json({ error: "Failed to check for duplicate email!" });
-    //   });
   });
 
 // --------------------------------------
@@ -150,19 +129,5 @@ usersRouter
 usersRouter.route("/login").post(Verify.loginUser, (req, res, next) => {
   res.redirect("/groups");
 });
-
-//NOT VALIDATE YET
-// .post((req, res, next) => {
-//   Users.create(req.body)
-//     .then((user) => {
-//       console.log("Create: ", user);
-//       res.status(200);
-//       res.setHeader("Content-Type", "application/json");
-//       res.json(user);
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ error: "Failed to create new document!" });
-//     });
-// });
 
 module.exports = usersRouter;

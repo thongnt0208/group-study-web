@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import '../../styles/login.scss';
 import { Image } from 'primereact/image';
 import { InputText } from 'primereact/inputtext';
@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import { Toast } from 'primereact/toast';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { isExpired, decodeToken } from "react-jwt";
 
 
 const Login = ({ onLogin }) => {
@@ -16,6 +17,13 @@ const Login = ({ onLogin }) => {
     const show = (severity, summary, detail) => {
         toast.current.show({ severity: severity, summary: summary, detail: detail });
     };
+    const [currentUser, setCurrentUser] = useState(null);
+
+    //Log out the current user object everywhen the user changes
+    useEffect(() => {
+        console.log('Current user ne: ', currentUser);
+    }, [currentUser]);
+
 
     const formik = useFormik({
         initialValues: {
@@ -39,6 +47,11 @@ const Login = ({ onLogin }) => {
 
                     // Call the onLogin callback function to update the isLoggedIn state in the App component
                     onLogin();
+
+                    // Decode JWT token
+                    console.log(token.replace('Bearer ', ''));
+                    const decodedToken = decodeToken(token.replace('Bearer ', ''));
+                    setCurrentUser(decodedToken);
 
                     show('success', `Hello ${data.username}!`, 'You are directing to Home');
                     setTimeout(() => {
