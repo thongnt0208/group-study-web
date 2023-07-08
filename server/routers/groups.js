@@ -4,6 +4,8 @@ const express = require('express'),
    bodyParser = require('body-parser');
 
 const Verify = require('./verify');
+const cors = require('cors');
+
 
 //mongoose
 const mongoose = require('mongoose');
@@ -14,6 +16,9 @@ const Discussion = require('../models/discussion');
 
 //create router
 const groupsRouter = express.Router();
+
+groupsRouter.use(cors());
+
 
 groupsRouter.use(bodyParser.json());
 
@@ -53,7 +58,6 @@ groupsRouter
                // Find a group by Id with status === true
                Groups.findById(groupId)
                   .then((group) => {
-                     console.log('Finding');
                      res.statusCode = 200;
                      res.setHeader('Content-Type', 'application/json');
                      res.json(group);
@@ -91,7 +95,6 @@ groupsRouter
          .then((group) => {
             console.log('Group Created ', group);
             res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
             res.json(group);
          })
          .catch((err) => {
