@@ -3,24 +3,24 @@ import Group from '../components/group-create/Group';
 import { v4 as uuidv4 } from 'uuid';
 import AddGroup from '../components/group-create/AddGroup';
 import EditGroup from '../components/group-create/EditGroup';
-import axios from "axios";
+import axios from 'axios';
 
 export default function Groups() {
    const apiUrl = process.env.REACT_APP_API_URL;
    const [groups, setGroups] = useState([]);
 
-
    // Get groups list from API
    let getGroupsList = () => {
-      axios.get(`${apiUrl}/groups`)
+      axios
+         .get(`${apiUrl}/groups`)
          .then((groups) => {
             console.log(groups);
             setGroups(groups.data);
          })
          .catch((err) => {
             console.log(err);
-         })
-   }
+         });
+   };
 
    useEffect(() => {
       getGroupsList(); // Call the function when the component mounts
