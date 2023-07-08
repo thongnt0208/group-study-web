@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
+import { isExpired, decodeToken } from "react-jwt";
 
 const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
 const SOCKET_SERVER_URL = "http://localhost:4000";
@@ -9,6 +10,9 @@ const useChat = (roomId) => {
     const socketRef = useRef();
 
     useEffect(() => {
+
+
+
         socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
             query: { roomId },
         });
@@ -27,9 +31,16 @@ const useChat = (roomId) => {
     }, [roomId]);
 
     const sendMessage = (messageBody) => {
+        // Decode JWT token
+        const token = localStorage.getItem('token');
+        const currentUser = decodeToken(token.replace('Bearer ', ''));
+
+        console.log('User chatt: ', currentUser.username);
+
         socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
             body: messageBody,
             senderId: socketRef.current.id,
+            senderName: currentUser.username
         });
     };
 

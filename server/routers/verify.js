@@ -10,7 +10,8 @@ const secretKey = '12345-67890-09876-54321';
         _id: user._id,
         username: user.username,
         role: user.role,
-        status: user.status
+        status: user.status,
+        name: user.name
     };
     return jwt.sign(payload, secretKey, {
         expiresIn: 3600
