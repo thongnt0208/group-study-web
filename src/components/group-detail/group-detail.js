@@ -10,8 +10,10 @@ import { DataView } from 'primereact/dataview';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import DiscussionDetail from '../discussion-detail/discussion-detail';
+import { useParams } from 'react-router-dom';
 
 const GroupDetail = () => {
+   const { groupId } = useParams(); // Get the groupId parameter from the URL
    const [ activeTab, setActiveTab ] = useState( 'Member' );
 
    const items = [
@@ -54,8 +56,8 @@ const GroupDetail = () => {
       },
    ];
 
-   const handleTabChange = ( event ) => {
-      setActiveTab( event.value.label );
+   const handleTabChange = (event) => {
+      setActiveTab(event.value.label);
    };
 
    const renderMembers = () => {
@@ -69,7 +71,7 @@ const GroupDetail = () => {
       );
    };
 
-   const [ selectedDiscussion, setSelectedDiscussion ] = useState( null );
+   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
 
    const renderDiscussions = () => {
       return (
@@ -85,6 +87,7 @@ const GroupDetail = () => {
    const renderMemberItem = ( profile ) => {
       return (
          <div className='col-12'>
+            {groupId}
             <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>
                <img
                   className='w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round'
@@ -122,9 +125,9 @@ const GroupDetail = () => {
       );
    };
 
-   const renderDiscussionItem = ( discussion ) => {
+   const renderDiscussionItem = (discussion) => {
       const handleDiscussionClick = () => {
-         setSelectedDiscussion( discussion );
+         setSelectedDiscussion(discussion);
       };
 
       return (
@@ -185,7 +188,7 @@ const GroupDetail = () => {
             )}
          </div>
          <div className='chat-form'>
-            <Chat></Chat>
+            <Chat groupId={groupId}></Chat>
          </div>
       </div>
    );

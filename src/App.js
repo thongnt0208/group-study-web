@@ -69,7 +69,7 @@ function App() {
                <Route path='/invitation' element={<InvitationPage />} />
                <Route path='/edit-profile' element={<EditProfilePage />} />
                <Route path='/groups' element={<Groups />} />
-               <Route path='/group-detail' element={<GroupDetail />} />
+               <Route path='/group-detail/:groupId' element={<GroupDetail />} />
                <Route path='*' element={<NotFound />} />
             </Routes>
          </BrowserRouter>
