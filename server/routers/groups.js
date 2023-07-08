@@ -27,7 +27,7 @@ groupsRouter.use(bodyParser.json());
 //VIEW A GROUP DETAIL API
 groupsRouter
    .route('/')
-   .all((req, res, next) => {
+   .all(Verify.verifyOrdinaryUser, (req, res, next) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
       next();
