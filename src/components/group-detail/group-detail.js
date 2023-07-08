@@ -10,8 +10,10 @@ import { DataView } from 'primereact/dataview';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import DiscussionDetail from '../discussion-detail/discussion-detail';
+import { useParams } from 'react-router-dom';
 
 const GroupDetail = () => {
+   const { groupId } = useParams(); // Get the groupId parameter from the URL
    const [ activeTab, setActiveTab ] = useState( 'Member' );
 
    const items = [
@@ -85,6 +87,7 @@ const GroupDetail = () => {
    const renderMemberItem = ( profile ) => {
       return (
          <div className='col-12'>
+            {groupId}
             <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>
                <img
                   className='w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round'
