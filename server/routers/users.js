@@ -52,36 +52,38 @@ usersRouter
       }
     });
   })
+
+  // --------------------------------------
   //EDIT PROFILE API
-  .patch( upload.none(), async (req, res) => {
+  .patch(upload.none(), async (req, res) => {
     try {
       const profileId = req.query.profileId;
       const user = await Users.findOne({ _id: profileId });
-  
+
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
-  
+
       const { username, email } = req.body;
-  
+
       // Check if new data is provided, otherwise keep the old data
       if (username) {
         user.username = username;
       }
-  
+
       if (email) {
         // Find if there are any users with the same email
         const existingUser = await Users.findOne({ email });
-  
+
         if (existingUser && existingUser._id.toString() !== profileId) {
           return res.status(400).json({ error: "Email already exists" });
         }
-  
+
         user.email = email;
       }
-  
+
       await user.save();
-  
+
       res.json(user);
     } catch (error) {
       console.error(error);
@@ -89,6 +91,7 @@ usersRouter
     }
   })
 
+  // --------------------------------------
   //REMOVE PROFILE API
   .delete((req, res, next) => {
     const profileId = req.query.profileId;
@@ -106,6 +109,7 @@ usersRouter
       });
   });
 
+// --------------------------------------
 //REGISTER API
 usersRouter
   .route("/register")
@@ -141,6 +145,8 @@ usersRouter
     //   });
   });
 
+// --------------------------------------
+// LOGIN
 usersRouter.route("/login").post(Verify.loginUser, (req, res, next) => {
   res.redirect("/groups");
 });
