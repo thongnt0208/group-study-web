@@ -21,17 +21,17 @@ const GroupDetail = () => {
    const [currentUser, setCurrentUser] = useState(null);
 
    const [profiles, setProfiles] = useState([]);
-   const [discussions, setDiscussions] =  useState([]);
+   const [discussions, setDiscussions] = useState([]);
    const getGroupDetail = () => {
       const token = 'Bearer ' + localStorage.getItem('token');
       axios
          .get(`${apiUrl}/groups`, {
             headers: {
-               'Authorization': token
+               'Authorization': token,
             },
             params: {
-               'groupId': groupId
-            }
+               'groupId': groupId,
+            },
          })
          .then((group) => {
             console.log('GROUP DETAIL: ', group.data);
@@ -50,7 +50,7 @@ const GroupDetail = () => {
          .catch((err) => {
             console.log(err);
          });
-   }
+   };
 
    const getUsersInformation = async (group) => {
       if (group != null) {
@@ -90,7 +90,7 @@ const GroupDetail = () => {
                .get(`${apiUrl}/discussions/${discussionId}`, {
                   headers: {
                      Authorization: token,
-                  }
+                  },
                })
                .then((response) => {
                   return response.data; // Return the user data from the Promise
@@ -110,18 +110,13 @@ const GroupDetail = () => {
    };
 
    useEffect(() => {
-      getGroupDetail()
-   }, [])
-
+      getGroupDetail();
+   }, []);
 
    const items = [
       { label: 'Member', icon: 'pi pi-fw pi-users' },
       { label: 'Discussion', icon: 'pi pi-fw pi-comments' },
    ];
-
-
-
-  
 
    const handleTabChange = (event) => {
       setActiveTab(event.value.label);
@@ -255,7 +250,7 @@ const GroupDetail = () => {
             )}
          </div>
          <div className='chat-form'>
-            <Chat groupId={groupId}></Chat>
+            {/* <Chat groupId={groupId}></Chat> */}
          </div>
       </div>
    );
