@@ -63,7 +63,7 @@ function App() {
                   ) : ""}
                </ul>
             </nav> */}
-            <Header/>
+            <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
             <Routes>
                <Route path='/' element={<Login onLogin={handleLogin} />} />
                <Route path='/register' element={<Register />} />

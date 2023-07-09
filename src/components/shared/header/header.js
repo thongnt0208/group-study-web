@@ -28,28 +28,43 @@ const Header = ({ isLoggedIn, handleLogout }) => {
     }
   ];
 
-  return (
-    <div className="header">
-      <Menubar
-        model={items.map((item) => ({
-          label: (
-            <Link to={item.to} className="p-menuitem-link">
-              <i id={styles["icon"]} className={`pi ${item.icon}`}></i>
-              <span>{item.label}</span>
-            </Link>
-          )
-        }))}
-        end={
-          isLoggedIn
-            ? [
-                {
-                  label: 'Logout',
-                  icon: 'pi pi-power-off',
-                  command: () => handleLogout('/login')
-                }
-              ]
-            : []
+  const renderMenuItem = (item) => {
+    return {
+      label: (
+        <Link to={item.to} className="p-menuitem-link">
+          <i className={`pi ${item.icon}`}></i>
+          <span>{item.label}</span>
+        </Link>
+      )
+    };
+  };
+
+  const renderEndItem = (item) => {
+    return (
+      <li key={item.label} className={styles.listItem}>
+        <button className="p-menuitem-link" onClick={item.command}>
+          <i className={`pi ${item.icon}`}></i>
+          <span>{item.label}</span>
+        </button>
+      </li>
+    );
+  };
+
+  const endItems = isLoggedIn
+    ? [
+        {
+          label: 'Logout',
+          icon: 'pi pi-power-off',
+          command: handleLogout
         }
+      ]
+    : [];
+
+  return (
+    <div className={styles.header}>
+      <Menubar
+        model={items.map(renderMenuItem)}
+        end={isLoggedIn ? renderEndItem(endItems[0]) : null}
         start={<div />}
       />
     </div>
@@ -57,13 +72,8 @@ const Header = ({ isLoggedIn, handleLogout }) => {
 };
 
 Header.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  handleLogout: PropTypes.func
-};
-
-Header.defaultProps = {
-  isLoggedIn: false,
-  handleLogout: () => {}
+  isLoggedIn: PropTypes.bool.isRequired,
+  handleLogout: PropTypes.func.isRequired
 };
 
 export default Header;

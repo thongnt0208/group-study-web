@@ -1,8 +1,18 @@
-#icon{
-    margin-right: 10px;
+#icon {
+  margin-right: 10px;
 }
 
-.p-menuitem-link{
-    padding: 0;
-    margin: 0;
+.p-menuitem-link {
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  list-style-type: disc;
+  margin-bottom: 0.5rem;
+}
+
+.menuLink {
+  text-decoration: none;
+  color: #333;
 }
