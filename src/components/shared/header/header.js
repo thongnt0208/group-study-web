@@ -28,11 +28,11 @@ const Header = ({ isLoggedIn, handleLogout }) => {
       icon: "pi pi-info-circle",
       to: "/group-detail",
     },
-    {
-      label: "Group List",
-      icon: "pi pi-list",
-      to: "/groups",
-    },
+    // {
+    //   label: "Group List",
+    //   icon: "pi pi-list",
+    //   to: "/groups",
+    // },
   ];
 
   const renderMenuItem = (item) => {
