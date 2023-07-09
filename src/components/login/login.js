@@ -44,8 +44,7 @@ const Login = ({ onLogin }) => {
                     // Store the token in local storage
                     localStorage.setItem('token', token);
 
-                    // Call the onLogin callback function to update the isLoggedIn state in the App component
-                    onLogin();
+
 
                     // Decode JWT token
                     console.log(token.replace('Bearer ', ''));
@@ -57,6 +56,8 @@ const Login = ({ onLogin }) => {
                         if (Object.keys(formik.errors).length === 0) {
                             console.log('Login successful');
                             navigate('/home');
+                            // Call the onLogin callback function to update the isLoggedIn state in the App component
+                            onLogin();
                         }
                     }, 3000);
                     formik.resetForm();
