@@ -8,6 +8,7 @@ import EditProfilePage from './components/profile/edit-profile';
 import GroupDetail from './components/group-detail/group-detail';
 import NotFound from './pages/NotFound';
 import Groups from './pages/Groups';
+import { isExpired, decodeToken } from "react-jwt";
 
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
@@ -21,7 +22,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import Register from './components/register/register';
 import Login from './components/login/login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'primereact/button';
 import Header from './components/shared/header/header';
 import Footer from './components/shared/footer/footer';
@@ -38,34 +39,35 @@ function App() {
       window.location.href = '/';
    };
 
+   const handleToken = () => {
+      let token = localStorage.getItem('token');
+      if (token != null) {
+         // Decode JWT token
+         console.log(token.replace('Bearer ', ''));
+         decodeToken(token.replace('Bearer ', ''));
+         if (isExpired === true) { setIsLoggedIn(false) } else {
+            setTimeout(() => {
+               setIsLoggedIn(true)
+            }, 3000);
+         };
+      } else {
+         setIsLoggedIn(false);
+      }
+
+   }
+
+   useEffect(() => {
+      handleToken()
+
+   }, [isLoggedIn])
+
+
    return (
       <div className='App'>
          <BrowserRouter>
-            {/* <nav>
-               <ul>
-                  <li>
-                     <Link to='/profile'>Profile</Link>
-                  </li>
-                  <li>
-                     <Link to='/invitation'>Invitation</Link>
-                  </li>
-                  <li>
-                     <Link to='/group-detail'>Group Detail</Link>
-                  </li>
-                  <li>
-                     <Link to='/groups'>Group List</Link>
-                  </li>
-
-                  {isLoggedIn ? (
-                     <li>
-                        <Button onClick={handleLogout} >Logout</Button>
-                     </li>
-                  ) : ""}
-               </ul>
-            </nav> */}
             <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
             <Routes>
-               <Route path='/' element={<Login onLogin={handleLogin} />} />
+               <Route path='/' element={isLoggedIn === false ? (<Login onLogin={handleLogin} />) : (<Home />)} />
                <Route path='/register' element={<Register />} />
                <Route path='/home' element={<Home />} />
                <Route exact path='/profile' element={<ProfilePage />} />
