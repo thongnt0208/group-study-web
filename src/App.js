@@ -27,14 +27,15 @@ import Header from './components/shared/header/header';
 import Footer from './components/shared/footer/footer';
 
 function App() {
-   const [isLoggedIn, setIsLoggedIn] = useState(false);
+   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
    // Callback function to update isLoggedIn state
    const handleLogin = () => {
       setIsLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
    };
    const handleLogout = () => {
       setIsLoggedIn(false);
-      localStorage.removeItem('token');
+      localStorage.removeItem('isLoggedIn');
       window.location.href = '/';
    };
 
