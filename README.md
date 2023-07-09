@@ -3,13 +3,12 @@ This repository to store code of Group Study Web project by HTA team.
 
 Team Backlog: https://docs.google.com/spreadsheets/d/1ub0c0RVTjN76l7lzeESD8xguutrOwXmx8zq-Te8qhjY/edit#gid=0
 
-Please follow the format: [name] [commit message]
-
-To create a database:
-1. Go to ./server folder and run terminal
-2. Run "npm i" to install all dependencies and modules
-3. Run "node createDb"
-4. Database will be created and mock data will be inserted
+To run this project, please follow bellow steps:
+1. Open terminal at './server' then run "node createDb" to create a database 
+2. Run 'npm start' command
+3. Open terminal at root folder then run "npm start" command
+   (Do not forget to run "npm i" to install all dependencies and modules)
+   
 
 ## Technologies
 ### Front-end
