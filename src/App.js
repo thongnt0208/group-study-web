@@ -41,29 +41,8 @@ function App() {
    return (
       <div className='App'>
          <BrowserRouter>
-            {/* <nav>
-               <ul>
-                  <li>
-                     <Link to='/profile'>Profile</Link>
-                  </li>
-                  <li>
-                     <Link to='/invitation'>Invitation</Link>
-                  </li>
-                  <li>
-                     <Link to='/group-detail'>Group Detail</Link>
-                  </li>
-                  <li>
-                     <Link to='/groups'>Group List</Link>
-                  </li>
-
-                  {isLoggedIn ? (
-                     <li>
-                        <Button onClick={handleLogout} >Logout</Button>
-                     </li>
-                  ) : ""}
-               </ul>
-            </nav> */}
-            <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+            {/* <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> */}
+            {isLoggedIn && (<Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />)}
             <Routes>
                <Route path='/' element={<Login onLogin={handleLogin} />} />
                <Route path='/register' element={<Register />} />
