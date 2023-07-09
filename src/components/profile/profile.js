@@ -1,28 +1,41 @@
 import React, { useState, useEffect } from "react";
-import '../../styles/profile.scss';
-import PropTypes from 'prop-types';
-
+import { Link, useNavigate } from "react-router-dom";
+import { decodeToken } from "react-jwt";
+import "../../styles/profile.scss";
 import { Image } from "primereact/image";
 import { Button } from "primereact/button";
-import { Link } from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const ProfilePage = () => {
-  const [profile, setProfile] = useState({name: "", email: ""});
+  const [profile, setProfile] = useState({ name: "", email: "" });
+  const [currentUser, setCurrentUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchProfileData();
-  }, [])
+    setCurrentUser(
+      decodeToken(localStorage.getItem("token").replace("Bearer ", ""))
+    );
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      fetchProfileData();
+    }
+  }, [currentUser]);
 
   const fetchProfileData = async () => {
     try {
-      const profileId = "6496bae0c48fe87ef3bcbc3d";
-      const response = await fetch(`${apiUrl}/users?profileId=${profileId}`); // Change the API endpoint URL accordingly
+      const profileId = currentUser._id;
+      const response = await fetch(`${apiUrl}/users?profileId=${profileId}`);
       if (response.ok) {
         const data = await response.json();
-        setProfile(data);
-        console.log(data);
+        if (data) {
+          setProfile(data);
+          console.log(data);
+        } else {
+          console.error("Empty profile data");
+        }
       } else {
         console.error("Failed to fetch profile data");
       }
@@ -32,8 +45,8 @@ const ProfilePage = () => {
   };
 
   const handleDeleteProfile = () => {
-    const profileId = "6496bae0c48fe87ef3bcbc3d"; 
-  
+    const profileId = currentUser._id;
+
     fetch(`${apiUrl}/users?profileId=${profileId}`, {
       method: "DELETE",
       headers: {
@@ -44,44 +57,41 @@ const ProfilePage = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Profile deleted successfully", data);
-        // Handle success case
+        localStorage.removeItem("token");
+        navigate("/"); // Redirect to logout page
       })
       .catch((error) => {
         console.error("Failed to delete profile", error);
-        // Handle error case
       });
   };
 
   return (
     <div className="profile">
       <div className="profile-card">
-        <Image
-          src="logo192.png"
-          alt="Profile"
-          className="profile-picture"
-        />
+        <Image src="logo192.png" alt="Profile" className="profile-picture" />
         <div className="profile-details">
-          <h1>{profile.name}</h1>
+          <h1>{profile.username}</h1>
           <h3>Email: {profile.email}</h3>
         </div>
         <div className="profile-configuration flex flex-wrap">
           <Link to="/edit-profile">
-            <Button className="btnEdit" label="Edit Profile" icon="pi pi-spin pi-cog" link/>
+            <Button
+              className="btnEdit"
+              label="Edit Profile"
+              icon="pi pi-spin pi-cog"
+              link
+            />
           </Link>
-          <Link to="/">
-            <Button className="btnDelete" label="Delete Profile" icon="pi pi-spin pi-times-circle" onClick={handleDeleteProfile}/>
-          </Link>
+          <Button
+            className="btnDelete"
+            label="Delete Profile"
+            icon="pi pi-spin pi-times-circle"
+            onClick={handleDeleteProfile}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-
-ProfilePage.propTypes = {};
-
-ProfilePage.defaultProps = {};
-
 export default ProfilePage;
-
-        

@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const upload = multer();
 const Verify = require("../routers/verify");
+const cors = require('cors');
 
 // Mongoose
 const mongoose = require("mongoose");
@@ -14,6 +15,7 @@ const { useNavigate } = require("react-router-dom");
 
 // Create router
 const usersRouter = express.Router();
+usersRouter.use(cors());
 
 usersRouter.use(bodyParser.json());
 

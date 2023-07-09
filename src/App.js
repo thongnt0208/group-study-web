@@ -28,15 +28,14 @@ import Header from './components/shared/header/header';
 import Footer from './components/shared/footer/footer';
 
 function App() {
-   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
    // Callback function to update isLoggedIn state
    const handleLogin = () => {
       setIsLoggedIn(true);
-      localStorage.setItem('isLoggedIn', 'true');
    };
    const handleLogout = () => {
       setIsLoggedIn(false);
-      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('token');
       window.location.href = '/';
    };
 
@@ -44,17 +43,12 @@ function App() {
       let token = localStorage.getItem('token');
       if (token != null) {
          // Decode JWT token
-         console.log(token.replace('Bearer ', ''));
          decodeToken(token.replace('Bearer ', ''));
          if (isExpired === true) { setIsLoggedIn(false) } else {
-            setTimeout(() => {
-               setIsLoggedIn(true)
-            }, 3000);
-         };
+            setIsLoggedIn(true);}
       } else {
          setIsLoggedIn(false);
       }
-
    }
 
    useEffect(() => {

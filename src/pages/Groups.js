@@ -19,6 +19,7 @@ export default function Groups() {
       console.log('Current user ne: ', currentUser);
    }, [currentUser]);
 
+
    // Get groups list from API
    let getGroupsList = () => {
       const token = 'Bearer ' + localStorage.getItem('token');
@@ -37,12 +38,33 @@ export default function Groups() {
             const decodedToken = decodeToken(token.replace('Bearer ', ''));
             setCurrentUser(decodedToken);
 
+            //check if current user joined this group?
+            // getCurrentUser();
+
             setShowGroups(true);
          })
          .catch((err) => {
             console.log(err);
          });
    };
+
+   let getCurrentUser = () => {
+      const token = 'Bearer ' + localStorage.getItem('token');
+      axios.get(`${apiUrl}/users`, {
+         headers: {
+            'Authorization': token
+         },
+         params: {
+            'profileId': currentUser._id
+         }
+      }).then((user => {
+         setCurrentUser(user.data); 
+         return;        
+
+      })).catch((err) => {
+         console.log(err);
+      })
+   }
 
    useEffect(() => {
       getGroupsList(); // Call the function when the component mounts
@@ -100,6 +122,7 @@ export default function Groups() {
                            groupTitle={group.name}
                            groupDescription={group.groupDescription}
                            adminId={group.admin}
+                           currentUserId={currentUser._id}
                            createdAt={group.createdAt}
                            coverLink={group.cover_link}
                            editGroup={editGroup}

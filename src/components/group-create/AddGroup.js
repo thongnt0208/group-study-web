@@ -6,8 +6,8 @@ import { InputText } from "primereact/inputtext";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function AddGroup(props) {
-  
   const [name, setName] = useState("");
+  const [coverLink, setCoverLink] = useState("");
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -16,15 +16,19 @@ export default function AddGroup(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-  const currentUser = localStorage.getItem('currentUser');
-  console.log("Current user: ", currentUser);
-  const admin = JSON.parse(currentUser)._id;
+    const currentUser = localStorage.getItem("currentUser");
+    console.log("Current user: ", currentUser);
+    const admin = JSON.parse(currentUser)._id;
 
     const formData = {
       name,
       admin,
+      cover_link: coverLink,
+      members: [admin],
+      status: true,
     };
-    const token = localStorage.getItem('token');
+
+    const token = localStorage.getItem("token");
     console.log("HandleSubmit function called");
 
     fetch(`${apiUrl}/groups`, {
@@ -45,7 +49,9 @@ export default function AddGroup(props) {
         console.log("Data posted successfully:", data);
         handleClose();
         setName("");
+        setCoverLink("");
         props.newGroup(name, admin);
+        window.location.reload(); // Refresh the page
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -91,6 +97,17 @@ export default function AddGroup(props) {
               placeholder="Enter Your Group Title"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="p-field">
+            <label htmlFor="coverLink">Cover Link:</label>
+            <InputText
+              id="coverLink"
+              placeholder="Enter Your Cover Link"
+              value={coverLink}
+              onChange={(e) => setCoverLink(e.target.value)}
               required
             />
           </div>

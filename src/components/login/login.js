@@ -67,7 +67,7 @@ const Login = ({ onLogin }) => {
                     // Handle any login API error here
                     console.error('Login failed:', error);
                     // Optionally, you can show an error toast message
-                    show('error', 'Login Failed', 'Please try again');
+                    show('error', 'Login Failed, Please try again', error.message);
                 });
         }
     });

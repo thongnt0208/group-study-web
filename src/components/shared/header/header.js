@@ -11,7 +11,7 @@ const Header = ({ isLoggedIn, handleLogout }) => {
     {
       label: "Home",
       icon: "pi pi-home",
-      to: "/home",
+      to: "/",
     },
     {
       label: "Profile",
