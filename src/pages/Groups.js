@@ -12,6 +12,7 @@ export default function Groups() {
    const apiUrl = process.env.REACT_APP_API_URL;
    const [groups, setGroups] = useState([]);
    const [currentUser, setCurrentUser] = useState(null);
+   const [showGroups, setShowGroups] = useState(false);
 
    //Log out the current user object everywhen the user changes
    useEffect(() => {
@@ -35,6 +36,8 @@ export default function Groups() {
             console.log(token.replace('Bearer ', ''));
             const decodedToken = decodeToken(token.replace('Bearer ', ''));
             setCurrentUser(decodedToken);
+
+            setShowGroups(true);
          })
          .catch((err) => {
             console.log(err);
@@ -75,7 +78,6 @@ export default function Groups() {
       setGroups([...groups, newGroup]);
    }
 
-   const showGroups = true;
    return (
       <div className='p-d-flex'>
          {showGroups ? (
@@ -96,8 +98,10 @@ export default function Groups() {
                            key={group._id}
                            id={group._id}
                            groupTitle={group.name}
-                           groupSubTitle={group.groupSubTitle}
                            groupDescription={group.groupDescription}
+                           adminId={group.admin}
+                           createdAt={group.createdAt}
+                           coverLink={group.cover_link}
                            editGroup={editGroup}
                         />
                      );
@@ -106,7 +110,7 @@ export default function Groups() {
                <AddGroup newGroup={newGroup} />
             </>
          ) : (
-            <p>You cannnot see Groups</p>
+            <p>You can not see Groups, please login again</p>
          )}
       </div>
    );
