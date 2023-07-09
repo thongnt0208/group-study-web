@@ -43,7 +43,6 @@ function App() {
       let token = localStorage.getItem('token');
       if (token != null) {
          // Decode JWT token
-         console.log(token.replace('Bearer ', ''));
          decodeToken(token.replace('Bearer ', ''));
          if (isExpired === true) { setIsLoggedIn(false) } else {
             setIsLoggedIn(true);}

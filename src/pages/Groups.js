@@ -18,6 +18,7 @@ export default function Groups() {
    useEffect(() => {
       console.log('Current user ne: ', currentUser);
    }, [currentUser]);
+   
 
    // Get groups list from API
    let getGroupsList = () => {
@@ -36,6 +37,8 @@ export default function Groups() {
             console.log(token.replace('Bearer ', ''));
             const decodedToken = decodeToken(token.replace('Bearer ', ''));
             setCurrentUser(decodedToken);
+
+
 
             setShowGroups(true);
          })
@@ -100,6 +103,7 @@ export default function Groups() {
                            groupTitle={group.name}
                            groupDescription={group.groupDescription}
                            adminId={group.admin}
+                           currentUserId={currentUser._id}
                            createdAt={group.createdAt}
                            coverLink={group.cover_link}
                            editGroup={editGroup}
