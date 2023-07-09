@@ -3,6 +3,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import EditGroup from './EditGroup';
 
 export default function Group(props) {
    const navigate = useNavigate();
@@ -20,12 +21,20 @@ export default function Group(props) {
    const footer = (
       <div className='flex flex-wrap justify-content-end gap-2'>
          <Button label='View Detail' id='btnGroupDetail' onClick={navToDetail} />
-         {props.currentUserId === props.adminId ? (<Button
-            id='btnGroupDelete'
-            label='Delete'
-            className='p-button-outlined p-button-secondary'
-         />) : (<></>)}
-         
+         {props.currentUserId === props.adminId ? (
+            <span>
+               {props.editGroup}
+            
+               <Button
+                  id='btnGroupDelete'
+                  label='Delete'
+                  className='p-button-outlined p-button-secondary'
+               />
+            </span>
+
+
+         ) : (<></>)}
+
       </div>
    );
 
