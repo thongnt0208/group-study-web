@@ -22,6 +22,7 @@ const Login = ({ onLogin }) => {
     //Log out the current user object everywhen the user changes
     useEffect(() => {
         console.log('Current user ne: ', currentUser);
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }, [currentUser]);
 
     const formik = useFormik({
