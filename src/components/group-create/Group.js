@@ -77,8 +77,8 @@ export default function Group(props) {
             >
                <Card
                   title={props.groupTitle}
-                  subTitle={props.groupSubTitle}
-                  description={props.groupDescription}
+                  // subTitle={props.groupSubTitle}
+                  // description={props.groupDescription}
                   footer={footer}
                   header={header}
                   className='md:w-25rem surface-300'
