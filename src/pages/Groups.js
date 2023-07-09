@@ -122,6 +122,7 @@ export default function Groups() {
                            groupTitle={group.name}
                            groupDescription={group.groupDescription}
                            adminId={group.admin}
+                           currentUserId={currentUser._id}
                            createdAt={group.createdAt}
                            coverLink={group.cover_link}
                            editGroup={editGroup}
