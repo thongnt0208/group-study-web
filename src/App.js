@@ -23,6 +23,8 @@ import Register from './components/register/register';
 import Login from './components/login/login';
 import { useState } from 'react';
 import { Button } from 'primereact/button';
+import Header from './components/shared/header/header';
+import Footer from './components/shared/footer/footer';
 
 function App() {
    const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,7 +41,7 @@ function App() {
    return (
       <div className='App'>
          <BrowserRouter>
-            <nav>
+            {/* <nav>
                <ul>
                   <li>
                      <Link to='/profile'>Profile</Link>
@@ -60,7 +62,8 @@ function App() {
                      </li>
                   ) : ""}
                </ul>
-            </nav>
+            </nav> */}
+            <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
             <Routes>
                <Route path='/' element={<Login onLogin={handleLogin} />} />
                <Route path='/register' element={<Register />} />
@@ -72,6 +75,7 @@ function App() {
                <Route path='/group-detail/:groupId' element={<GroupDetail />} />
                <Route path='*' element={<NotFound />} />
             </Routes>
+            <Footer />
          </BrowserRouter>
       </div>
    );
