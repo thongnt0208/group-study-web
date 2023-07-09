@@ -11,49 +11,111 @@ import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import DiscussionDetail from '../discussion-detail/discussion-detail';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { decodeToken } from 'react-jwt';
 
 const GroupDetail = () => {
    const { groupId } = useParams(); // Get the groupId parameter from the URL
-   const [ activeTab, setActiveTab ] = useState( 'Member' );
+   const [activeTab, setActiveTab] = useState('Member');
+   const apiUrl = process.env.REACT_APP_API_URL;
+   const [currentUser, setCurrentUser] = useState(null);
+
+   const [profiles, setProfiles] = useState([]);
+   const [discussions, setDiscussions] = useState([]);
+   const getGroupDetail = () => {
+      const token = 'Bearer ' + localStorage.getItem('token');
+      axios
+         .get(`${apiUrl}/groups`, {
+            headers: {
+               'Authorization': token,
+            },
+            params: {
+               'groupId': groupId,
+            },
+         })
+         .then((group) => {
+            console.log('GROUP DETAIL: ', group.data);
+
+            getUsersInformation(group.data);
+            getDiscussionInformation(group.data);
+
+            // Decode JWT token
+            console.log(token.replace('Bearer ', ''));
+            const decodedToken = decodeToken(token.replace('Bearer ', ''));
+            setCurrentUser(decodedToken);
+
+            //check if current user joined this group?
+            // getCurrentUser();
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   };
+
+   const getUsersInformation = async (group) => {
+      if (group != null) {
+         const token = 'Bearer ' + localStorage.getItem('token');
+         const promises = group.members.map((memberId) => {
+            return axios
+               .get(`${apiUrl}/users`, {
+                  headers: {
+                     Authorization: token,
+                  },
+                  params: {
+                     profileId: memberId,
+                  },
+               })
+               .then((response) => {
+                  return response.data; // Return the user data from the Promise
+               })
+               .catch((err) => {
+                  console.log(err);
+                  return null; // Return null if there's an error
+               });
+         });
+
+         const data = await Promise.all(promises);
+
+         // Filter out any null values and update the profiles state
+         const filteredData = data.filter((item) => item !== null);
+         setProfiles(filteredData);
+      }
+   };
+
+   const getDiscussionInformation = async (group) => {
+      if (group != null) {
+         const token = 'Bearer ' + localStorage.getItem('token');
+         const promises = group.discussions.map((discussionId) => {
+            return axios
+               .get(`${apiUrl}/discussions/${discussionId}`, {
+                  headers: {
+                     Authorization: token,
+                  },
+               })
+               .then((response) => {
+                  return response.data; // Return the user data from the Promise
+               })
+               .catch((err) => {
+                  console.log(err);
+                  return null; // Return null if there's an error
+               });
+         });
+
+         const data = await Promise.all(promises);
+
+         // Filter out any null values and update the profiles state
+         const filteredData = data.filter((item) => item !== null);
+         setDiscussions(filteredData);
+      }
+   };
+
+   useEffect(() => {
+      getGroupDetail();
+   }, []);
 
    const items = [
       { label: 'Member', icon: 'pi pi-fw pi-users' },
       { label: 'Discussion', icon: 'pi pi-fw pi-comments' },
-   ];
-
-   const profiles = [
-      {
-         name: 'John Doe',
-         email: 'abc1@gmail.com',
-      },
-      {
-         name: 'John Wick',
-         email: 'abc2@gmail.com',
-      },
-   ];
-
-   const discussions = [
-      {
-         discussionTopic: 'This is a discussion 1',
-         discussionContent: 'Discussion content 1',
-      },
-      {
-         discussionTopic: 'This is a discussion 2',
-         discussionContent: 'Discussion content 2',
-      },
-
-      {
-         discussionTopic: 'This is a discussion 3',
-         discussionContent: 'Discussion content 3',
-      },
-      {
-         discussionTopic: 'This is a discussion 4',
-         discussionContent: 'Discussion content 4',
-      },
-      {
-         discussionTopic: 'This is a discussion 5',
-         discussionContent: 'Discussion content 5',
-      },
    ];
 
    const handleTabChange = (event) => {
@@ -84,7 +146,7 @@ const GroupDetail = () => {
       );
    };
 
-   const renderMemberItem = ( profile ) => {
+   const renderMemberItem = (profile) => {
       return (
          <div className='col-12'>
             {groupId}
@@ -162,7 +224,7 @@ const GroupDetail = () => {
    };
 
    const handleGoBack = () => {
-      setSelectedDiscussion( null );
+      setSelectedDiscussion(null);
    };
    return (
       <div className='container'>
@@ -188,7 +250,7 @@ const GroupDetail = () => {
             )}
          </div>
          <div className='chat-form'>
-            <Chat groupId={groupId}></Chat>
+            {/* <Chat groupId={groupId}></Chat> */}
          </div>
       </div>
    );
