@@ -110,6 +110,11 @@ exports.loginUser = function (req, res, next) {
                 err.status = 401;
                 return next(err);
             }
+            if (user.status === false) {
+                const err = new Error('Authentication failed. User is deleted.');
+                err.status = 401;
+                return next(err);
+            }
             bcrypt.compare(password, user.password, function (err, result) {
                 if (err) {
                     return next(err);
@@ -118,8 +123,9 @@ exports.loginUser = function (req, res, next) {
                     const token = generateToken(user);
                     res.status(200).json({ message: 'Authentication successful!', token });
                 } else {
-                    const err = new Error('Authentication failed. Wrong password.');
+                    const err = new Error();
                     err.status = 401;
+                    err.message('Authentication failed. Wrong password.')
                     return next(err);
                 }
             });
