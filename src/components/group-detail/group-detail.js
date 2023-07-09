@@ -250,7 +250,7 @@ const GroupDetail = () => {
             )}
          </div>
          <div className='chat-form'>
-            {/* <Chat groupId={groupId}></Chat> */}
+            <Chat groupId={groupId}></Chat>
          </div>
       </div>
    );
