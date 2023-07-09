@@ -29,7 +29,7 @@ export default function Group(props) {
       </div>
    );
 
-   const [admin, setAdmin] = useState(['']);;
+   const [admin, setAdmin] = useState(['']);
 
    const apiUrl = process.env.REACT_APP_API_URL;
 
