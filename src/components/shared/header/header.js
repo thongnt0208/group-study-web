@@ -1,31 +1,38 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Menubar } from 'primereact/menubar';
-import { Link } from 'react-router-dom';
-import styles from '../../styles/header.module.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import { Menubar } from "primereact/menubar";
+import { Link } from "react-router-dom";
+import styles from "../../styles/header.module.scss";
+
+import logo from '../../../assets/logo_notext.png';
 
 const Header = ({ isLoggedIn, handleLogout }) => {
   const items = [
     {
-      label: 'Profile',
-      icon: 'pi pi-user',
-      to: '/profile'
+      label: "Home",
+      icon: "pi pi-home",
+      to: "/home",
     },
     {
-      label: 'Invitation',
-      icon: 'pi pi-envelope',
-      to: '/invitation'
+      label: "Profile",
+      icon: "pi pi-user",
+      to: "/profile",
     },
     {
-      label: 'Group Detail',
-      icon: 'pi pi-info-circle',
-      to: '/group-detail'
+      label: "Invitation",
+      icon: "pi pi-envelope",
+      to: "/invitation",
     },
     {
-      label: 'Group List',
-      icon: 'pi pi-list',
-      to: '/groups'
-    }
+      label: "Group Detail",
+      icon: "pi pi-info-circle",
+      to: "/group-detail",
+    },
+    {
+      label: "Group List",
+      icon: "pi pi-list",
+      to: "/groups",
+    },
   ];
 
   const renderMenuItem = (item) => {
@@ -35,7 +42,8 @@ const Header = ({ isLoggedIn, handleLogout }) => {
           <i className={`pi ${item.icon}`}></i>
           <span>{item.label}</span>
         </Link>
-      )
+      ),
+      className: item.className,
     };
   };
 
@@ -53,10 +61,10 @@ const Header = ({ isLoggedIn, handleLogout }) => {
   const endItems = isLoggedIn
     ? [
         {
-          label: 'Logout',
-          icon: 'pi pi-power-off',
-          command: handleLogout
-        }
+          label: "Logout",
+          icon: "pi pi-power-off",
+          command: handleLogout,
+        },
       ]
     : [];
 
@@ -73,7 +81,7 @@ const Header = ({ isLoggedIn, handleLogout }) => {
 
 Header.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
-  handleLogout: PropTypes.func.isRequired
+  handleLogout: PropTypes.func.isRequired,
 };
 
 export default Header;
