@@ -15,6 +15,9 @@ const questionAnswerRouter = express.Router();
 
 questionAnswerRouter.use(bodyParser.json());
 
+//==============================================================================
+//===============================QUESTIONS========================================
+//==============================================================================
 questionAnswerRouter
    .route('/')
    .all((req, res, next) => {
@@ -32,6 +35,7 @@ questionAnswerRouter
          })
          .catch((err) => next(err));
    })
+   //ADD NEW QUESTION
    .post((req, res, next) => {
       QuestionAnswer.create(req.body)
          .then((questionAnswer) => {
@@ -73,7 +77,7 @@ questionAnswerRouter
    });
 
 questionAnswerRouter
-   .route('/:questionId')
+   .route('/questions/:questionId')
    .all((req, res, next) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
@@ -125,6 +129,128 @@ questionAnswerRouter
                      .catch((err) => next(err));
                })
                .catch((err) => next(err));
+         })
+         .catch((err) => next(err));
+   });
+
+//==============================================================================
+//===============================ANSWERS========================================
+//==============================================================================
+questionAnswerRouter
+   .route('/questions/:questionId/answers')
+   .all((req, res, next) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/plain');
+      next();
+   })
+   //VIEW ALL ANSWERS
+   .get((req, res, next) => {
+      QuestionAnswer.findById(req.params.questionId)
+         .then((questionAnswer) => {
+            console.log('questionAnswer:', questionAnswer);
+            if (questionAnswer) {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(questionAnswer.answers);
+            } else {
+               const err = new Error('Question not found');
+               err.status = 404;
+               return next(err);
+            }
+         })
+         .catch((err) => {
+            console.log('Error:', err);
+            next(err);
+         });
+   })
+   //ADD NEW ANSWER TO QUESTION
+   .post((req, res, next) => {
+      const newAnswer = req.body;
+      QuestionAnswer.findByIdAndUpdate(
+         req.params.questionId,
+         { $push: { answers: newAnswer } },
+         { new: true }
+      )
+         .then((questionAnswer) => {
+            if (questionAnswer) {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(questionAnswer.answers);
+            } else {
+               const err = new Error('Question not found');
+               err.status = 404;
+               return next(err);
+            }
+         })
+         .catch((err) => next(err));
+   });
+
+questionAnswerRouter
+   .route('/questions/:questionId/answers/:answerId')
+   .all((req, res, next) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/plain');
+      next();
+   })
+   //VIEW ANSWER BY ID
+   .get((req, res, next) => {
+      const { questionId, answerId } = req.params;
+      QuestionAnswer.findOne(
+         { _id: questionId, 'answers._id': answerId },
+         { 'answers.$': 1 }
+      )
+         .then((questionAnswer) => {
+            if (questionAnswer && questionAnswer.answers.length > 0) {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(questionAnswer.answers[0]);
+            } else {
+               const err = new Error('Answer not found');
+               err.status = 404;
+               return next(err);
+            }
+         })
+         .catch((err) => next(err));
+   })
+   //EDIT ANSWER BY ID
+   .put((req, res, next) => {
+      const { questionId, answerId } = req.params;
+      QuestionAnswer.findOneAndUpdate(
+         { _id: questionId, 'answers._id': answerId },
+         { $set: { 'answers.$': req.body } },
+         { new: true }
+      )
+         .then((questionAnswer) => {
+            if (questionAnswer) {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(questionAnswer.answers);
+            } else {
+               const err = new Error('Question or answer not found');
+               err.status = 404;
+               return next(err);
+            }
+         })
+         .catch((err) => next(err));
+   })
+   //DELETE ANSWER BY ID
+   .delete((req, res, next) => {
+      const { questionId, answerId } = req.params;
+      QuestionAnswer.findOneAndUpdate(
+         { _id: questionId },
+         { $pull: { answers: { _id: answerId } } },
+         { new: true }
+      )
+         .then((questionAnswer) => {
+            if (questionAnswer) {
+               res.statusCode = 200;
+               res.setHeader('Content-Type', 'application/json');
+               res.json(questionAnswer.answers);
+            } else {
+               const err = new Error('Question or answer not found');
+               err.status = 404;
+               return next(err);
+            }
          })
          .catch((err) => next(err));
    });
