@@ -13,12 +13,38 @@ import DiscussionDetail from '../discussion-detail/discussion-detail';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { decodeToken } from 'react-jwt';
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
 
 const GroupDetail = () => {
    const { groupId } = useParams(); // Get the groupId parameter from the URL
    const [activeTab, setActiveTab] = useState('Member');
    const apiUrl = process.env.REACT_APP_API_URL;
    const [currentUser, setCurrentUser] = useState(null);
+
+   const [showCreateDiscussionDialog, setShowCreateDiscussionDialog] =
+      useState(false);
+   const [newDiscussion, setNewDiscussion] = useState({
+      discussionTopic: '',
+      discussionContent: '',
+   });
+
+   const handleCreateDiscussion = () => {
+      setShowCreateDiscussionDialog(true);
+   };
+
+   const handleSaveDiscussion = () => {
+      const discussionsCopy = [...discussions];
+      discussionsCopy.push(newDiscussion);
+      setDiscussions(discussionsCopy); // Update discussions state
+      setNewDiscussion({ discussionTopic: '', discussionContent: '' });
+      setShowCreateDiscussionDialog(false);
+   };
+
+   const handleCancelDiscussion = () => {
+      setNewDiscussion({ discussionTopic: '', discussionContent: '' });
+      setShowCreateDiscussionDialog(false);
+   };
 
    const [profiles, setProfiles] = useState([]);
    const [discussions, setDiscussions] = useState([]);
@@ -137,12 +163,80 @@ const GroupDetail = () => {
 
    const renderDiscussions = () => {
       return (
-         <DataView
-            value={discussions}
-            itemTemplate={renderDiscussionItem}
-            // paginator
-            rows={5}
-         />
+         <React.Fragment>
+            <DataView
+               value={discussions}
+               itemTemplate={renderDiscussionItem}
+               // paginator
+               rows={5}
+            />
+            <div className='create-discussion'>
+               <Button
+                  label='Create Discussion'
+                  icon='pi pi-plus'
+                  onClick={handleCreateDiscussion}
+                  className='p-button-raised p-button-success'
+               />
+            </div>
+            {renderCreateDiscussionDialog()}
+         </React.Fragment>
+      );
+   };
+
+   const renderCreateDiscussionDialog = () => {
+      return (
+         <Dialog
+            header='Create Discussion'
+            visible={showCreateDiscussionDialog}
+            onHide={handleCancelDiscussion}
+            modal
+            style={{ width: '30vw' }}
+            footer={
+               <div>
+                  <Button
+                     label='Cancel'
+                     className='p-button-text'
+                     onClick={handleCancelDiscussion}
+                  />
+                  <Button
+                     label='Save'
+                     className='p-button-success'
+                     onClick={handleSaveDiscussion}
+                  />
+               </div>
+            }
+         >
+            <div className='p-fluid'>
+               <div className='p-field'>
+                  <label htmlFor='discussionTopic'>Discussion Topic</label>
+                  <InputText
+                     id='discussionTopic'
+                     type='text'
+                     value={newDiscussion.discussionTopic}
+                     onChange={(e) =>
+                        setNewDiscussion({
+                           ...newDiscussion,
+                           discussionTopic: e.target.value,
+                        })
+                     }
+                  />
+               </div>
+               <div className='p-field'>
+                  <label htmlFor='discussionContent'>Discussion Content</label>
+                  <InputText
+                     id='discussionContent'
+                     type='text'
+                     value={newDiscussion.discussionContent}
+                     onChange={(e) =>
+                        setNewDiscussion({
+                           ...newDiscussion,
+                           discussionContent: e.target.value,
+                        })
+                     }
+                  />
+               </div>
+            </div>
+         </Dialog>
       );
    };
 
