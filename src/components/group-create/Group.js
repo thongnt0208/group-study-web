@@ -20,11 +20,12 @@ export default function Group(props) {
    const footer = (
       <div className='flex flex-wrap justify-content-end gap-2'>
          <Button label='View Detail' id='btnGroupDetail' onClick={navToDetail} />
-         <Button
+         {props.currentUserId === props.adminId ? (<Button
             id='btnGroupDelete'
             label='Delete'
             className='p-button-outlined p-button-secondary'
-         />
+         />) : (<></>)}
+         
       </div>
    );
 
