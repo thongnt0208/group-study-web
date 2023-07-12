@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const connect = mongoose.connect(dbUrl);
 const Discussion = require('../models/discussion');
 const Group = require('../models/groups');
+const  Verify  = require('./verify');
 // Create router
 const discussionRouter = express.Router();
 
@@ -194,7 +195,7 @@ discussionRouter.use(bodyParser.json());
 
 discussionRouter
    .route('/')
-   .all((req, res, next) => {
+   .all(Verify.verifyOrdinaryUser, (req, res, next) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
       next();
@@ -251,7 +252,7 @@ discussionRouter
 
 discussionRouter
    .route('/:discussionId')
-   .all((req, res, next) => {
+   .all(Verify.verifyOrdinaryUser, (req, res, next) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/plain');
       next();
