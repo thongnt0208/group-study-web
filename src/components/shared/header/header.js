@@ -77,7 +77,7 @@ const Header = ({ isLoggedIn, handleLogout }) => {
          <Menubar
             model={items.map(renderMenuItem)}
             end={isLoggedIn ? renderEndItem(endItems[0]) : null}
-            start={<div />}
+            start={<img alt='logo' src={logo} height='85' className='ml-5' />}
          />
       </div>
    );

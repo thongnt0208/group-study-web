@@ -24,7 +24,7 @@ export default function EditGroup(props) {
 
    return (
       <>
-         <Button onClick={showDialog} className='p-button-primary'>
+         <Button onClick={showDialog} className='p-button-success'>
             Update
          </Button>
 

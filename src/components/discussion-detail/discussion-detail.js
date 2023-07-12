@@ -6,33 +6,33 @@ import { Avatar } from 'primereact/avatar';
 import { Badge } from 'primereact/badge';
 import { Card } from 'primereact/card';
 
-const DiscussionDetail = ( { discussion, onGoBack } ) => {
-   const [ answers, setAnswers ] = useState( [] );
-   const [ answer, setAnswer ] = useState( '' );
-   const [ comment, setComment ] = useState( [] );
+const DiscussionDetail = ({ discussion, onGoBack }) => {
+   const [answers, setAnswers] = useState([]);
+   const [answer, setAnswer] = useState('');
+   const [comment, setComment] = useState([]);
 
    const handleAnswerSubmit = () => {
       const newAnswer = {
          answer,
          comments: [],
       };
-      setAnswers( [ ...answers, newAnswer ] );
-      setAnswer( '' );
-      setComment( [ ...comment, '' ] );
+      setAnswers([...answers, newAnswer]);
+      setAnswer('');
+      setComment([...comment, '']);
    };
 
-   const handleCommentSubmit = ( answerIndex, commentValue ) => {
-      const updatedAnswers = [ ...answers ];
-      updatedAnswers[ answerIndex ].comments.push( commentValue );
-      setAnswers( updatedAnswers );
+   const handleCommentSubmit = (answerIndex, commentValue) => {
+      const updatedAnswers = [...answers];
+      updatedAnswers[answerIndex].comments.push(commentValue);
+      setAnswers(updatedAnswers);
 
-      const updatedComments = [ ...comment ];
-      updatedComments[ answerIndex ] = '';
-      setComment( updatedComments );
+      const updatedComments = [...comment];
+      updatedComments[answerIndex] = '';
+      setComment(updatedComments);
    };
 
    const renderAnswers = () => {
-      return answers.map( ( answer, index ) => (
+      return answers.map((answer, index) => (
          <div key={index} className='col-12'>
             <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4 shadow-6 surface-200 border-200 cursor-pointer border-round-lg'>
                <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>
@@ -49,8 +49,11 @@ const DiscussionDetail = ( { discussion, onGoBack } ) => {
                </div>
             </div>
             <div className='block flex-column xl:flex-row xl:align-items-start p-4 gap-4 '>
-               {answer.comments.map( ( comment, commentIndex ) => (
-                  <div key={commentIndex} className='card-container shadow-5 border-round-lg gap-2'>
+               {answer.comments.map((comment, commentIndex) => (
+                  <div
+                     key={commentIndex}
+                     className='card-container shadow-5 border-round-lg gap-2'
+                  >
                      <Avatar
                         image='https://picsum.photos/200'
                         shape='circle'
@@ -67,7 +70,7 @@ const DiscussionDetail = ( { discussion, onGoBack } ) => {
                         </div>
                      </span>
                   </div>
-               ) )}
+               ))}
             </div>
             <div className='p-card-footer'>
                <div className='p-inputgroup'>
@@ -78,25 +81,25 @@ const DiscussionDetail = ( { discussion, onGoBack } ) => {
                      className='p-mr-2'
                   />
                   <InputTextarea
-                     onChange={( e ) => {
-                        const updatedComments = [ ...comment ];
-                        updatedComments[ index ] = e.target.value;
-                        setComment( updatedComments );
+                     onChange={(e) => {
+                        const updatedComments = [...comment];
+                        updatedComments[index] = e.target.value;
+                        setComment(updatedComments);
                      }}
-                     value={comment[ index ]}
+                     value={comment[index]}
                      className='p-inputtext-filled'
                      placeholder='Write a comment...'
                      autoResize
                   />
                   <Button
                      label='Comment'
-                     onClick={() => handleCommentSubmit( index, comment[ index ] )}
+                     onClick={() => handleCommentSubmit(index, comment[index])}
                      className='p-button-secondary'
                   />
                </div>
             </div>
          </div>
-      ) );
+      ));
    };
 
    return (
@@ -126,7 +129,7 @@ const DiscussionDetail = ( { discussion, onGoBack } ) => {
                />
                <div className='p-inputgroup'>
                   <InputTextarea
-                     onChange={( e ) => setAnswer( e.target.value )}
+                     onChange={(e) => setAnswer(e.target.value)}
                      value={answer}
                      className='p-inputtext-filled p-mb-3'
                      placeholder='Write your answer...'
@@ -151,5 +154,3 @@ DiscussionDetail.propTypes = {
 };
 
 export default DiscussionDetail;
-
-
