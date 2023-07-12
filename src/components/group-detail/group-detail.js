@@ -25,8 +25,9 @@ const GroupDetail = () => {
    const [showCreateDiscussionDialog, setShowCreateDiscussionDialog] =
       useState(false);
    const [newDiscussion, setNewDiscussion] = useState({
-      discussionTopic: '',
       discussionContent: '',
+      discussionDocument: '',
+      discussionImage: '',
    });
 
    const handleCreateDiscussion = () => {
@@ -37,12 +38,20 @@ const GroupDetail = () => {
       const discussionsCopy = [...discussions];
       discussionsCopy.push(newDiscussion);
       setDiscussions(discussionsCopy); // Update discussions state
-      setNewDiscussion({ discussionTopic: '', discussionContent: '' });
+      setNewDiscussion({
+         discussionContent: '',
+         discussionDocument: '',
+         discussionImage: '',
+      });
       setShowCreateDiscussionDialog(false);
    };
 
    const handleCancelDiscussion = () => {
-      setNewDiscussion({ discussionTopic: '', discussionContent: '' });
+      setNewDiscussion({
+         discussionContent: '',
+         discussionDocument: '',
+         discussionImage: '',
+      });
       setShowCreateDiscussionDialog(false);
    };
 
@@ -208,21 +217,7 @@ const GroupDetail = () => {
          >
             <div className='p-fluid'>
                <div className='p-field'>
-                  <label htmlFor='discussionTopic'>Discussion Topic</label>
-                  <InputText
-                     id='discussionTopic'
-                     type='text'
-                     value={newDiscussion.discussionTopic}
-                     onChange={(e) =>
-                        setNewDiscussion({
-                           ...newDiscussion,
-                           discussionTopic: e.target.value,
-                        })
-                     }
-                  />
-               </div>
-               <div className='p-field'>
-                  <label htmlFor='discussionContent'>Discussion Content</label>
+                  <label htmlFor='discussionTopic'>Discussion Content</label>
                   <InputText
                      id='discussionContent'
                      type='text'
@@ -231,6 +226,34 @@ const GroupDetail = () => {
                         setNewDiscussion({
                            ...newDiscussion,
                            discussionContent: e.target.value,
+                        })
+                     }
+                  />
+               </div>
+               <div className='p-field'>
+                  <label htmlFor='discussionContent'>Discussion Document</label>
+                  <InputText
+                     id='discussionDocument'
+                     type='text'
+                     value={newDiscussion.discussionDocument}
+                     onChange={(e) =>
+                        setNewDiscussion({
+                           ...newDiscussion,
+                           discussionDocument: e.target.value,
+                        })
+                     }
+                  />
+               </div>
+               <div className='p-field'>
+                  <label htmlFor='discussionContent'>Discussion Image</label>
+                  <InputText
+                     id='discussionImage'
+                     type='text'
+                     value={newDiscussion.discussionImage}
+                     onChange={(e) =>
+                        setNewDiscussion({
+                           ...newDiscussion,
+                           discussionImage: e.target.value,
                         })
                      }
                   />
