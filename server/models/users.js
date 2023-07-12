@@ -6,11 +6,26 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = new Schema({
   username: String,
   password: String,
-  email: String,
-  name: String,
-  avatarLink: String,
-  status: Boolean,
-  role: String,
+  email: {
+    type: String,
+    default: ''
+  },
+  name: {
+    type: String,
+    default: ''
+  },
+  avatarLink: {
+    type: String,
+    default: ''
+  },
+  status: {
+    type: Boolean,
+    default: false
+  },
+  role: {
+    type: String,
+    default: ''
+  },
   createdGroups: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group"
