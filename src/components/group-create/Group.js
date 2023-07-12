@@ -24,7 +24,7 @@ export default function Group(props) {
          {props.currentUserId === props.adminId ? (
             <span>
                {props.editGroup}
-            
+
                <Button
                   id='btnGroupDelete'
                   label='Delete'
@@ -92,6 +92,7 @@ export default function Group(props) {
                   footer={footer}
                   header={header}
                   className='md:w-25rem surface-300'
+                  style={{ minHeight: '32rem' }}
                >
                   <p className='m-0'>
                      {props.groupDescription}

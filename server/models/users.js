@@ -16,11 +16,11 @@ const userSchema = new Schema({
   },
   avatarLink: {
     type: String,
-    default: ''
+    default: 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png'
   },
   status: {
     type: Boolean,
-    default: false
+    default: true
   },
   role: {
     type: String,
