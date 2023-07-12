@@ -266,7 +266,6 @@ const GroupDetail = () => {
    const renderMemberItem = (profile) => {
       return (
          <div className='col-12'>
-            {groupId}
             <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>
                <img
                   className='w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round'
@@ -281,7 +280,7 @@ const GroupDetail = () => {
                      {/* <Rating value={product.rating} readOnly cancel={false}></Rating> */}
                      <div className='flex align-items-center gap-3'>
                         <span className='flex align-items-center gap-2'>
-                           <i className='pi pi-tag'></i>
+                           {/* <i className='pi pi-tag'></i> */}
                            <span className='font-semibold'>
                               {profile.email}
                            </span>
@@ -300,6 +299,9 @@ const GroupDetail = () => {
                   </div>
                </div>
             </div>
+            {/* <div className='text-2 font-bold text-900'>
+               Member Id: {groupId}
+            </div> */}
          </div>
       );
    };

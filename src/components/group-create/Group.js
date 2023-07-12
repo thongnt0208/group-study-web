@@ -8,19 +8,31 @@ import EditGroup from './EditGroup';
 export default function Group(props) {
    const navigate = useNavigate();
    const navToDetail = () => {
-      navigate(`/group-detail/${props.id}`)
-   }
+      navigate(`/group-detail/${props.id}`);
+   };
    const header = (
       <img
          alt='Card'
-         src={props.coverLink == '' ? 'https://primefaces.org/cdn/primereact/images/usercard.png' : props.coverLink}
+         src={
+            props.coverLink == ''
+               ? 'https://primefaces.org/cdn/primereact/images/usercard.png'
+               : props.coverLink
+         }
          // src={'https://primefaces.org/cdn/primereact/images/usercard.png'}
-         style={{ width: '100%', height: '220px', 'border-radius': '6px 6px 0 0' }}
+         style={{
+            width: '100%',
+            height: '220px',
+            'border-radius': '6px 6px 0 0',
+         }}
       />
    );
    const footer = (
       <div className='flex flex-wrap justify-content-end gap-2'>
-         <Button label='View Detail' id='btnGroupDetail' onClick={navToDetail} />
+         <Button
+            label='View Detail'
+            id='btnGroupDetail'
+            onClick={navToDetail}
+         />
          {props.currentUserId === props.adminId ? (
             <span>
                {props.editGroup}
@@ -28,13 +40,12 @@ export default function Group(props) {
                <Button
                   id='btnGroupDelete'
                   label='Delete'
-                  className='p-button-outlined p-button-secondary'
+                  className='p-button-outlined p-button-secondary ml-2'
                />
             </span>
-
-
-         ) : (<></>)}
-
+         ) : (
+            <></>
+         )}
       </div>
    );
 
@@ -48,34 +59,36 @@ export default function Group(props) {
       axios
          .get(`${apiUrl}/users`, {
             headers: {
-               'Authorization': token
+               'Authorization': token,
             },
             params: {
-               'profileId': adminId
-            }
+               'profileId': adminId,
+            },
          })
          .then((admin) => {
-            setAdmin(admin.data)
+            setAdmin(admin.data);
          })
          .catch((err) => {
             console.log(err);
-         })
-   }
+         });
+   };
 
    useEffect(() => {
       findAdmin();
       console.log('this group admin: ', admin);
    }, []);
 
-   const formattedCreatedAt = new Date(admin.createdAt).toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-   });
-
+   const formattedCreatedAt = new Date(admin.createdAt).toLocaleDateString(
+      'en-GB',
+      {
+         day: '2-digit',
+         month: '2-digit',
+         year: 'numeric',
+      }
+   );
 
    return (
-      <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>
+      <div className='flex flex-column xl:flex-row xl:align-items-start p-2 gap-4'>
          <div className='card flex justify-content-center'>
             <div
                className='p-col-12 p-md-4 p-lg-3 p-grid p-nogutter'
@@ -91,18 +104,14 @@ export default function Group(props) {
                   // description={props.groupDescription}
                   footer={footer}
                   header={header}
-                  className='md:w-25rem surface-300'
+                  className='md:w-28rem surface-300'
                   style={{ minHeight: '32rem' }}
                >
                   <p className='m-0'>
                      {props.groupDescription}
                      Created by: {admin.name}
                   </p>
-                  <p className='m-0'>
-                     at {formattedCreatedAt}
-                  </p>
-
-
+                  <p className='m-0'>at {formattedCreatedAt}</p>
                </Card>
             </div>
          </div>
