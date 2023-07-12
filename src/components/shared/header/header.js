@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Menubar } from 'primereact/menubar';
 import { Link } from 'react-router-dom';
 import styles from '../../styles/header.module.scss';
-
+import { Button } from 'primereact/button';
 import logo from '../../../assets/logo_notext.png';
 
 const Header = ({ isLoggedIn, handleLogout }) => {
@@ -50,10 +50,14 @@ const Header = ({ isLoggedIn, handleLogout }) => {
    const renderEndItem = (item) => {
       return (
          <span key={item.label} className={styles.listItem}>
-            <button className='p-menuitem-link' onClick={item.command}>
+            <Button
+               // className='p-menuitem-link'
+               className='p-button-rounded p-button-secondary'
+               onClick={item.command}
+            >
                <i className={`pi ${item.icon} mr-2`}></i>
                <span>{item.label}</span>
-            </button>
+            </Button>
          </span>
       );
    };

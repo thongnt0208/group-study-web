@@ -21,7 +21,7 @@ export default function Group(props) {
          // src={'https://primefaces.org/cdn/primereact/images/usercard.png'}
          style={{
             width: '100%',
-            height: '220px',
+            height: '225px',
             'border-radius': '6px 6px 0 0',
          }}
       />
@@ -87,6 +87,13 @@ export default function Group(props) {
       }
    );
 
+   const cardTitleStyle = {
+      maxWidth: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+   };
+
    return (
       <div className='flex flex-column xl:flex-row xl:align-items-start p-2 gap-4'>
          <div className='card flex justify-content-center'>
@@ -99,13 +106,15 @@ export default function Group(props) {
                gap='2rem'
             >
                <Card
-                  title={props.groupTitle}
-                  // subTitle={props.groupSubTitle}
-                  // description={props.groupDescription}
+                  // title={props.groupTitle}
+                  title={<div style={cardTitleStyle}>{props.groupTitle}</div>}
                   footer={footer}
                   header={header}
                   className='md:w-28rem surface-300'
-                  style={{ minHeight: '32rem' }}
+                  style={{
+                     minHeight: '32rem',
+                     height: '100%',
+                  }}
                >
                   <p className='m-0'>
                      {props.groupDescription}
