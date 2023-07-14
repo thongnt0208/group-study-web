@@ -4,11 +4,12 @@ import { Image } from "primereact/image";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const Register = () => {
+  const navigate = new useNavigate();
   const toast = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [username, setUsername] = useState("");
@@ -18,8 +19,8 @@ const Register = () => {
   const show = () => {
     toast.current.show({
       severity: "success",
-      summary: "Form Submitted",
-      detail: `Username: ${username} Password: ${password}`,
+      summary: "Register Successfully",
+      detail: "",
     });
   };
 
@@ -30,7 +31,7 @@ const Register = () => {
       username: username,
       password: password
     };
-  
+
     console.log(payload);
 
     try {
@@ -41,7 +42,7 @@ const Register = () => {
         },
         body: JSON.stringify(payload)
       });
-  
+
       if (response.ok) {
         const result = await response.json();
         // Handle the result here (e.g., show success message)
@@ -50,6 +51,9 @@ const Register = () => {
           setUsername("");
           setPassword("");
           setPasswordAgain("");
+          setTimeout(() => {
+            navigate('/')
+          }, 1500);
         }
       } else {
         const errorData = await response.json();

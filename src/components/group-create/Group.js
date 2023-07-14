@@ -78,7 +78,7 @@ export default function Group(props) {
       console.log('this group admin: ', admin);
    }, []);
 
-   const formattedCreatedAt = new Date(admin.createdAt).toLocaleDateString(
+   const formattedCreatedAt = new Date(props.createdAt).toLocaleDateString(
       'en-GB',
       {
          day: '2-digit',
